@@ -1,0 +1,14 @@
+{
+    "name": "<%= _.slugify(appName) %>",
+    "version": "0.0.1",
+    "description": "<%= appDescription %>",
+    "engines": {
+        "node": ">=0.10.0"
+    },
+    "dependencies": {
+
+    },
+    "devDependencies": {
+
+    }
+}
