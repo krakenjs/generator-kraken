@@ -5,17 +5,18 @@ var webcore = require('webcore'),
 
 
 app.configure = function (nconf, next) {
-    // Your code
-    next();
+    // Fired when an app configures itself
+    next(null);
 };
 
+
 app.requestStart = function (server) {
-    // Your code
+    // Fired at the beginning of an incoming request
 };
 
 
 app.requestBeforeRoute = function (server) {
-    // Your code
+    // Fired before routing occurs
 };
 
 

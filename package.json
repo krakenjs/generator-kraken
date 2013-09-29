@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "A generator for Yeoman",
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator", "yeoman", "webcore"
   ],
   "homepage": "https://github.com/paypal/generator-webcore",
   "bugs": "https://github.com/paypal/generator-webcore/issues",
