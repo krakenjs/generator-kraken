@@ -13,5 +13,5 @@ util.inherits(Generator, yeoman.generators.NamedBase);
 
 
 Generator.prototype.files = function files() {
-    this.template('_template.dust', path.join('public', 'templates', this.name + '.js'));
+    this.template('_template.dust', path.join('public', 'templates', this.name + '.dust'));
 };

@@ -1,6 +1,14 @@
 'use strict';
 
 
-require(['config'], function (config) {
-    // Your code here
+require(['config' /*, Dependencies */], function (config) {
+
+    var app = {
+        initialize: function () {
+            // Your code here
+        }
+    };
+
+    app.initialize();
+
 });

@@ -26,9 +26,6 @@ Generator.prototype.askFor = function askFor() {
     var prompts = [],
         callback = this.async();
 
-    // Yeoman, hello!
-    console.log(this.yeoman);
-
     // Config prompts
     prompts.push({
         name: 'appName',
@@ -37,7 +34,7 @@ Generator.prototype.askFor = function askFor() {
 
     prompts.push({
         name: 'appDescription',
-        message: 'What\'s a one liner describing it?'
+        message: 'One line describing it'
     });
 
     this.prompt(prompts, function (props) {
@@ -87,4 +84,5 @@ Generator.prototype.projectfiles = function projectfiles() {
     this.copy('public/js/config.js', 'public/js/config.js');
     this.copy('public/js/jshintignore', 'public/js/.jshintignore');
     this.copy('public/js/jshintrc', 'public/js/.jshintrc');
+    this.copy('public/templates/layouts/master.dust', 'public/templates/layouts/master.dust');
 };

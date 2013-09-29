@@ -5,10 +5,13 @@ var util = require('util'),
 
 
 var Generator = module.exports = function Generator(args, options, config) {
+    var country = args[1] || 'US',
+        lang = args[2] || 'en';
+
     yeoman.generators.NamedBase.apply(this, arguments);
 
-    this.country = args[1].toUpperCase() || 'US';
-    this.lang = args[2].toLowerCase() || 'en';
+    this.country = country.toUpperCase();
+    this.lang = lang.toLowerCase();
 };
 
 
