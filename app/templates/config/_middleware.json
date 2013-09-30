@@ -1,0 +1,8 @@
+{
+    "middleware": {
+        "session": {
+            "module": "memory",
+            "secret": "<%= secretHash %>"
+        }
+    }
+}

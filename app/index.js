@@ -3,6 +3,7 @@
 
 var util = require('util'),
     path = require('path'),
+    crypto = require('crypto'),
     yeoman = require('yeoman-generator');
 
 
@@ -23,6 +24,7 @@ var Generator = module.exports = function Generator(args, options, config) {
     });
 
     this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
+    this.secretHash = crypto.randomBytes(20).toString('hex');
 };
 
 
@@ -77,6 +79,8 @@ Generator.prototype.app = function app() {
     this.template('_README.md', 'README.md');
     this.template('_package.json', 'package.json');
     this.template('_bower.json', 'bower.json');
+    this.template('config/_app.json', 'config/app.json');
+    this.template('config/_middleware.json', 'config/middleware.json');
 };
 
 Generator.prototype.projectfiles = function projectfiles() {
@@ -87,9 +91,6 @@ Generator.prototype.projectfiles = function projectfiles() {
     this.copy('jshintrc', '.jshintrc');
     this.copy('editorconfig', '.editorconfig');
     this.copy('Gruntfile.js', 'Gruntfile.js');
-
-    this.copy('config/app.json', 'config/app.json');
-    this.copy('config/middleware.json', 'config/middleware.json');
 
     this.copy('public/css/app.less', 'public/css/app.less');
 
