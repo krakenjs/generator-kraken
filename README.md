@@ -6,6 +6,11 @@
 ## Getting Started
 
 
+### Installation
+
+`npm install yo git@github.com:paypal/generator-webcore.git`
+
+
 ### API
 
 `yo webcore` - Creates a new webcore application
