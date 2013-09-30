@@ -1,14 +1,21 @@
 'use strict';
-var util = require('util');
-var path = require('path');
-var yeoman = require('yeoman-generator');
+
+
+var util = require('util'),
+    path = require('path'),
+    yeoman = require('yeoman-generator');
 
 
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
 
     this.hookFor('webcore:page', {
-        args: ['index'].concat(args)
+        args: ['index'].concat(args),
+        options: {
+            options: {
+                json: false
+            }
+        }
     });
 
     this.on('end', function () {
@@ -29,17 +36,23 @@ Generator.prototype.askFor = function askFor() {
     // Config prompts
     prompts.push({
         name: 'appName',
-        message: 'Name your new app'
+        message: 'Application name'
     });
 
     prompts.push({
         name: 'appDescription',
-        message: 'One line describing it'
+        message: 'Description'
+    });
+
+    prompts.push({
+        name: 'appAuthor',
+        message: 'Author'
     });
 
     this.prompt(prompts, function (props) {
         this.appName = props.appName;
         this.appDescription = props.appDescription;
+        this.appAuthor = props.appAuthor;
 
         callback();
     }.bind(this));

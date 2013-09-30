@@ -2,6 +2,7 @@
     "name": "<%= _.slugify(appName) %>",
     "version": "0.0.1",
     "description": "<%= appDescription %>",
+    "author": "<%= appAuthor %>",
     "engines": {
         "node": ">=0.10.0"
     },
