@@ -8,7 +8,7 @@
 
 ### Installation
 
-`npm install yo git@github.com:paypal/generator-webcore.git`
+`npm install -g yo git+ssh://git@github.com/paypal/generator-webcore.git`
 
 
 ### API
