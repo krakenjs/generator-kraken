@@ -1,12 +1,12 @@
 {
-  "name": "generator-webcore",
+  "name": "generator-kraken",
   "version": "0.0.0",
-  "description": "A generator for Yeoman",
+  "description": "A kraken generator for Yeoman",
   "keywords": [
-    "yeoman-generator", "yeoman", "webcore"
+    "yeoman-generator", "yeoman", "kraken"
   ],
-  "homepage": "https://github.com/paypal/generator-webcore",
-  "bugs": "https://github.com/paypal/generator-webcore/issues",
+  "homepage": "https://github.com/paypal/generator-kraken",
+  "bugs": "https://github.com/paypal/generator-kraken/issues",
   "author": {
     "name": "Jeff Harrell",
     "email": "jeff@juxtadesign.com",
@@ -15,7 +15,7 @@
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/paypal/generator-webcore.git"
+    "url": "git://github.com/paypal/generator-kraken.git"
   },
   "scripts": {
     "test": "mocha"
@@ -33,9 +33,10 @@
     "node": ">=0.8.0",
     "npm": ">=1.2.10"
   },
-  "licenses": [
-    {
-      "type": "MIT"
-    }
-  ]
+    "licenses": [
+        {
+            "type": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    ]
 }
