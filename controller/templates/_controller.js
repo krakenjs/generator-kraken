@@ -4,7 +4,7 @@
 module.exports = function (server) {
 
     server.get('/<% if (name !== "index") { %><%= _.slugify(name) %><% } %>', function (req, res) {
-        var model = { name: 'world' };
+        var model = { name: '<%= _.slugify(appName) %>' };
         <% if (json) { %>
         res.format({
             json: function () {
