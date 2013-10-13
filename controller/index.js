@@ -55,6 +55,7 @@ Generator.prototype.askFor = function askFor() {
     }
 
     this.prompt(prompts, function (props) {
+        console.log(props);
         for (var key in props) {
             this[key] = props[key];
         }
