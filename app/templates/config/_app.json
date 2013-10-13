@@ -1,6 +1,6 @@
 {
 //    Your config
-//    Default values are shown. Uncoment as needed.
+//    Default values are shown. Uncomment as needed (Be careful not to leave trailing commas! Remember that this is JSON object).
 
 
 //    "port": 8000,
