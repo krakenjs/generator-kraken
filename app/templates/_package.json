@@ -11,7 +11,7 @@
         "node": ">=0.10.0"
     },
     "dependencies": {
-        "kraken": "~0.6.x",
+        "kraken-js": "~0.6.x",
         "express": "~3.4.0",
         "adaro": "~0.1.x",
         "nconf": "~0.6.7",
