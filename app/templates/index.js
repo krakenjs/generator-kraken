@@ -1,6 +1,7 @@
+
 'use strict';
 
-var webcore = require('webcore'),
+var kraken = require('kraken-js'),
     app = {};
 
 
@@ -20,7 +21,7 @@ app.requestBeforeRoute = function (server) {
 };
 
 
-webcore.create(app).listen(function (err) {
+kraken.create(app).listen(function (err) {
     if (err) {
         console.error(err);
     }

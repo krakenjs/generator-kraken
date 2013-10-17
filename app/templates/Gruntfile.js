@@ -77,14 +77,14 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-ci-suite');
+    //grunt.loadNpmTasks('grunt-ci-suite');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-dustjs');
-    grunt.loadTasks('./node_modules/dustjs-i18n/tasks/');
+    grunt.loadTasks('./node_modules/makara/tasks/');
 
-    grunt.registerTask('i18n', ['clean', 'dustjs-i18n', 'dustjs', 'clean:tmp']);
+    grunt.registerTask('i18n', ['clean', 'makara', 'dustjs', 'clean:tmp']);
     grunt.registerTask('build', ['jshint', 'less', 'requirejs', 'i18n']);
     grunt.registerTask('test', ['jshint', 'mochatest']);
 
