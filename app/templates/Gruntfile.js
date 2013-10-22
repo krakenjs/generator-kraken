@@ -65,7 +65,7 @@ module.exports = function (grunt) {
             'tmp': 'tmp',
             'build': '.build/templates'
         },
-        mochatest: {
+        mochacli: {
             src: ['test/*.js'],
             options: {
                 globals: ['chai'],
@@ -77,15 +77,16 @@ module.exports = function (grunt) {
         }
     });
 
-    //grunt.loadNpmTasks('grunt-ci-suite');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-mocha-cli');
     grunt.loadNpmTasks('grunt-dustjs');
     grunt.loadTasks('./node_modules/makara/tasks/');
 
     grunt.registerTask('i18n', ['clean', 'makara', 'dustjs', 'clean:tmp']);
     grunt.registerTask('build', ['jshint', 'less', 'requirejs', 'i18n']);
-    grunt.registerTask('test', ['jshint', 'mochatest']);
+    grunt.registerTask('test', ['jshint', 'mochacli', 'clean:tmp']);
 
 };
