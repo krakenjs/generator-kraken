@@ -140,7 +140,7 @@
     // Whether strict whitespace rules apply.
     "white": false,
     // Quote formatting
-    "quotmark": "single",
+    "quotmark": true,
 
     // Complexity
 
