@@ -27,6 +27,8 @@ var util = require('util'),
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
 
+    console.log('Release the kraken!');
+
     this.hookFor('kraken:page', {
         args: ['index'].concat(args),
         options: {
