@@ -1,23 +1,28 @@
-
 'use strict';
+
 
 var kraken = require('kraken-js'),
     app = {};
 
 
-app.configure = function (nconf, next) {
+app.configure = function configure(nconf, next) {
     // Fired when an app configures itself
     next(null);
 };
 
 
-app.requestStart = function (server) {
+app.requestStart = function requestStart(server) {
     // Fired at the beginning of an incoming request
 };
 
 
-app.requestBeforeRoute = function (server) {
+app.requestBeforeRoute = function requestBeforeRoute(server) {
     // Fired before routing occurs
+};
+
+
+app.requestAfterRoute = function requestAfterRoute(server) {
+    // Fired after routing occurs
 };
 
 
