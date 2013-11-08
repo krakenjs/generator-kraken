@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "description": "A kraken generator for Yeoman",
   "keywords": [
-    "yeoman-generator", "yeoman", "kraken"
+    "yeoman-generator",
+    "yeoman",
+    "kraken"
   ],
   "homepage": "https://github.com/paypal/generator-kraken",
   "bugs": "https://github.com/paypal/generator-kraken/issues",
@@ -21,7 +23,8 @@
     "test": "mocha"
   },
   "dependencies": {
-    "yeoman-generator": "~0.13.0"
+    "yeoman-generator": "~0.13.0",
+    "chalk": "~0.3.0"
   },
   "devDependencies": {
     "mocha": "~1.12.0"
@@ -33,10 +36,10 @@
     "node": ">=0.8.0",
     "npm": ">=1.2.10"
   },
-    "licenses": [
-        {
-            "type": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        }
-    ]
+  "licenses": [
+    {
+      "type": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  ]
 }

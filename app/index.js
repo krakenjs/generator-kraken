@@ -21,6 +21,7 @@
 var util = require('util'),
     path = require('path'),
     crypto = require('crypto'),
+    chalk = require('chalk'),
     yeoman = require('yeoman-generator');
 
 
@@ -28,13 +29,13 @@ var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
 
     console.log('');
-    console.log('     ,\'""`. ');
-    console.log('    / _  _ \\');
-    console.log('    |(@)(@)|  Release the Kraken!');
-    console.log('    )  __  (');
-    console.log('   /,\'))((`.\\ ');
-    console.log('  (( ((  )) ))');
-    console.log('   `\\ `)(\' /\'');
+    console.log(chalk.green('     ,\'""`. '));
+    console.log(chalk.green('    / _  _ \\'));
+    console.log(chalk.green('    |(@)(@)|  '), chalk.white.bold('Release the Kraken!'));
+    console.log(chalk.green('    )  __  ('));
+    console.log(chalk.green('   /,\'))((`.\\ '));
+    console.log(chalk.green('  (( ((  )) ))'));
+    console.log(chalk.green('   `\\ `)(\' /\''));
     console.log('');
 
     this.hookFor('kraken:page', {
