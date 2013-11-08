@@ -32,7 +32,7 @@ module.exports = function (grunt) {
                 }
             }
         },
-        'dustjs-i18n': {
+        makara: {
             files: ['public/templates/**/*.dust'],
             options: {
                 contentPath: ['locales/**/*.properties']
