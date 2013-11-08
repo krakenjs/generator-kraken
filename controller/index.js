@@ -38,14 +38,6 @@ Generator.prototype.askFor = function askFor() {
     var prompts = [],
         callback = this.async();
 
-//    if (typeof this.auth === 'undefined') {
-//        prompts.push({
-//            name: 'auth',
-//            type: 'confirm',
-//            message: 'Requires authentication?'
-//        });
-//    }
-
     if (typeof this.json === 'undefined') {
         prompts.push({
             name: 'json',
