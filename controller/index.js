@@ -42,12 +42,11 @@ Generator.prototype.askFor = function askFor() {
         prompts.push({
             name: 'json',
             type: 'confirm',
-            message: 'Respond to JSON requests?'
+            message: 'Respond to XHR requests?'
         });
     }
 
     this.prompt(prompts, function (props) {
-        console.log(props);
         for (var key in props) {
             this[key] = props[key];
         }
