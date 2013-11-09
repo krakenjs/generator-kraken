@@ -21,22 +21,14 @@
 var util = require('util'),
     path = require('path'),
     crypto = require('crypto'),
-    chalk = require('chalk'),
-    yeoman = require('yeoman-generator');
+    yeoman = require('yeoman-generator'),
+    kraken = require('../lib/kraken');
 
 
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
 
-    console.log('');
-    console.log(chalk.green('     ,\'""`. '));
-    console.log(chalk.green('    / _  _ \\'));
-    console.log(chalk.green('    |(@)(@)|  '), chalk.white.bold('Release the Kraken!'));
-    console.log(chalk.green('    )  __  ('));
-    console.log(chalk.green('   /,\'))((`.\\ '));
-    console.log(chalk.green('  (( ((  )) ))'));
-    console.log(chalk.green('   `\\ `)(\' /\''));
-    console.log('');
+    kraken.banner();
 
     this.hookFor('kraken:page', {
         args: ['index'].concat(args),
