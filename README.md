@@ -32,4 +32,4 @@ Or, if you have already [set up your SSH key for use with GitHub](https://help.g
 
 ## License
 
-[MIT License](http://en.wikipedia.org/wiki/MIT_License)
+[Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)
