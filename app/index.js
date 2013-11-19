@@ -135,11 +135,12 @@ Generator.prototype.projectfiles = function projectfiles() {
         this.copy('public/templates/layouts/masterRequire.dust', 'public/templates/layouts/master.dust');
         this.copy('public/js/app.js', 'public/js/app.js');
         this.copy('public/js/config.js', 'public/js/config.js');
-        this.copy('public/js/jshintignore', 'public/js/.jshintignore');
-        this.copy('public/js/jshintrc', 'public/js/.jshintrc');
         this.copy('.bowerrc', '.bowerrc');
     }
     else {
         this.copy('public/templates/layouts/master.dust', 'public/templates/layouts/master.dust');
     }
+
+    this.copy('public/js/jshintignore', 'public/js/.jshintignore');
+    this.copy('public/js/jshintrc', 'public/js/.jshintrc');
 };
