@@ -78,7 +78,7 @@ Generator.prototype.askFor = function askFor() {
     prompts.push({
         type: 'confirm',
         name: 'requireJs',
-        message: 'Use RequireJS? (http://requirejs.org)',
+        message: 'Use RequireJS?',
         default: true
     });
 

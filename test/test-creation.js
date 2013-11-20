@@ -25,33 +25,86 @@ var helpers = require('yeoman-generator').test;
 
 
 describe('kraken generator', function () {
-  beforeEach(function (done) {
-    helpers.testDirectory(path.join(__dirname, 'temp'), function (err) {
-      if (err) {
-        return done(err);
-      }
-
-      this.app = helpers.createGenerator('kraken:app', [
-        '../../app'
-      ]);
-      done();
-    }.bind(this));
-  });
-
-  it('creates expected files', function (done) {
-    var expected = [
-      // add files you expect to exist here.
-      '.jshintrc',
-      '.editorconfig'
+    var dependencies = [
+        '../../app',
+        '../../controller',
+        '../../locale',
+        '../../model',
+        '../../page',
+        '../../template'
     ];
 
-    helpers.mockPrompt(this.app, {
-      'someOption': true
+    beforeEach(function (done) {
+        helpers.testDirectory(path.join(__dirname, 'tmp'), function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            this.app = helpers.createGenerator('kraken:app', dependencies);
+
+            done();
+        }.bind(this));
     });
-    this.app.options['skip-install'] = true;
-    this.app.run({}, function () {
-      helpers.assertFiles(expected);
-      done();
+
+
+    it('creates dot files', function (done) {
+        var expected = [
+            '.bowerrc',
+            '.editorconfig',
+            '.gitignore',
+            '.jshintignore',
+            '.jshintrc',
+            '.nodemonignore'
+        ];
+
+        helpers.mockPrompt(this.app, {
+            appName: 'Awesomeness',
+            appDescription: 'Check out my new awesome app!',
+            appAuthor: 'Me',
+            requireJs: true
+        });
+
+        this.app.options['skip-install'] = true;
+
+        this.app.run({}, function () {
+            helpers.assertFiles(expected);
+            done();
+        });
     });
-  });
+
+
+    it('creates project files', function (done) {
+        var expected = [
+            'Gruntfile.js',
+            'README.md',
+            'bower.json',
+            'index.js',
+            'package.json',
+            'config/app.json',
+            'config/middleware.json',
+            'controllers/index.js',
+            'locales/US/en/index.properties',
+            'models/index.js',
+            'public/css/app.less',
+            'public/js/app.js',
+            'public/js/config.js',
+            'public/templates/index.dust',
+            'public/templates/layouts/master.dust'
+        ];
+
+        helpers.mockPrompt(this.app, {
+            appName: 'Awesomeness',
+            appDescription: 'Check out my new awesome app!',
+            appAuthor: 'Me',
+            requireJs: true
+        });
+
+        this.app.options['skip-install'] = true;
+
+        this.app.run({}, function () {
+            helpers.assertFiles(expected);
+
+            done();
+        });
+    });
 });
