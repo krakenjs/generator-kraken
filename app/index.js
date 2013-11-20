@@ -75,10 +75,18 @@ Generator.prototype.askFor = function askFor() {
         message: 'Author'
     });
 
+    prompts.push({
+        type: 'confirm',
+        name: 'requireJs',
+        message: 'Use RequireJS? (http://requirejs.org)',
+        default: true
+    });
+
     this.prompt(prompts, function (props) {
         this.appName = props.appName;
         this.appDescription = props.appDescription;
         this.appAuthor = props.appAuthor;
+        this.requireJs = props.requireJs;
 
         callback();
     }.bind(this));
@@ -102,7 +110,12 @@ Generator.prototype.app = function app() {
     // Template files
     this.template('_README.md', 'README.md');
     this.template('_package.json', 'package.json');
-    this.template('_bower.json', 'bower.json');
+    if (this.requireJs) {
+        this.template('_bowerRequire.json', 'bower.json');
+    }
+    else {
+        this.template('_bower.json', 'bower.json');
+    }
     this.template('config/_app.json', 'config/app.json');
     this.template('config/_middleware.json', 'config/middleware.json');
 };
@@ -118,9 +131,16 @@ Generator.prototype.projectfiles = function projectfiles() {
 
     this.copy('public/css/app.less', 'public/css/app.less');
 
-    this.copy('public/js/app.js', 'public/js/app.js');
-    this.copy('public/js/config.js', 'public/js/config.js');
+    if (this.requireJs) {
+        this.copy('public/templates/layouts/masterRequire.dust', 'public/templates/layouts/master.dust');
+        this.copy('public/js/app.js', 'public/js/app.js');
+        this.copy('public/js/config.js', 'public/js/config.js');
+        this.copy('.bowerrc', '.bowerrc');
+    }
+    else {
+        this.copy('public/templates/layouts/master.dust', 'public/templates/layouts/master.dust');
+    }
+
     this.copy('public/js/jshintignore', 'public/js/.jshintignore');
     this.copy('public/js/jshintrc', 'public/js/.jshintrc');
-    this.copy('public/templates/layouts/master.dust', 'public/templates/layouts/master.dust');
 };
