@@ -18,27 +18,12 @@
  \*───────────────────────────────────────────────────────────────────────────*/
 /***@@@ END LICENSE @@@***/
 /*global describe, beforeEach, it*/
+
 'use strict';
 
-var path    = require('path');
-var helpers = require('yeoman-generator').test;
-var kraken;
 
-
-function testGenerator(type, dependencies, args, prompt, done) {
-    helpers.testDirectory(path.join(__dirname, 'tmp'), function (err) {
-        if (err) {
-            return done(err);
-        }
-
-        kraken = helpers.createGenerator('kraken:' + type, dependencies, args);
-
-        helpers.mockPrompt(kraken, prompt);
-
-        kraken.options['skip-install'] = true;
-        kraken.run({}, done);
-    });
-}
+var generator = require('./util/generator'),
+    helpers = require('yeoman-generator').test;
 
 
 describe('Controller', function () {
@@ -48,9 +33,20 @@ describe('Controller', function () {
 
 
     it('creates new controllers', function (done) {
-        testGenerator('controller', dependencies, ['Foo'], {}, function () {
+        generator('controller', dependencies, ['Foo'], { json: false }, function () {
             helpers.assertFiles([
                 'controllers/Foo.js'
+            ]);
+
+            done();
+        });
+    });
+
+
+    it('creates new XHR enabled controllers', function (done) {
+        generator('controller', dependencies, ['Bar'], { json: true }, function () {
+            helpers.assertFiles([
+                ['controllers/Bar.js', /res.format/]
             ]);
 
             done();

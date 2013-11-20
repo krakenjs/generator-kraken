@@ -26,28 +26,17 @@ var generator = require('./util/generator'),
     helpers = require('yeoman-generator').test;
 
 
-describe('Locale', function () {
+describe('Model', function () {
 
     var dependencies = [
-        '../../locale'
+        '../../model'
     ];
 
 
-    it('creates new locales', function (done) {
-        generator('locale', dependencies, ['Foo', 'DE', 'de'], {}, function () {
+    it('creates new models', function (done) {
+        generator('model', dependencies, ['Foo'], {}, function () {
             helpers.assertFiles([
-                'locales/DE/de/Foo.properties'
-            ]);
-
-            done();
-        });
-    });
-
-
-    it('creates default locales as en_US', function (done) {
-        generator('locale', dependencies, ['Bar'], {}, function () {
-            helpers.assertFiles([
-                'locales/US/en/Bar.properties'
+                'models/Foo.js'
             ]);
 
             done();
