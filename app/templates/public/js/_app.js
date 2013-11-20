@@ -1,5 +1,6 @@
 'use strict';
 
+<% if (requireJs) { %>
 
 require(['config' /*, Dependencies */], function (config) {
 
@@ -12,3 +13,5 @@ require(['config' /*, Dependencies */], function (config) {
     app.initialize();
 
 });
+
+<% } %>

@@ -40,7 +40,7 @@ describe('App', function () {
         appName: 'Awesomeness',
         appDescription: 'Check out my new awesome app!',
         appAuthor: 'Me',
-        requireJs: true
+        requireJs: false
     };
 
 
@@ -75,9 +75,25 @@ describe('App', function () {
                 'models/index.js',
                 'public/css/app.less',
                 'public/js/app.js',
-                'public/js/config.js',
                 'public/templates/index.dust',
                 'public/templates/layouts/master.dust'
+            ]);
+
+            done();
+        });
+    });
+
+
+    it('creates an app bootstrapped with RequireJS', function (done) {
+        var myPrompt = JSON.parse(JSON.stringify(prompt));
+
+        myPrompt.requireJs = true;
+
+        generator('app', dependencies, [], myPrompt, function () {
+            helpers.assertFiles([
+                ['public/templates/layouts/master.dust', /require\.js/],
+                ['public/js/app.js', /require\(/],
+                'public/js/config.js'
             ]);
 
             done();

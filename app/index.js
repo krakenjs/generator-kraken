@@ -42,18 +42,20 @@ var Generator = module.exports = function Generator(args, options, config) {
     });
 
     this.on('end', function () {
-        this.bowerInstall(this.bowerDependencies, { save: true });
-        this.npmInstall(this.npmDependencies, { save: true});
-        this.npmInstall(this.npmDevDependencies, { saveDev: true});
+        var that = this;
+
         this.installDependencies({
-            skipInstall: options['skip-install']
+            skipInstall: options['skip-install'],
+            callback: function () {
+                that.bowerInstall(that.bowerDependencies, { save: true });
+                that.npmInstall(that.npmDependencies, { saveDev: true});
+            }
         });
     });
 
     this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
     this.bowerDependencies = [];
     this.npmDependencies = [];
-    this.npmDevDependencies = [];
     this.secretHash = crypto.randomBytes(20).toString('hex');
 };
 
@@ -93,10 +95,9 @@ Generator.prototype.askFor = function askFor() {
         this.appDescription = props.appDescription;
         this.appAuthor = props.appAuthor;
 
-        if (props.requireJs) {
-            this.requireJs = true;
+        if ((this.requireJs = props.requireJs)) {
             this.bowerDependencies.push('requirejs');
-            this.npmDevDependencies.push('grunt-contrib-requirejs');
+            this.npmDependencies.push('grunt-contrib-requirejs');
         }
 
         callback();
@@ -124,6 +125,7 @@ Generator.prototype.app = function app() {
     this.template('_bower.json', 'bower.json');
     this.template('config/_app.json', 'config/app.json');
     this.template('config/_middleware.json', 'config/middleware.json');
+
 };
 
 Generator.prototype.projectfiles = function projectfiles() {
@@ -137,14 +139,14 @@ Generator.prototype.projectfiles = function projectfiles() {
     this.copy('Gruntfile.js', 'Gruntfile.js');
 
     this.copy('public/css/app.less', 'public/css/app.less');
+    this.template('public/js/_app.js', 'public/js/app.js');
 
     if (this.requireJs) {
-        this.copy('public/js/app.js', 'public/js/app.js');
         this.copy('public/js/config.js', 'public/js/config.js');
     }
 
     this.copy('public/js/jshintignore', 'public/js/.jshintignore');
     this.copy('public/js/jshintrc', 'public/js/.jshintrc');
-    
-    this.copy('public/templates/layouts/master.dust', 'public/templates/layouts/master.dust');
+
+    this.template('public/templates/layouts/_master.dust', 'public/templates/layouts/master.dust');
 };
