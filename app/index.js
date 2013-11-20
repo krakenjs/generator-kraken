@@ -42,12 +42,18 @@ var Generator = module.exports = function Generator(args, options, config) {
     });
 
     this.on('end', function () {
+        this.bowerInstall(this.bowerDependencies, { save: true });
+        this.npmInstall(this.npmDependencies, { save: true});
+        this.npmInstall(this.npmDevDependencies, { saveDev: true});
         this.installDependencies({
             skipInstall: options['skip-install']
         });
     });
 
     this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
+    this.bowerDependencies = [];
+    this.npmDependencies = [];
+    this.npmDevDependencies = [];
     this.secretHash = crypto.randomBytes(20).toString('hex');
 };
 
@@ -86,7 +92,12 @@ Generator.prototype.askFor = function askFor() {
         this.appName = props.appName;
         this.appDescription = props.appDescription;
         this.appAuthor = props.appAuthor;
-        this.requireJs = props.requireJs;
+
+        if (props.requireJs) {
+            this.requireJs = true;
+            this.bowerDependencies.push('requirejs');
+            this.npmDevDependencies.push('grunt-contrib-requirejs');
+        }
 
         callback();
     }.bind(this));
