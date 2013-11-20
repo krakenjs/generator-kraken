@@ -121,12 +121,7 @@ Generator.prototype.app = function app() {
     // Template files
     this.template('_README.md', 'README.md');
     this.template('_package.json', 'package.json');
-    if (this.requireJs) {
-        this.template('_bowerRequire.json', 'bower.json');
-    }
-    else {
-        this.template('_bower.json', 'bower.json');
-    }
+    this.template('_bower.json', 'bower.json');
     this.template('config/_app.json', 'config/app.json');
     this.template('config/_middleware.json', 'config/middleware.json');
 };
@@ -138,20 +133,18 @@ Generator.prototype.projectfiles = function projectfiles() {
     this.copy('jshintignore', '.jshintignore');
     this.copy('jshintrc', '.jshintrc');
     this.copy('editorconfig', '.editorconfig');
+    this.copy('bowerrc', '.bowerrc');
     this.copy('Gruntfile.js', 'Gruntfile.js');
 
     this.copy('public/css/app.less', 'public/css/app.less');
 
     if (this.requireJs) {
-        this.copy('public/templates/layouts/masterRequire.dust', 'public/templates/layouts/master.dust');
         this.copy('public/js/app.js', 'public/js/app.js');
         this.copy('public/js/config.js', 'public/js/config.js');
-        this.copy('.bowerrc', '.bowerrc');
-    }
-    else {
-        this.copy('public/templates/layouts/master.dust', 'public/templates/layouts/master.dust');
     }
 
     this.copy('public/js/jshintignore', 'public/js/.jshintignore');
     this.copy('public/js/jshintrc', 'public/js/.jshintrc');
+    
+    this.copy('public/templates/layouts/master.dust', 'public/templates/layouts/master.dust');
 };
