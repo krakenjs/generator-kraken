@@ -11,11 +11,7 @@
 
 ### Installation
 
-`npm install -g yo git+https://github.com/paypal/generator-kraken.git`
-
-Or, if you have already [set up your SSH key for use with GitHub](https://help.github.com/articles/generating-ssh-keys), you can use:
-
-`npm install -g yo git+ssh://git@github.com/paypal/generator-kraken.git`
+`npm install -g yo generator-kraken`
 
 
 ### API
