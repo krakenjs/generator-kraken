@@ -1,7 +1,8 @@
+/***@@@ BEGIN LICENSE @@@***/
 /*───────────────────────────────────────────────────────────────────────────*\
- │  Copyright (C) 2013 eBay, Inc.                                              │
+ │  Copyright (C) 2013 eBay Software Foundation                                │
  │                                                                             │
- │   ,'""`.                                                                    │
+ │hh ,'""`.                                                                    │
  │  / _  _ \  Licensed under the Apache License, Version 2.0 (the "License");  │
  │  |(@)(@)|  you may not use this file except in compliance with the License. │
  │  )  __  (  You may obtain a copy of the License at                          │
@@ -15,14 +16,42 @@
  │   See the License for the specific language governing permissions and       │
  │   limitations under the License.                                            │
  \*───────────────────────────────────────────────────────────────────────────*/
+/***@@@ END LICENSE @@@***/
 /*global describe, beforeEach, it*/
+
 'use strict';
 
-var assert  = require('assert');
 
-describe('kraken generator', function () {
-  it('can be imported without blowing up', function () {
-    var app = require('../app');
-    assert(app !== undefined);
-  });
+var generator = require('./util/generator'),
+    helpers = require('yeoman-generator').test;
+
+
+describe('Locale', function () {
+
+    var dependencies = [
+        '../../locale'
+    ];
+
+
+    it('creates new locales', function (done) {
+        generator('locale', dependencies, ['Foo', 'DE', 'de'], {}, function () {
+            helpers.assertFiles([
+                'locales/DE/de/Foo.properties'
+            ]);
+
+            done();
+        });
+    });
+
+
+    it('creates default locales as en_US', function (done) {
+        generator('locale', dependencies, ['Bar'], {}, function () {
+            helpers.assertFiles([
+                'locales/US/en/Bar.properties'
+            ]);
+
+            done();
+        });
+    });
+
 });

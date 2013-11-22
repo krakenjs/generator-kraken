@@ -2,17 +2,16 @@
 
 [Yeoman](http://yeoman.io) generator for Kraken applications.
 
+[![Build Status](https://travis-ci.org/paypal/generator-kraken.png)](https://travis-ci.org/paypal/generator-kraken)
+
+
 
 ## Getting Started
 
 
 ### Installation
 
-`npm install -g yo git+https://github.com/paypal/generator-kraken.git`
-
-Or, if you have already [set up your SSH key for use with GitHub](https://help.github.com/articles/generating-ssh-keys), you can use:
-
-`npm install -g yo git+ssh://git@github.com/paypal/generator-kraken.git`
+`npm install -g yo generator-kraken`
 
 
 ### API
@@ -32,4 +31,4 @@ Or, if you have already [set up your SSH key for use with GitHub](https://help.g
 
 ## License
 
-[MIT License](http://en.wikipedia.org/wiki/MIT_License)
+[Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0)
