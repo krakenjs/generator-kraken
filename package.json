@@ -6,6 +6,7 @@
     "yeoman-generator",
     "yeoman",
     "kraken",
+    "kraken.js"
   ],
   "homepage": "https://github.com/paypal/generator-kraken",
   "bugs": "https://github.com/paypal/generator-kraken/issues",

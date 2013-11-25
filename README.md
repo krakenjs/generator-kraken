@@ -11,12 +11,14 @@
 
 ### Installation
 
-`npm install -g yo generator-kraken`
+```shell
+$ npm install -g yo generator-kraken
+```
 
 
 ### API
 
-#### yo kraken
+`yo kraken`
 Creates a new kraken application.
 
 `yo kraken:page myPage`
