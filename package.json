@@ -5,7 +5,7 @@
   "keywords": [
     "yeoman-generator",
     "yeoman",
-    "kraken"
+    "kraken",
   ],
   "homepage": "https://github.com/paypal/generator-kraken",
   "bugs": "https://github.com/paypal/generator-kraken/issues",
