@@ -1,8 +1,8 @@
 {
     "name": "<%= _.slugify(appName) %>",
     "version": "0.0.1",
-    "description": "<%= appDescription %>",
-    "author": "<%= appAuthor %>",
+    "description": <%= appDescription %>,
+    "author": <%= appAuthor %>,
     "main": "index.js",
     "scripts": {
         "test": "grunt test",

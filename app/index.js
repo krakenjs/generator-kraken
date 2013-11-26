@@ -92,8 +92,8 @@ Generator.prototype.askFor = function askFor() {
 
     this.prompt(prompts, function (props) {
         this.appName = props.appName;
-        this.appDescription = props.appDescription;
-        this.appAuthor = props.appAuthor;
+        this.appDescription = JSON.stringify( props.appDescription );
+        this.appAuthor = JSON.stringify( props.appAuthor );
 
         if ((this.requireJs = props.requireJs)) {
             this.bowerDependencies.push('requirejs');
