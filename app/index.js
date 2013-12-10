@@ -149,4 +149,8 @@ Generator.prototype.projectfiles = function projectfiles() {
     this.copy('public/js/jshintrc', 'public/js/.jshintrc');
 
     this.template('public/templates/layouts/_master.dust', 'public/templates/layouts/master.dust');
+    this.template('public/templates/errors/_404.dust', 'public/templates/errors/404.dust');
+    this.template('public/templates/errors/_500.dust', 'public/templates/errors/500.dust');
+    this.copy('content/404.properties', 'locales/US/en/errors/404.properties');
+    this.copy('content/500.properties', 'locales/US/en/errors/500.properties');
 };
