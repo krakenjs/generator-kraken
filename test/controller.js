@@ -43,6 +43,17 @@ describe('Controller', function () {
     });
 
 
+    it('creates new tests', function (done) {
+        generator('controller', dependencies, ['Foo'], { json: false }, function () {
+            helpers.assertFiles([
+                'test/Foo.js'
+            ]);
+
+            done();
+        });
+    });
+
+
     it('creates new XHR enabled controllers', function (done) {
         generator('controller', dependencies, ['Bar'], { json: true }, function () {
             helpers.assertFiles([
