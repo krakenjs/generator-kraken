@@ -1,10 +1,15 @@
 'use strict';
 
 
-module.exports = function (server) {
+var <%= _.capitalize(_.classify(name)) %>Model = require('../models/<%= name %>');
 
-    server.get('/<% if (name !== "index") { %><%= _.slugify(name) %><% } %>', function (req, res) {
-        var model = { name: '<%= _.slugify(appname) %>' };
+
+module.exports = function (app) {
+
+    var model = new <%= _.capitalize(_.classify(name)) %>Model();
+
+
+    app.get('/<% if (name !== "index") { %><%= _.slugify(name) %><% } %>', function (req, res) {
         <% if (json) { %>
         res.format({
             json: function () {
@@ -13,8 +18,7 @@ module.exports = function (server) {
             html: function () {
                 res.render('<%= _.slugify(name) %>', model);
             }
-        });
-        <% } else { %>
+        });<% } else { %>
         res.render('<%= _.slugify(name) %>', model);
         <% } %>
     });
