@@ -22,11 +22,13 @@
 
 var util = require('util'),
     path = require('path'),
-    yeoman = require('yeoman-generator');
+    yeoman = require('yeoman-generator'),
+    update = require('../lib/update');
 
 
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.NamedBase.apply(this, arguments);
+    update.check();
 };
 
 

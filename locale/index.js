@@ -22,7 +22,8 @@
 
 var util = require('util'),
     path = require('path'),
-    yeoman = require('yeoman-generator');
+    yeoman = require('yeoman-generator'),
+    update = require('../lib/update');
 
 
 var Generator = module.exports = function Generator(args, options, config) {
@@ -30,6 +31,8 @@ var Generator = module.exports = function Generator(args, options, config) {
         lang = args[2] || 'en';
 
     yeoman.generators.NamedBase.apply(this, arguments);
+
+    update.check();
 
     this.country = country.toUpperCase();
     this.lang = lang.toLowerCase();
