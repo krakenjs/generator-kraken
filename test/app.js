@@ -76,6 +76,9 @@ describe('App', function () {
                 'public/css/app.less',
                 'public/js/app.js',
                 'public/templates/index.dust',
+                'public/templates/errors/404.dust',
+                'public/templates/errors/500.dust',
+                'public/templates/errors/503.dust',
                 'public/templates/layouts/master.dust'
             ]);
 
