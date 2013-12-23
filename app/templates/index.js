@@ -6,28 +6,33 @@ var kraken = require('kraken-js'),
 
 
 app.configure = function configure(nconf, next) {
-    // Fired when an app configures itself
+    // Async method run on startup.
     next(null);
 };
 
 
 app.requestStart = function requestStart(server) {
-    // Fired at the beginning of an incoming request
+    // Run before most express middleware has been registered.
 };
 
 
 app.requestBeforeRoute = function requestBeforeRoute(server) {
-    // Fired before routing occurs
+    // Run before any routes have been added.
 };
 
 
 app.requestAfterRoute = function requestAfterRoute(server) {
-    // Fired after routing occurs
+    // Run after all routes have been added.
 };
 
 
-kraken.create(app).listen(function (err) {
-    if (err) {
-        console.error(err);
-    }
-});
+if (require.main === module) {
+    kraken.create(app).listen(function (err) {
+        if (err) {
+            console.error(err);
+        }
+    });
+}
+
+
+module.exports = app;

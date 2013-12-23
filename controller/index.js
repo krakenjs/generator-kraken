@@ -60,4 +60,5 @@ Generator.prototype.askFor = function askFor() {
 
 Generator.prototype.files = function files() {
     this.template('_controller.js', path.join('controllers', this.name + '.js'));
+    this.template('_test.js', path.join('test', this.name + '.js'));
 };
