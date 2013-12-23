@@ -1,6 +1,6 @@
 {
   "name": "generator-kraken",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A kraken generator for Yeoman",
   "keywords": [
     "yeoman-generator",
