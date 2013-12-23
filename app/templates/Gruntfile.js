@@ -11,7 +11,7 @@ module.exports = function (grunt) {
             }
         },
         requirejs: {
-            compile: {
+            build: {
                 options: {
                     baseUrl: 'public/js',
                     mainConfigFile: 'public/js/config.js',
@@ -22,7 +22,7 @@ module.exports = function (grunt) {
             }
         },
         less: {
-            compile: {
+            build: {
                 options: {
                     yuicompress: true,
                     paths: ['public/css']
@@ -39,7 +39,7 @@ module.exports = function (grunt) {
             }
         },
         dustjs: {
-            compile: {
+            build: {
                 files: [
                     {
                         expand: true,
@@ -58,6 +58,20 @@ module.exports = function (grunt) {
 
                         return fullname.join(path.sep);
                     }
+                }
+            }
+        },
+        copyto: {
+            build: {
+                files: [
+                    { cwd: 'public', src: ['**/*'], dest: '.build/' }
+                ],
+                options: {
+                    ignore: [
+                        'public/css/**/*',
+                        'public/js/**/*',
+                        'public/templates/**/*'
+                    ]
                 }
             }
         },
@@ -83,10 +97,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-cli');
     grunt.loadNpmTasks('grunt-dustjs');
+    grunt.loadNpmTasks('grunt-copy-to');
     grunt.loadTasks('./node_modules/makara/tasks/');
 
     grunt.registerTask('i18n', ['clean', 'makara', 'dustjs', 'clean:tmp']);
-    grunt.registerTask('build', ['jshint', 'less', 'requirejs', 'i18n']);
-    grunt.registerTask('test', ['jshint', 'mochacli', 'clean:tmp']);
+    grunt.registerTask('build', ['jshint', 'less', 'requirejs', 'copyto', 'i18n']);
+    grunt.registerTask('test', ['jshint', 'mochacli']);
 
 };
