@@ -3,7 +3,7 @@
 [Yeoman](http://yeoman.io) generator for Kraken applications.
 
 [![Build Status](https://travis-ci.org/paypal/generator-kraken.png)](https://travis-ci.org/paypal/generator-kraken)
-
+[![NPM version](https://badge.fury.io/js/generator-kraken.png)](http://badge.fury.io/js/generator-kraken)
 
 
 ## Getting Started
