@@ -1,8 +1,30 @@
 {
     "middleware": {
-        "session": {
-            "module": "memory",
-            "secret": "<%= secretHash %>"
-        }
+//        "appsec": {
+//          "csrf": true,
+//          "csp": false,
+//          "p3p": false,
+//          "xframe": "SAMEORIGIN"
+//        },
+//
+//        "compiler": {
+//            "dust": "templates",
+//            "less": "css"
+//        },
+//
+//        "errorPages": {
+//            "404": false,
+//            "500": false
+//        },
+//
+//        "session": {
+//            "module": "memory",
+//            "secret": "<%= secretHash %>"
+//        },
+//
+//        "static": {
+//            "srcRoot": "path:./public",
+//            "rootPath": "path:./.build"
+//        }
     }
 }

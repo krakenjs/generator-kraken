@@ -36,7 +36,18 @@ describe('Model', function () {
     it('creates new models', function (done) {
         generator('model', dependencies, ['Foo'], {}, function () {
             helpers.assertFiles([
-                'models/Foo.js'
+                ['models/Foo.js', /FooModel\(\)/]
+            ]);
+
+            done();
+        });
+    });
+
+
+    it('properly deals with slugged names', function (done) {
+        generator('model', dependencies, ['foo-bar'], {}, function () {
+            helpers.assertFiles([
+                ['models/foo-bar.js', /FooBarModel\(\)/]
             ]);
 
             done();

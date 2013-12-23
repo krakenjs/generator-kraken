@@ -1,9 +1,7 @@
 {
-// Uncomment and change as needed (Be careful not to leave trailing commas!)
-
-// "port": 8000,
-//
 // "host": "localhost",
+//
+// "port": 8000,
 //
 // "i18n": {
 //     "fallback": "en-US",
