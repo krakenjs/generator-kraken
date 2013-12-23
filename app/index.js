@@ -24,13 +24,14 @@ var util = require('util'),
     path = require('path'),
     crypto = require('crypto'),
     yeoman = require('yeoman-generator'),
-    kraken = require('../lib/kraken');
-
+    kraken = require('../lib/kraken'),
+    update = require('../lib/update');
 
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
 
     kraken.banner();
+    update.check();
 
     this.hookFor('kraken:page', {
         args: ['index'].concat(args),
