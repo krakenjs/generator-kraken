@@ -1,0 +1,13 @@
+Description:
+    Creates a content bundle.
+
+Example:
+    yo kraken:locale <name> [<country>] [<language>]
+
+    "country" and "language" are optional.
+
+    If "country" is not specified, it will default to "US".
+    If "language" is not specified, it will default to "en".
+
+    This will create:
+        locales/<country>/<language>/<name>.js: Your content bundle.

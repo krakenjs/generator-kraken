@@ -1,0 +1,8 @@
+Description:
+    Creates a new model.
+
+Example:
+    yo kraken:model <name>
+
+    This will create:
+        models/<name>.js: Your model.
