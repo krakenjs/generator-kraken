@@ -29,7 +29,7 @@ app.requestAfterRoute = function requestAfterRoute(server) {
 if (require.main === module) {
     kraken.create(app).listen(function (err) {
         if (err) {
-            console.error(err);
+            console.error(err.stack);
         }
     });
 }
