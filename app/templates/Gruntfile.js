@@ -92,7 +92,7 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.loadNpmTasks('grunt-contrib-requirejs');
+    <% if (requireJs) { %>grunt.loadNpmTasks('grunt-contrib-requirejs'); <% } %>
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-cli');
@@ -101,7 +101,7 @@ module.exports = function (grunt) {
     grunt.loadTasks('./node_modules/makara/tasks/');
 
     grunt.registerTask('i18n', ['clean', 'makara', 'dustjs', 'clean:tmp']);
-    grunt.registerTask('build', ['jshint', 'less', 'requirejs', 'copyto', 'i18n']);
+    grunt.registerTask('build', ['jshint', 'less', <% if (requireJs) { %>'requirejs', <% } %> 'copyto', 'i18n']);
     grunt.registerTask('test', ['jshint', 'mochacli']);
 
 };
