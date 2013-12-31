@@ -29,13 +29,12 @@ describe('<%= _.slugify(name) %>', function () {
 
     it('should say "hello"', function (done) {
         request(mock)
-            .get('/')
+            .get('/<% if (name !== "index") { %><%= _.slugify(name) %><% } %>')
             .expect(200)
             .expect('Content-Type', /html/)
             .expect(/Hello, /)
             .end(function(err, res){
-                if (err) return done(err);
-                done()
+                done(err);
             });
     });
 
