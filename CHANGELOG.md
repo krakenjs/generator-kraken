@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.0.3
+
+- Fixes issue #27; Moves update-notifier to dependencies
+
 
 ## v0.0.2
 
