@@ -1,0 +1,9 @@
+Description:
+    Creates a new template.
+
+Example:
+    yo kraken:template <name>
+
+    This will create:
+        public/templates/<name>.dust: Your template.
+

@@ -1,0 +1,9 @@
+Description:
+    Creates a new controller.
+
+Example:
+    yo kraken:controller <name>
+
+    This will create:
+        controllers/<name>.js: Your controller.
+        test/<name>.js: Unit tests for your controller.

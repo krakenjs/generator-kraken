@@ -25,15 +25,27 @@ var util = require('util'),
 
 
 var Generator = module.exports = function Generator(args, options, config) {
-    var country = args[1] || 'US',
-        lang = args[2] || 'en';
-
     yeoman.generators.NamedBase.apply(this, arguments);
 
-    update.check();
+    var country = args[1] || 'US',
+        language = args[2] || 'en';
+
+    this.argument('country', {
+        optional: true,
+        required: false,
+        type: String
+    });
+
+    this.argument('language', {
+        optional: true,
+        required: false,
+        type: String
+    });
 
     this.country = country.toUpperCase();
-    this.lang = lang.toLowerCase();
+    this.language = language.toLowerCase();
+
+    update.check();
 };
 
 
@@ -41,5 +53,5 @@ util.inherits(Generator, yeoman.generators.NamedBase);
 
 
 Generator.prototype.files = function files() {
-    this.template('index.properties', path.join('locales', this.country, this.lang, this.name + '.properties'));
+    this.template('index.properties', path.join('locales', this.country, this.language, this.name + '.properties'));
 };
