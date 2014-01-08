@@ -28,6 +28,16 @@ var util = require('util'),
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
 
+    //If used, take the first argument as the application name.
+    this.argument('name', {
+            type: String,
+            required: false,
+            optional: true,
+            desc: 'Name for your application',
+            banner: 'This optional parameter gives a name to your application. It will be created under a directory by the same name'
+        }
+    );
+
     kraken.banner();
     update.check();
 
@@ -69,7 +79,8 @@ Generator.prototype.askFor = function askFor() {
     // Config prompts
     prompts.push({
         name: 'appName',
-        message: 'Application name'
+        message: 'Application name',
+        default: this.name || ''
     });
 
     prompts.push({
