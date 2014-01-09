@@ -1,8 +1,5 @@
 # CHANGELOG
 
-## v0.0.4
--Fixes issue #15; Allows naming an application from a CLI argument
-
 ## v0.0.3
 
 - Fixes issue #27; Moves update-notifier to dependencies
