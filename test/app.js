@@ -21,6 +21,9 @@
 
 
 var generator = require('./util/generator'),
+    fs = require('fs'),
+    path = require('path'),
+    assert = require('assert'),
     helpers = require('yeoman-generator').test;
 
 
@@ -99,5 +102,25 @@ describe('App', function () {
 
             done();
         });
+    });
+
+
+    it('creates an application taking the name form the command line arguments', function (done) {
+        var myPrompt = JSON.parse(JSON.stringify(prompt));
+
+        var customName = 'appNameFromCLI';
+        myPrompt.appName = ''; //Simulates the user typing enter.
+
+        generator('app', dependencies, [customName], myPrompt, function () {
+
+            //Make sure that the parameter does not pollute the other generators that take an argument
+            //In this case, check that a locale `customName` was not created
+            assert(!fs.existsSync(path.join(process.cwd(), 'locales', customName)), 'The arguments are polluting downstream generators');
+
+            //Make sure that the CWD matches the newly created app.
+            assert.strictEqual(customName, process.cwd().split(path.sep).slice(-1)[0], 'The application directory does not match the supplied argument');
+            done();
+        });
+
     });
 });
