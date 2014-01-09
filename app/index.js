@@ -38,6 +38,11 @@ var Generator = module.exports = function Generator(args, options, config) {
         }
     );
 
+    //If a name was received, shift it out of the args array, so that it doesn't pollute downstream generators
+    if (this.name) {
+        args.shift();
+    }
+
     kraken.banner();
     update.check();
 
