@@ -43,17 +43,16 @@ var Generator = module.exports = function Generator(args, options, config) {
         process.exit(1);
     }
 
-    //If used, take the first argument as the application name.
+    // Take the first argument as the application name
     this.argument('appName', {
-            type: String,
-            required: false,
-            optional: true,
-            desc: 'Name for your application',
-            banner: 'This optional parameter gives a name to your application. It will be created under a directory by the same name'
-        }
-    );
+        type: String,
+        required: false,
+        optional: true,
+        desc: 'Name for your application',
+        banner: 'This optional parameter gives a name to your application. It will be created under a directory by the same name'
+    });
 
-    //If a name was received, shift it out of the args array, so that it doesn't pollute downstream generators
+    // Don't pollute downstream generators
     if (this.appName) {
         args.shift();
     }
