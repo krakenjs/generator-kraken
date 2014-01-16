@@ -18,8 +18,8 @@ $ npm install -g yo generator-kraken
 
 ### API
 
-`yo kraken`  
-Creates a new kraken application.
+`yo kraken [appName]`
+Creates a new kraken application. Optional parameter `appName` creates the application using the supplied name.
 
 `yo kraken:page myPage`  
 Generates a new controller, model, content bundle, and template named *myPage*.
