@@ -34,7 +34,7 @@ var Generator = module.exports = function Generator(args, options, config) {
     // Abort on invalid sub-generators rather than running default
     namespace = options.namespace.split(':');
 
-    if (namespace.length > 1) {
+    if (namespace.length > 1 && namespace[1] !== 'app') {
         options.namespace = namespace[0];
 
         console.log('Error: Invalid sub-generator', namespace[1]);
