@@ -28,6 +28,21 @@ var util = require('util'),
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
 
+    //If used, take the first argument as the application name.
+    this.argument('appName', {
+            type: String,
+            required: false,
+            optional: true,
+            desc: 'Name for your application',
+            banner: 'This optional parameter gives a name to your application. It will be created under a directory by the same name'
+        }
+    );
+
+    //If a name was received, shift it out of the args array, so that it doesn't pollute downstream generators
+    if (this.appName) {
+        args.shift();
+    }
+
     kraken.banner();
     update.check();
 
@@ -69,7 +84,8 @@ Generator.prototype.askFor = function askFor() {
     // Config prompts
     prompts.push({
         name: 'appName',
-        message: 'Application name'
+        message: 'Application name',
+        default: this.appName || ''
     });
 
     prompts.push({
@@ -90,7 +106,7 @@ Generator.prototype.askFor = function askFor() {
     });
 
     this.prompt(prompts, function (props) {
-        this.appName = props.appName;
+        this.appName = props.appName || this.appName;
         this.appDescription = JSON.stringify( props.appDescription );
         this.appAuthor = JSON.stringify( props.appAuthor );
 

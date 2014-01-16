@@ -2,4 +2,4 @@ Description:
     Creates a new Kraken application.
 
 Example:
-    yo kraken
+    yo kraken [name]
