@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.7.0
+
+- Updating kraken dependency to 0.7
+- Bumping version number to have generator and kraken in sync on minor versions
+- Updating CLI to accept a project name as first argument
+
+
+## Fast forward...
+
+
 ## v0.0.3
 
 - Fixes issue #27; Moves update-notifier to dependencies
