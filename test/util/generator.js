@@ -28,7 +28,20 @@ module.exports.runGenerator = function runGenerator(options, done) {
             helpers.mockPrompt(app, options.prompt);
 
             app.options['skip-install'] = options.skipInstall;
-            app.run({}, done);
+
+            //If we don't have to install any dependencies, wait for generator to complete
+            app.run({}, function () {
+                if (options.skipInstall) {
+                    done();
+                }
+                else {
+                    //If we are doing a full install, wait for the dependencies to finish installing.
+                    app.once('dependencies-installed', function () {
+                        done();
+                    });
+                }
+            });
+
 
         } catch (err2) {
             done(err2);

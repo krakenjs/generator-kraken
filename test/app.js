@@ -25,7 +25,8 @@ var runGenerator = require('./util/generator').runGenerator,
     fs = require('fs'),
     path = require('path'),
     assert = require('assert'),
-    helpers = require('yeoman-generator').test;
+    helpers = require('yeoman-generator').test,
+    FULL_INSTALL_TIMEOUT = 120000;
 
 
 describe('App', function () {
@@ -110,5 +111,43 @@ describe('App', function () {
             done(err);
         });
 
+    });
+
+    it('checks that a generated application passes all tests', function (done) {
+        this.timeout(FULL_INSTALL_TIMEOUT);
+        var options = new BaseOptions('app');
+        options.skipInstall = false;
+
+        runGenerator(options, function (err) {
+
+            if (err) {
+                done(err);
+            }
+            //Launch `grunt build`
+            var build = require('child_process').spawn('grunt', ['test']);
+            build.on('close', function (code) {
+                assert.strictEqual(code, 0, 'The generated project failed to `grunt test`');
+                done();
+            });
+        });
+    });
+
+    it('checks that a generated application builds', function (done) {
+        this.timeout(FULL_INSTALL_TIMEOUT);
+        var options = new BaseOptions('app');
+        options.skipInstall = false;
+
+        runGenerator(options, function (err) {
+
+            if (err) {
+                done(err);
+            }
+            //Launch `grunt build`
+            var build = require('child_process').spawn('grunt', ['build']);
+            build.on('close', function (code) {
+                assert.strictEqual(code, 0, 'The generated project failed to `grunt build`');
+                done();
+            });
+        });
     });
 });

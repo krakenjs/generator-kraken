@@ -63,6 +63,7 @@ var Generator = module.exports = function Generator(args, options, config) {
             callback: function () {
                 that.bowerInstall(that.bowerDependencies, { save: true });
                 that.npmInstall(that.npmDependencies, { saveDev: true});
+                that.emit('dependencies-installed');
             }
         });
     });
