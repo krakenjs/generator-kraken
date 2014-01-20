@@ -4,20 +4,64 @@
 var path = require('path'),
     helpers = require('yeoman-generator').test;
 
+/**
+ * Initializes and runs a given kraken: generator with the provided options.
+ * @param options.type The name of the subGenerator to invoke. (Eg: controller -> kraken:controller)
+ * @param options.dependencies Array of all subGenerators that may need to be invoked. (Eg: ['../../app', '../../controller', etc])
+ * @param options.args Array, Any arguments that we want to pass via CLI like `yo kraken MyApp`. (Eg: ['MyApp'])
+ * @param options.skipInstall Boolean, Should dependencies be installed after the generator is run.
+ * @param options.prompt Object, Answers to the questions that the generator may ask. (eg: {appName:"MyApp", requireJS:true});
+ * @param options.callback Function to invoke after the generator has run.
+ */
+module.exports.runGenerator = function runGenerator(options, done) {
 
-module.exports = function generator(type, dependencies, args, prompt, done) {
     helpers.testDirectory(path.join(__dirname, '..', 'tmp'), function (err) {
+
         if (err) {
             return done(err);
         }
 
-        var app = createGenerator('kraken:' + type, dependencies, args);
+        //Try/catch block so that we can test against certain generator errors (eg: bad sub-generator names).
+        try {
+            var app = createGenerator('kraken:' + options.generator, options.dependencies, options.args);
 
-        helpers.mockPrompt(app, prompt);
+            helpers.mockPrompt(app, options.prompt);
 
-        app.options['skip-install'] = true;
-        app.run({}, done);
+            app.options['skip-install'] = options.skipInstall;
+            app.run({}, done);
+
+        } catch (err2) {
+            done(err2);
+        }
     });
+};
+
+/**
+ * Creates a set of options that can be used to initialize and run a generator.
+ * @param generator The name of the generator.
+ */
+module.exports.BaseOptions = function BaseOptions(generator) {
+    this.generator = generator;
+
+    this.dependencies = [
+        '../../app',
+        '../../controller',
+        '../../locale',
+        '../../model',
+        '../../page',
+        '../../template'
+    ];
+
+    this.args = [];
+
+    this.skipInstall = true;
+
+    this.prompt = {
+        appName: 'Awesomeness',
+        appDescription: 'Check out my new awesome app!',
+        appAuthor: 'Me',
+        requireJs: false
+    };
 };
 
 /**

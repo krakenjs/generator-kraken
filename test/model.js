@@ -20,30 +20,35 @@
 'use strict';
 
 
-var generator = require('./util/generator'),
+var runGenerator = require('./util/generator').runGenerator,
+    BaseOptions = require('./util/generator').BaseOptions,
     helpers = require('yeoman-generator').test;
 
 
 describe('Model', function () {
 
-    var dependencies = [
+    var options = new BaseOptions('model');
+    options.dependencies = [
         '../../model'
     ];
+    options.prompt = {};
 
 
     it('creates new models', function (done) {
-        generator('model', dependencies, ['Foo'], {}, function () {
+        options.args = ['Foo'];
+        runGenerator(options, function (err) {
             helpers.assertFiles([
                 ['models/Foo.js', /FooModel\(\)/]
             ]);
 
-            done();
+            done(err);
         });
     });
 
 
     it('properly deals with slugged names', function (done) {
-        generator('model', dependencies, ['foo-bar'], {}, function () {
+        options.args = ['foo-bar'];
+        runGenerator(options, function (err) {
             helpers.assertFiles([
                 ['models/foo-bar.js', /FooBarModel\(\)/]
             ]);
