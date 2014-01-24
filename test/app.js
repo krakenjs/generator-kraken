@@ -30,7 +30,7 @@ var runGenerator = require('./util/generator').runGenerator,
 
 
 describe('App', function () {
-
+    /*
     it('creates dot files', function (done) {
         var options = new BaseOptions('app');
         runGenerator(options, function (err) {
@@ -131,7 +131,7 @@ describe('App', function () {
             });
         });
     });
-
+    //*/
     it('checks that a generated application builds', function (done) {
         this.timeout(FULL_INSTALL_TIMEOUT);
         var options = new BaseOptions('app');
