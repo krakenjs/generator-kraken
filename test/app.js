@@ -30,7 +30,7 @@ var runGenerator = require('./util/generator').runGenerator,
 
 
 describe('App', function () {
-    /*
+
     it('creates dot files', function (done) {
         var options = new BaseOptions('app');
         runGenerator(options, function (err) {
@@ -117,6 +117,7 @@ describe('App', function () {
         this.timeout(FULL_INSTALL_TIMEOUT);
         var options = new BaseOptions('app');
         options.skipInstall = false;
+        options.prompt.requireJs = true;
 
         runGenerator(options, function (err) {
 
@@ -131,17 +132,18 @@ describe('App', function () {
             });
         });
     });
-    //*/
+
     it('checks that a generated application builds', function (done) {
         this.timeout(FULL_INSTALL_TIMEOUT);
         var options = new BaseOptions('app');
         options.skipInstall = false;
-
+        options.prompt.requireJs = true;
         runGenerator(options, function (err) {
 
             if (err) {
-                done(err);
+              return  done(err);
             }
+
             //Launch `grunt build`
             var build = require('child_process').spawn('grunt', ['build']);
             build.on('close', function (code) {

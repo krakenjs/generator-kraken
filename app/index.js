@@ -1,20 +1,20 @@
 /*───────────────────────────────────────────────────────────────────────────*\
-│  Copyright (C) 2013 eBay Software Foundation                                │
-│                                                                             │
-│hh ,'""`.                                                                    │
-│  / _  _ \  Licensed under the Apache License, Version 2.0 (the "License");  │
-│  |(@)(@)|  you may not use this file except in compliance with the License. │
-│  )  __  (  You may obtain a copy of the License at                          │
-│ /,'))((`.\                                                                  │
-│(( ((  )) ))    http://www.apache.org/licenses/LICENSE-2.0                   │
-│ `\ `)(' /'                                                                  │
-│                                                                             │
-│   Unless required by applicable law or agreed to in writing, software       │
-│   distributed under the License is distributed on an "AS IS" BASIS,         │
-│   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  │
-│   See the License for the specific language governing permissions and       │
-│   limitations under the License.                                            │
-\*───────────────────────────────────────────────────────────────────────────*/
+ │  Copyright (C) 2013 eBay Software Foundation                                │
+ │                                                                             │
+ │hh ,'""`.                                                                    │
+ │  / _  _ \  Licensed under the Apache License, Version 2.0 (the "License");  │
+ │  |(@)(@)|  you may not use this file except in compliance with the License. │
+ │  )  __  (  You may obtain a copy of the License at                          │
+ │ /,'))((`.\                                                                  │
+ │(( ((  )) ))    http://www.apache.org/licenses/LICENSE-2.0                   │
+ │ `\ `)(' /'                                                                  │
+ │                                                                             │
+ │   Unless required by applicable law or agreed to in writing, software       │
+ │   distributed under the License is distributed on an "AS IS" BASIS,         │
+ │   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  │
+ │   See the License for the specific language governing permissions and       │
+ │   limitations under the License.                                            │
+ \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
 
 
@@ -23,7 +23,8 @@ var util = require('util'),
     crypto = require('crypto'),
     yeoman = require('yeoman-generator'),
     kraken = require('../lib/kraken'),
-    update = require('../lib/update');
+    update = require('../lib/update'),
+    async = require('async');
 
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
@@ -61,9 +62,18 @@ var Generator = module.exports = function Generator(args, options, config) {
         this.installDependencies({
             skipInstall: options['skip-install'],
             callback: function () {
-                that.bowerInstall(that.bowerDependencies, { save: true });
-                that.npmInstall(that.npmDependencies, { saveDev: true});
-                that.emit('dependencies-installed');
+
+                async.parallel([
+                    function (next) {
+                        that.bowerInstall(that.bowerDependencies, { save: true }, next);
+                    },
+                    function (next) {
+                        that.npmInstall(that.npmDependencies, { saveDev: true}, next);
+                    }
+                ],
+                    function () {
+                        that.emit('dependencies-installed');
+                    });
             }
         });
     });
@@ -108,8 +118,8 @@ Generator.prototype.askFor = function askFor() {
 
     this.prompt(prompts, function (props) {
         this.appName = props.appName || this.appName;
-        this.appDescription = JSON.stringify( props.appDescription );
-        this.appAuthor = JSON.stringify( props.appAuthor );
+        this.appDescription = JSON.stringify(props.appDescription);
+        this.appAuthor = JSON.stringify(props.appAuthor);
 
         if ((this.requireJs = props.requireJs)) {
             this.bowerDependencies.push('requirejs');
