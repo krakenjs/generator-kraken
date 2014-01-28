@@ -53,10 +53,12 @@ module.exports = function (grunt) {
                     fullname: function (filepath) {
                         var path = require('path'),
                             name = path.basename(filepath, '.dust'),
-                            parts = filepath.split(path.sep),
+                        //Hardcoded to forwards slash on purpose. Keeps compatibility on win_32
+                            parts = filepath.split('/'),
                             fullname = parts.slice(3, -1).concat(name);
 
-                        return fullname.join(path.sep);
+                        //Hardcoded to forwards slash on purpose. Keeps compatibility on win_32
+                        return fullname.join('/');
                     }
                 }
             }
