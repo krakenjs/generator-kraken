@@ -45,7 +45,7 @@ Generator.prototype.askFor = function askFor() {
         prompts.push({
             name: 'json',
             type: 'confirm',
-            message: 'Respond to XHR requests?'
+            message: 'Respond to JSON requests?'
         });
     }
 
