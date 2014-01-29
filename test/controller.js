@@ -20,45 +20,50 @@
 'use strict';
 
 
-var generator = require('./util/generator'),
+var runGenerator = require('./util/generator').runGenerator,
+    BaseOptions = require('./util/generator').BaseOptions,
     helpers = require('yeoman-generator').test;
 
 
 describe('Controller', function () {
-    var dependencies = [
+    var options = new BaseOptions('controller');
+    options.dependencies = [
         '../../controller'
     ];
+    options.args = ['Foo'];
+    options.prompt = {json: false};
 
 
     it('creates new controllers', function (done) {
-        generator('controller', dependencies, ['Foo'], { json: false }, function () {
+        runGenerator(options, function (err) {
             helpers.assertFiles([
                 'controllers/Foo.js'
             ]);
 
-            done();
+            done(err);
         });
     });
 
 
     it('creates new tests', function (done) {
-        generator('controller', dependencies, ['Foo'], { json: false }, function () {
+        runGenerator(options, function (err) {
             helpers.assertFiles([
                 'test/Foo.js'
             ]);
 
-            done();
+            done(err);
         });
     });
 
 
     it('creates new XHR enabled controllers', function (done) {
-        generator('controller', dependencies, ['Bar'], { json: true }, function () {
+        options.prompt.json = true;
+        runGenerator(options, function (err) {
             helpers.assertFiles([
-                ['controllers/Bar.js', /res.format/]
+                ['controllers/Foo.js', /res.format/]
             ]);
 
-            done();
+            done(err);
         });
     });
 

@@ -20,35 +20,40 @@
 'use strict';
 
 
-var generator = require('./util/generator'),
+var runGenerator = require('./util/generator').runGenerator,
+    BaseOptions = require('./util/generator').BaseOptions,
     helpers = require('yeoman-generator').test;
 
 
 describe('Locale', function () {
 
-    var dependencies = [
+    var options = new BaseOptions('locale');
+    options.dependencies = [
         '../../locale'
     ];
+    options.prompt= {};
 
 
     it('creates new locales', function (done) {
-        generator('locale', dependencies, ['Foo', 'DE', 'de'], {}, function () {
+        options.args = ['Foo', 'DE', 'de'];
+        runGenerator(options, function (err) {
             helpers.assertFiles([
                 'locales/DE/de/Foo.properties'
             ]);
 
-            done();
+            done(err);
         });
     });
 
 
     it('creates default locales as en_US', function (done) {
-        generator('locale', dependencies, ['Bar'], {}, function () {
+        options.args = ['Bar'];
+        runGenerator(options, function (err) {
             helpers.assertFiles([
                 'locales/US/en/Bar.properties'
             ]);
 
-            done();
+            done(err);
         });
     });
 

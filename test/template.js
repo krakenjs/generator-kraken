@@ -20,26 +20,29 @@
 'use strict';
 
 
-var generator = require('./util/generator'),
+var runGenerator = require('./util/generator').runGenerator,
+    BaseOptions = require('./util/generator').BaseOptions,
     helpers = require('yeoman-generator').test;
 
 
 describe('Template', function () {
 
-    var dependencies = [
+    var options = new BaseOptions('template');
+    options.dependencies = [
         '../../template'
     ];
+    options.prompt = {};
+    options.args = ['Foo'];
 
 
     it('creates new templates', function (done) {
-        generator('template', dependencies, ['Foo'], {}, function () {
+        runGenerator(options, function (err) {
             helpers.assertFiles([
                 'public/templates/Foo.dust'
             ]);
 
-            done();
+            done(err);
         });
     });
-
 
 });
