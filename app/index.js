@@ -25,20 +25,34 @@ var util = require('util'),
     kraken = require('../lib/kraken'),
     update = require('../lib/update');
 
+
 var Generator = module.exports = function Generator(args, options, config) {
+    var namespace;
+
     yeoman.generators.Base.apply(this, arguments);
 
-    //If used, take the first argument as the application name.
-    this.argument('appName', {
-            type: String,
-            required: false,
-            optional: true,
-            desc: 'Name for your application',
-            banner: 'This optional parameter gives a name to your application. It will be created under a directory by the same name'
-        }
-    );
+    // Abort on invalid sub-generators rather than running default
+    namespace = options.namespace.split(':');
 
-    //If a name was received, shift it out of the args array, so that it doesn't pollute downstream generators
+    if (namespace.length > 1 && namespace[1] !== 'app') {
+        options.namespace = namespace[0];
+
+        console.log('Error: Invalid sub-generator', namespace[1]);
+        console.log(this.help());
+
+        process.exit(1);
+    }
+
+    // Take the first argument as the application name
+    this.argument('appName', {
+        type: String,
+        required: false,
+        optional: true,
+        desc: 'Name for your application',
+        banner: 'This optional parameter gives a name to your application. It will be created under a directory by the same name'
+    });
+
+    // Don't pollute downstream generators
     if (this.appName) {
         args.shift();
     }
