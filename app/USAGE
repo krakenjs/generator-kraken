@@ -3,3 +3,19 @@ Description:
 
 Example:
     yo kraken [name]
+
+    This will create:
+        config/: Application and middleware configuration
+        controllers/: Controllers
+        lib/: Custom developer libraries and other code
+        locales/: Locale-based content
+        models/: Models
+        public/: Web resources that are publicly available
+        public/templates: Server and browser-side templates
+        tests/: Unit and functional test cases.
+
+        bower.json: Front-end packages installed by bower.
+        Gruntfile.js: Configuration for the task runner.
+        index.js: Application start-up file.
+        package.json: Development packages installed by npm.
+        README.md: Your application's README
