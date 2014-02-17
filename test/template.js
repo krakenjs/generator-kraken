@@ -15,7 +15,7 @@
 │   See the License for the specific language governing permissions and       │
 │   limitations under the License.                                            │
 \*───────────────────────────────────────────────────────────────────────────*/
-/*global describe, beforeEach, it*/
+/*global describe, it*/
 
 'use strict';
 
@@ -37,7 +37,7 @@ describe('Template', function () {
 
     it('creates new templates', function (done) {
         runGenerator(options, function (err) {
-            helpers.assertFiles([
+            helpers.assertFile([
                 'public/templates/Foo.dust'
             ]);
 

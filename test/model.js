@@ -15,7 +15,7 @@
 │   See the License for the specific language governing permissions and       │
 │   limitations under the License.                                            │
 \*───────────────────────────────────────────────────────────────────────────*/
-/*global describe, beforeEach, it*/
+/*global describe, it*/
 
 'use strict';
 
@@ -37,8 +37,8 @@ describe('Model', function () {
     it('creates new models', function (done) {
         options.args = ['Foo'];
         runGenerator(options, function (err) {
-            helpers.assertFiles([
-                ['models/Foo.js', /FooModel\(\)/]
+            helpers.assertFileContent([
+                ['models/Foo.js', new RegExp(/FooModel\(\)/)]
             ]);
 
             done(err);
@@ -49,11 +49,11 @@ describe('Model', function () {
     it('properly deals with slugged names', function (done) {
         options.args = ['foo-bar'];
         runGenerator(options, function (err) {
-            helpers.assertFiles([
-                ['models/foo-bar.js', /FooBarModel\(\)/]
+            helpers.assertFileContent([
+                ['models/foo-bar.js', new RegExp(/FooBarModel\(\)/)]
             ]);
 
-            done();
+            done(err);
         });
     });
 

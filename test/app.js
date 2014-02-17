@@ -15,7 +15,7 @@
  │   See the License for the specific language governing permissions and       │
  │   limitations under the License.                                            │
  \*───────────────────────────────────────────────────────────────────────────*/
-/*global describe, beforeEach, it*/
+/*global describe, it*/
 
 'use strict';
 
@@ -34,7 +34,7 @@ describe('App', function () {
     it('creates dot files', function (done) {
         var options = new BaseOptions('app');
         runGenerator(options, function (err) {
-            helpers.assertFiles([
+            helpers.assertFile([
                 '.bowerrc',
                 '.editorconfig',
                 '.gitignore',
@@ -52,7 +52,7 @@ describe('App', function () {
     it('creates project files', function (done) {
         var options = new BaseOptions('app');
         runGenerator(options, function (err) {
-            helpers.assertFiles([
+            helpers.assertFile([
                 'Gruntfile.js',
                 'README.md',
                 'bower.json',
@@ -82,9 +82,12 @@ describe('App', function () {
         options.prompt.requireJs = true;
 
         runGenerator(options, function (err) {
-            helpers.assertFiles([
-                ['public/templates/layouts/master.dust', /require\.js/],
-                ['public/js/app.js', /require\(/],
+            helpers.assertFileContent([
+                ['public/templates/layouts/master.dust', new RegExp(/require\.js/)],
+                ['public/js/app.js', new RegExp(/require\(/)]
+            ]);
+
+            helpers.assertFile([
                 'public/js/config.js'
             ]);
 
@@ -141,7 +144,7 @@ describe('App', function () {
         runGenerator(options, function (err) {
 
             if (err) {
-              return  done(err);
+                return done(err);
             }
 
             //Launch `grunt build`

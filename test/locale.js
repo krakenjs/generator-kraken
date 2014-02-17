@@ -15,7 +15,7 @@
 │   See the License for the specific language governing permissions and       │
 │   limitations under the License.                                            │
 \*───────────────────────────────────────────────────────────────────────────*/
-/*global describe, beforeEach, it*/
+/*global describe, it*/
 
 'use strict';
 
@@ -31,13 +31,13 @@ describe('Locale', function () {
     options.dependencies = [
         '../../locale'
     ];
-    options.prompt= {};
+    options.prompt = {};
 
 
     it('creates new locales', function (done) {
         options.args = ['Foo', 'DE', 'de'];
         runGenerator(options, function (err) {
-            helpers.assertFiles([
+            helpers.assertFile([
                 'locales/DE/de/Foo.properties'
             ]);
 
@@ -49,7 +49,7 @@ describe('Locale', function () {
     it('creates default locales as en_US', function (done) {
         options.args = ['Bar'];
         runGenerator(options, function (err) {
-            helpers.assertFiles([
+            helpers.assertFile([
                 'locales/US/en/Bar.properties'
             ]);
 
