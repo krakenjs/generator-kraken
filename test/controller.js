@@ -15,7 +15,7 @@
 │   See the License for the specific language governing permissions and       │
 │   limitations under the License.                                            │
 \*───────────────────────────────────────────────────────────────────────────*/
-/*global describe, beforeEach, it*/
+/*global describe, it*/
 
 'use strict';
 
@@ -36,7 +36,7 @@ describe('Controller', function () {
 
     it('creates new controllers', function (done) {
         runGenerator(options, function (err) {
-            helpers.assertFiles([
+            helpers.assertFile([
                 'controllers/Foo.js'
             ]);
 
@@ -47,7 +47,7 @@ describe('Controller', function () {
 
     it('creates new tests', function (done) {
         runGenerator(options, function (err) {
-            helpers.assertFiles([
+            helpers.assertFile([
                 'test/Foo.js'
             ]);
 
@@ -59,8 +59,8 @@ describe('Controller', function () {
     it('creates new XHR enabled controllers', function (done) {
         options.prompt.json = true;
         runGenerator(options, function (err) {
-            helpers.assertFiles([
-                ['controllers/Foo.js', /res.format/]
+            helpers.assertFileContent([
+                ['controllers/Foo.js', new RegExp(/res.format/)]
             ]);
 
             done(err);
