@@ -19,7 +19,7 @@
 //
 //      "session": {
 //          "module": "memory",
-//          "secret": "<%= secretHash %>"
+//          "secret": "Rawrrrr!"
 //      },
 //
 //      "static": {

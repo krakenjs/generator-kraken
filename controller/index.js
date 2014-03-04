@@ -30,7 +30,9 @@ var Generator = module.exports = function Generator(args, options, config) {
     update.check();
 
     // Defaults
-    this.json = false;
+    this.props = {
+        json: false
+    };
 };
 
 
@@ -52,7 +54,7 @@ Generator.prototype.askFor = function askFor() {
 
     this.prompt(prompts, function (props) {
         for (var key in props) {
-            this[key] = props[key];
+            this.props[key] = props[key];
         }
 
         callback();

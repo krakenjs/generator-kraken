@@ -31,8 +31,7 @@ function validate(options) {
     var options = options || {},
         ns = options.namespace && options.namespace.split(':');
 
-    // Validate that the generator was called without an invalid subgenerator
-    // e.g. `yo kraken:missing` which will fall through to the main
+    // Ensure `yo kraken` was called with a valid subgenerator
     if (ns.length > 1 && ns[1] !== 'app') {
         options.namespace = ns[0];
 
@@ -63,8 +62,6 @@ var Generator = module.exports = function Generator(args, options, config) {
             callback: function () {}
         });
     });
-
-    this.secretHash = crypto.randomBytes(20).toString('hex');
 };
 
 
@@ -91,7 +88,7 @@ Generator.prototype.askFor = function askFor() {
 };
 
 
-Generator.prototype.projectfiles = function app() {
+Generator.prototype.files = function app() {
     // Create the base directory
     var appRoot = path.join(this.destinationRoot(), JSON.parse(this.props.appName));
 
