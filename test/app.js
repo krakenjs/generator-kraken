@@ -96,7 +96,7 @@ describe('App', function () {
     });
 
 
-    it('creates an application taking the name from the command line arguments', function (done) {
+    it.skip('creates an application taking the name from the command line arguments', function (done) {
 
         var options = new BaseOptions('app'),
             customName = 'appNameFromCLI';

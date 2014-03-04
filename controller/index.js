@@ -23,14 +23,14 @@ var util = require('util'),
     yeoman = require('yeoman-generator'),
     update = require('../lib/update');
 
-var Generator = module.exports = function Generator(args, options, config) {
 
+var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.NamedBase.apply(this, arguments);
 
     update.check();
 
-    this.auth = options.auth;
-    this.json = options.json;
+    // Defaults
+    this.json = false;
 };
 
 
@@ -41,7 +41,8 @@ Generator.prototype.askFor = function askFor() {
     var prompts = [],
         callback = this.async();
 
-    if (typeof this.json === 'undefined') {
+    // Don't prompt for the index page
+    if (this.name !== 'index') {
         prompts.push({
             name: 'json',
             type: 'confirm',

@@ -1,15 +1,12 @@
 {
-    "name": "<%= _.slugify(appName) %>",
+    "name": "<%= _.slugify(props.appName) %>",
     "version": "0.1.0",
-    "description": <%= appDescription %>,
-    "author": <%= appAuthor %>,
+    "description": <%= props.appDescription %>,
+    "author": <%= props.appAuthor %>,
     "main": "index.js",
     "scripts": {
         "test": "grunt test",
         "start": "node index.js"
-    },
-    "engines": {
-        "node": ">=0.10.0"
     },
     "dependencies": {
         "kraken-js": "~0.7.0",
@@ -29,7 +26,6 @@
         "grunt-dustjs": "~1.2.0",
         "grunt-contrib-clean": "~0.5.0",
         "grunt-contrib-jshint": "~0.6.4",
-        <% if (requireJs) { %>"grunt-contrib-requirejs": "~0.4.1", <% } %>
         "grunt-mocha-cli": "~1.5.0",
         "grunt-copy-to": "0.0.10"
     }
