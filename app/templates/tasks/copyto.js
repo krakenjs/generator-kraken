@@ -13,8 +13,8 @@ module.exports = function copyto(grunt) {
 	        ],
 	        options: {
 	            ignore: [
-	                'public/css/**/*',
-	                'public/js/**/*',
+	                <% if (props.css != '') { %>'public/css/**/*',<% } %>
+                    <% if (props.js != '') { %>'public/js/**/*',<% } %>
 	                'public/templates/**/*'
 	            ]
 	        }
