@@ -29,6 +29,7 @@ var Generator = module.exports = function Generator(args, options, config) {
 
     krakenutil.update();
 
+    // Automatically create a module and template for a controller
     this.hookFor('kraken:model', {
         args: args,
         options: {
@@ -43,15 +44,6 @@ var Generator = module.exports = function Generator(args, options, config) {
         }
     });
 
-    this.hookFor('kraken:locale', {
-        args: args,
-        options: {
-            options: options
-        }
-    });
-
-    this.auth = options.auth;
-    this.json = options.json;
     // Defaults
     this.props = {
         json: false
@@ -76,10 +68,7 @@ Generator.prototype.askFor = function askFor() {
     }
 
     this.prompt(prompts, function (props) {
-        for (var key in props) {
-            this.props[key] = props[key];
-        }
-
+        this.props = props;
         callback();
     }.bind(this));
 };

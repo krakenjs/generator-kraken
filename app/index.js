@@ -33,7 +33,7 @@ var Generator = module.exports = function Generator(args, options, config) {
     krakenutil.update();
 
     // Generate the index files
-    this.hookFor('kraken:page', { args: [ 'index' ] });
+    this.hookFor('kraken:controller', { args: [ 'index' ] });
 
     // Install all dependencies when completed
     this.on('end', function () {

@@ -59,7 +59,6 @@ describe('App', function () {
             helpers.assertFile([
                 'Gruntfile.js',
                 'README.md',
-                'bower.json',
                 'index.js',
                 'package.json',
                 'config/app.json',

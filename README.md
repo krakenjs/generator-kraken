@@ -21,17 +21,14 @@ $ npm install -g yo generator-kraken
 `yo kraken [appName]`
 Creates a new kraken application. Optional parameter `appName` creates the application using the supplied name.
 
-`yo kraken:page myPage`  
-Generates a new controller, model, content bundle, and template named *myPage*.
-
 `yo kraken:controller myController`  
-Generates a new controller named *myController*.
+Generates a new controller named *myController* and it's dependencies.
 
 `yo kraken:model myModel`  
 Generates a new model named *myModel*.
 
 `yo kraken:template myTemplate`  
-Generates a new template named *myTemplate*.
+Generates a new template named *myTemplate* and it's dependencies.
 
 `yo kraken:locale myFile myCountry myLang`  
 Generates a new content bundle named *myFile*. Both *myCountry* and *myLang* are optional.

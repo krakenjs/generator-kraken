@@ -61,7 +61,6 @@ module.exports.BaseOptions = function BaseOptions(generator) {
         '../../controller',
         '../../locale',
         '../../model',
-        '../../page',
         '../../template'
     ];
 
