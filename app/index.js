@@ -60,13 +60,7 @@ Generator.prototype.askFor = function askFor() {
         next = this.async();
 
     this.prompt(prompts, function (props) {
-        this.props = {};
-
-        for (var key in props) {
-            // FIXME: Solve for inputs with quotes
-            this.props[key] = props[key];
-        }
-
+        this.props = props;
         next();
     }.bind(this));
 };
