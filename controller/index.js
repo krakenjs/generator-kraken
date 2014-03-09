@@ -21,13 +21,13 @@
 var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
-    update = require('../lib/update');
+    krakenutil = require('../util');
 
 
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.NamedBase.apply(this, arguments);
 
-    update.check();
+    krakenutil.update();
 
     // Defaults
     this.props = {
@@ -63,6 +63,6 @@ Generator.prototype.askFor = function askFor() {
 
 
 Generator.prototype.files = function files() {
-    this.template('_controller.js', path.join('controllers', this.name + '.js'));
-    this.template('_test.js', path.join('test', this.name + '.js'));
+    this.template('controller.js', path.join('controllers', this.name + '.js'));
+    this.template('test.js', path.join('test', this.name + '.js'));
 };

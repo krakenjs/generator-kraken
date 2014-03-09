@@ -33,6 +33,7 @@ describe('App', function () {
 
     it('creates dot files', function (done) {
         var options = new BaseOptions('app');
+
         runGenerator(options, function (err) {
             helpers.assertFile([
                 '.bowerrc',
@@ -78,17 +79,15 @@ describe('App', function () {
 
 
     it('creates an app bootstrapped with RequireJS', function (done) {
+        this.timeout(FULL_INSTALL_TIMEOUT);
+
         var options = new BaseOptions('app');
-        options.prompt.requireJs = true;
+        options.prompt.js = 'requirejs';
 
         runGenerator(options, function (err) {
             helpers.assertFileContent([
                 ['public/templates/layouts/master.dust', new RegExp(/require\.js/)],
                 ['public/js/app.js', new RegExp(/require\(/)]
-            ]);
-
-            helpers.assertFile([
-                'public/js/config.js'
             ]);
 
             done(err);
@@ -97,12 +96,14 @@ describe('App', function () {
 
 
     it.skip('creates an application taking the name from the command line arguments', function (done) {
+        this.timeout(FULL_INSTALL_TIMEOUT);
 
         var options = new BaseOptions('app'),
             customName = 'appNameFromCLI';
 
         options.args = [customName];
-        options.prompt.appName = ''; //Simulates the user typing enter on an empty prompt.
+        options.prompt.appName = '';
+
         runGenerator(options, function (err) {
 
             //Make sure that the parameter does not pollute the other generators that take an argument
@@ -113,34 +114,15 @@ describe('App', function () {
             assert.strictEqual(customName, process.cwd().split(path.sep).slice(-1)[0], 'The application directory does not match the supplied argument');
             done(err);
         });
-
     });
 
-    it('checks that a generated application passes all tests', function (done) {
-        this.timeout(FULL_INSTALL_TIMEOUT);
-        var options = new BaseOptions('app');
-        options.skipInstall = false;
-        options.prompt.requireJs = true;
-
-        runGenerator(options, function (err) {
-
-            if (err) {
-                done(err);
-            }
-            //Launch `grunt build`
-            var build = require('child_process').spawn('grunt', ['test']);
-            build.on('close', function (code) {
-                assert.strictEqual(code, 0, 'The generated project failed to `grunt test`');
-                done();
-            });
-        });
-    });
 
     it('checks that a generated application builds', function (done) {
         this.timeout(FULL_INSTALL_TIMEOUT);
+
         var options = new BaseOptions('app');
         options.skipInstall = false;
-        options.prompt.requireJs = true;
+
         runGenerator(options, function (err) {
 
             if (err) {
@@ -148,9 +130,9 @@ describe('App', function () {
             }
 
             //Launch `grunt build`
-            var build = require('child_process').spawn('grunt', ['build']);
+            var build = require('child_process').spawn('grunt', ['test', 'build']);
             build.on('close', function (code) {
-                assert.strictEqual(code, 0, 'The generated project failed to `grunt build`');
+                assert.strictEqual(code, 0, 'The generated project failed to `grunt test build`');
                 done();
             });
         });

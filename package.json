@@ -27,7 +27,7 @@
     "yeoman-generator": "~0.16.0",
     "chalk": "~0.4.0",
     "update-notifier": "~0.1.7",
-    "async": "~0.2.10"
+    "async": "^0.2.10"
   },
   "devDependencies": {
     "mocha": "~1.14.0",

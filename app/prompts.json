@@ -15,64 +15,14 @@
     },
 
     {
-        "type": "list",
-        "name": "template",
-        "message": "Template library?",
-        "choices": [
-            {
-                "name": "Dust",
-                "value": "adaro",
-                "default": true
-            },
-            {
-                "name": "Mustache",
-                "value": "mustache"
-            },
-            {
-                "name": "None",
-                "value": false
-            }
-        ]
-    },
-
-    {
-        "type": "list",
-        "name": "css",
-        "message": "CSS preprocessor?",
-        "choices": [
-            {
-                "name": "LESS",
-                "value": "less",
-                "default": true
-            },
-            {
-                "name": "SASS",
-                "value": "sass"
-            },
-            {
-                "name": "Stylus",
-                "value": "stylus"
-            },
-            {
-                "name": "None",
-                "value": false
-            }
-        ]
-    },
-
-    {
+        "message": "JavaScript module library?",
         "type": "list",
         "name": "js",
-        "message": "JavaScript module library?",
         "choices": [
             {
                 "name": "RequireJS",
-                "value": "requireJs",
+                "value": "requirejs",
                 "default": true
-            },
-            {
-                "name": "Browserfy",
-                "value": "browserfy"
             },
             {
                 "name": "None",

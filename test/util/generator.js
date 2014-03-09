@@ -36,7 +36,7 @@ module.exports.runGenerator = function runGenerator(options, done) {
                 }
                 else {
                     //If we are doing a full install, wait for the dependencies to finish installing.
-                    app.once('dependencies-installed', function () {
+                    app.once('dependencies:installed', function () {
                         done();
                     });
                 }
@@ -73,7 +73,9 @@ module.exports.BaseOptions = function BaseOptions(generator) {
         appName: 'Awesomeness',
         appDescription: 'Check out my new awesome app!',
         appAuthor: 'Me',
-        requireJs: false
+        template: false,
+        css: false,
+        js: false
     };
 };
 

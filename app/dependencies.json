@@ -1,0 +1,15 @@
+{
+    "less": {
+        "npm": "less",
+        "grunt": "grunt-contrib-less"
+    },
+    "sass": {
+        "npm": "node-sass",
+        "grunt": "grunt-contrib-sass"
+    },
+    "requirejs": {
+        "npm": "requirejs",
+        "bower": "requirejs",
+        "grunt": "grunt-contrib-requirejs"
+    }
+}

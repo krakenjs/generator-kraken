@@ -20,12 +20,12 @@
 
 var util = require('util'),
     yeoman = require('yeoman-generator'),
-    update = require('../lib/update');
+    krakenutil = require('../util');
 
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.NamedBase.apply(this, arguments);
 
-    update.check();
+    krakenutil.update();
 
     this.hookFor('kraken:controller', {
         args: args,

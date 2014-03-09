@@ -1,4 +1,4 @@
-/*───────────────────────────────────────────────────────────────────────────*\
+ /*────────────────────────-──────────────────────────────────────────────────*\
  │  Copyright (C) 2014 eBay Software Foundation                                │
  │                                                                             │
  │hh ,'""`.                                                                    │
@@ -20,36 +20,25 @@
 
 var util = require('util'),
     path = require('path'),
-    crypto = require('crypto'),
     yeoman = require('yeoman-generator'),
-    kraken = require('../lib/kraken'),
-    update = require('../lib/update'),
-    async = require('async');
+    krakenutil = require('../util');
 
 
-function validate(options) {
-    var options = options || {},
-        ns = options.namespace && options.namespace.split(':');
+ function filter(props, key) {
+     var dependencies = require('./dependencies');
 
-    // Ensure `yo kraken` was called with a valid subgenerator
-    if (ns.length > 1 && ns[1] !== 'app') {
-        options.namespace = ns[0];
-
-        console.error('Error: Invalid sub-generator', ns[1]);
-        console.error(this.help());
-
-        process.exit(1);
-    }
-}
+     return [ props.template, props.css, props.js ].filter(function (x) {
+         return x && dependencies[x] && dependencies[x][key];
+     });
+ }
 
 
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
 
-    validate(options);
-
-    kraken.banner();
-    update.check();
+    krakenutil.banner();
+    krakenutil.validate(options);
+    krakenutil.update();
 
     // Generate the index files
     this.hookFor('kraken:page', {
@@ -57,9 +46,13 @@ var Generator = module.exports = function Generator(args, options, config) {
     });
 
     this.on('end', function () {
+        var that = this;
+
         this.installDependencies({
             skipInstall: options['skip-install'],
-            callback: function () {}
+            callback: function () {
+                that.emit('dependencies:installed');
+            }
         });
     });
 };
@@ -68,36 +61,69 @@ var Generator = module.exports = function Generator(args, options, config) {
 util.inherits(Generator, yeoman.generators.Base);
 
 
+ /**
+  * Prompt the user for how to setup their project
+  */
 Generator.prototype.askFor = function askFor() {
     var prompts = require('./prompts'),
         next = this.async();
 
-    this.bowerDependencies = [];
-    this.npmDependencies = [];
-
-    // Prompt user
     this.prompt(prompts, function (props) {
         this.props = {};
 
         for (var key in props) {
-            // Stringify'ing the inputs for quotes
-            this.props[key] = JSON.stringify(props[key]);
+            // FIXME: Solve for inputs with quotes
+            this.props[key] = props[key];
         }
+
         next();
     }.bind(this));
 };
 
 
-Generator.prototype.files = function app() {
-    // Create the base directory
-    var appRoot = path.join(this.destinationRoot(), JSON.parse(this.props.appName));
+ /**
+  * Make the root directory for the app
+  */
+Generator.prototype.appRoot = function appRoot() {
+    var appRoot = this.appRoot = path.join(this.destinationRoot(), this.props.appName);
 
     this.mkdir(appRoot);
     process.chdir(appRoot);
+};
 
-    // Boom!
-    this.directory('.', appRoot, function (body) {
+
+ /**
+  * Scaffold out the files
+  */
+Generator.prototype.files = function app() {
+    // Boom!!1!
+    this.directory('.', this.appRoot, function (body) {
         return this.engine(body, this);
     }.bind(this));
 };
 
+
+ /**
+  * Install bower components from prompts
+  */
+Generator.prototype.bower = function bower() {
+    var dependencies = filter(this.props, 'bower');
+
+    if (dependencies.length) {
+        var next = this.async();
+        this.bowerInstall(dependencies, { save: true }, next);
+    }
+};
+
+
+ /**
+  * Install npm components from prompts
+  */
+Generator.prototype.npm = function npm() {
+    var dependencies = filter(this.props, 'npm');
+
+    if (dependencies.length) {
+        var next = this.async();
+        this.npmInstall(dependencies, { save: true }, next);
+    }
+};

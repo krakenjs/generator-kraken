@@ -21,7 +21,7 @@
 var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
-    update = require('../lib/update');
+    krakenutil = require('../util');
 
 
 var Generator = module.exports = function Generator(args, options, config) {
@@ -45,7 +45,7 @@ var Generator = module.exports = function Generator(args, options, config) {
     this.country = country.toUpperCase();
     this.language = language.toLowerCase();
 
-    update.check();
+    krakenutil.update();
 };
 
 

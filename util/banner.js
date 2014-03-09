@@ -21,7 +21,7 @@
 var chalk = require('chalk');
 
 
-module.exports.banner = function banner() {
+module.exports = function banner() {
     console.log('');
     console.log(chalk.blue('     ,\'""`. '));
     console.log(chalk.blue('hh  / _  _ \\'));
