@@ -20,119 +20,116 @@
 'use strict';
 
 
-var runGenerator = require('./util/generator').runGenerator,
-    BaseOptions = require('./util/generator').BaseOptions,
-    fs = require('fs'),
-    path = require('path'),
-    assert = require('assert'),
-    helpers = require('yeoman-generator').test;
+var assert = require('assert'),
+    helpers = require('yeoman-generator').test,
+    testutil = require('./util');
 
 
-describe('App', function () {
+describe('kraken:app', function () {
 
-    this.timeout(120000);
+    this.timeout(60000);
 
+    it('scaffolds dot files', function (done) {
+         var base = testutil.makeBase('app');
 
-    it('creates dot files', function (done) {
-        var options = new BaseOptions('app');
+         base.options['skip-install-bower'] = true;
+         base.options['skip-install-npm'] = true;
 
-        runGenerator(options, function (err) {
-            helpers.assertFile([
-                '.bowerrc',
-                '.editorconfig',
-                '.gitignore',
-                '.jshintignore',
-                '.jshintrc',
-                '.nodemonignore'
-            ]);
+         testutil.run(base, function (err) {
+             helpers.assertFile([
+                 '.bowerrc',
+                 '.editorconfig',
+                 '.gitignore',
+                 '.jshintignore',
+                 '.jshintrc',
+                 '.nodemonignore'
+             ]);
 
-            done(err);
-        });
+             done(err);
+         });
 
     });
 
 
-    it('creates project files', function (done) {
-        var options = new BaseOptions('app');
+    it('scaffolds base project files', function (done) {
+         var base = testutil.makeBase('app');
 
-        runGenerator(options, function (err) {
-            helpers.assertFile([
-                'Gruntfile.js',
-                'README.md',
-                'index.js',
-                'package.json',
-                'config/app.json',
-                'config/middleware.json',
-                'controllers/index.js',
-                'locales/US/en/index.properties',
-                'models/index.js',
-                'public/css/app.less',
-                'public/js/app.js',
-                'public/templates/index.dust',
-                'public/templates/errors/404.dust',
-                'public/templates/errors/500.dust',
-                'public/templates/errors/503.dust',
-                'public/templates/layouts/master.dust'
-            ]);
+         base.options['skip-install-bower'] = true;
+         base.options['skip-install-npm'] = true;
 
-            done(err);
-        });
+         testutil.run(base, function (err) {
+             helpers.assertFile([
+                 'Gruntfile.js',
+                 'README.md',
+                 'index.js',
+                 'package.json',
+                 'config/app.json',
+                 'config/middleware.json',
+                 'locales/US/en/errors/404.properties',
+                 'locales/US/en/errors/500.properties',
+                 'locales/US/en/errors/503.properties',
+                 'public/css/app.less',
+                 'public/js/app.js',
+                 'public/templates/errors/404.dust',
+                 'public/templates/errors/500.dust',
+                 'public/templates/errors/503.dust',
+                 'public/templates/layouts/master.dust'
+             ]);
+
+             done(err);
+         });
     });
 
 
     it('creates an app bootstrapped with RequireJS', function (done) {
-        var options = new BaseOptions('app');
+         var base = testutil.makeBase('app');
 
-        options.prompt.js = 'requirejs';
+         base.prompt.js = 'requirejs';
 
-        runGenerator(options, function (err) {
-            helpers.assertFileContent([
-                ['public/templates/layouts/master.dust', new RegExp(/require\.js/)],
-                ['public/js/app.js', new RegExp(/require\(/)]
-            ]);
+         testutil.run(base, function (err) {
+             helpers.assertFileContent([
+                 ['package.json', new RegExp(/\"requirejs\"\:/)],
+                 ['package.json', new RegExp(/\"grunt-contrib-requirejs\"\:/)],
+                 ['public/templates/layouts/master.dust', new RegExp(/require\.js/)],
+                 ['public/js/app.js', new RegExp(/require\(/)]
+             ]);
 
-            done(err);
-        });
+             done(err);
+         });
     });
 
 
-    it.skip('creates an application taking the name from the command line arguments', function (done) {
-        var options = new BaseOptions('app'),
-            customName = 'appNameFromCLI';
+    // FIXME: The prompt default from the arg isn't being used...
+    it.skip('takes the name from the command line arguments', function (done) {
+        var base = testutil.makeBase('app');
 
-        options.args = [customName];
-        options.prompt.appName = '';
+        base.args = [ 'MyApp' ];
+        base.options['skip-install-bower'] = true;
+        base.options['skip-install-npm'] = true;
+        base.prompt.appName = '';
 
-        runGenerator(options, function (err) {
+        testutil.run(base, function (err) {
+            helpers.assertFileContent([
+                ['package.json', new RegExp(/\"name\"\: \"myapp\"/)]
+            ]);
 
-            //Make sure that the parameter does not pollute the other generators that take an argument
-            //In this case, check that a locale `customName` was not created
-            assert(!fs.existsSync(path.join(process.cwd(), 'locales', customName)), 'The arguments are polluting downstream generators');
-
-            //Make sure that the CWD matches the newly created app.
-            assert.strictEqual(customName, process.cwd().split(path.sep).slice(-1)[0], 'The application directory does not match the supplied argument');
             done(err);
         });
     });
 
 
     it('checks that a generated application builds', function (done) {
-        var options = new BaseOptions('app');
+         var base = testutil.makeBase('app');
 
-        options.skipInstall = false;
+         base.options['skip-install'] = false;
 
-        runGenerator(options, function (err) {
+         testutil.run(base, function (err) {
+             var build = require('child_process').spawn('grunt', ['test', 'build']);
 
-            if (err) {
-                return done(err);
-            }
-
-            //Launch `grunt build`
-            var build = require('child_process').spawn('grunt', ['test', 'build']);
-            build.on('close', function (code) {
-                assert.strictEqual(code, 0, 'The generated project failed to `grunt test build`');
-                done();
-            });
-        });
+             build.on('close', function (code) {
+                 assert.strictEqual(code, 0);
+                 done(err);
+             });
+         });
     });
 });

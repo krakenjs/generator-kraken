@@ -20,31 +20,26 @@
 'use strict';
 
 
-var runGenerator = require('./util/generator').runGenerator,
-    BaseOptions = require('./util/generator').BaseOptions,
-    helpers = require('yeoman-generator').test;
+var helpers = require('yeoman-generator').test,
+    testutil = require('./util');
 
 
-describe('Controller', function () {
-    var options = new BaseOptions('controller');
-    options.dependencies = [
-        '../../controller',
-        '../../model',
-        '../../template',
-        '../../locale'
-    ];
-    options.args = ['Foo'];
-    options.prompt = {json: false};
 
+describe('kraken:controller', function () {
 
-    it('creates new controller, model, content bundle, and unit test', function (done) {
-        runGenerator(options, function (err) {
-            helpers.assertFiles([
+    it('creates new controller and associated files', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'Foo' ];
+        base.prompt = { json: false };
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
                 'controllers/Foo.js',
+                'test/Foo.js',
                 'models/Foo.js',
                 'public/templates/Foo.dust',
-                'locales/US/en/Foo.properties',
-                'test/Foo.js'
+                'locales/US/en/Foo.properties'
             ]);
 
             done(err);
@@ -53,14 +48,22 @@ describe('Controller', function () {
 
 
     it('creates new XHR enabled controllers', function (done) {
-        options.prompt.json = true;
-        runGenerator(options, function (err) {
-            helpers.assertFiles([
-                ['controllers/Foo.js', /res.format/],
-                'models/Foo.js',
-                'public/templates/Foo.dust',
-                'locales/US/en/Foo.properties',
-                'test/Foo.js'
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'Bar' ];
+        base.prompt = { json: true };
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'controllers/Bar.js',
+                'test/Bar.js',
+                'models/Bar.js',
+                'public/templates/Bar.dust',
+                'locales/US/en/Bar.properties'
+            ]);
+
+            helpers.assertFileContent([
+                ['controllers/Bar.js', new RegExp(/res.format/)]
             ]);
 
             done(err);

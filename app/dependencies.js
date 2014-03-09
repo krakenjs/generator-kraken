@@ -1,4 +1,8 @@
-{
+'use strict';
+
+
+module.exports = {
+
     "dust": {
         "npm": [
             "dustjs-linkedin@~2.0.3",
@@ -6,8 +10,11 @@
             "adaro@^0.1.0",
             "makara@^0.3.0"
         ],
-        "npmDev": [ "grunt-dustjs@^1.2.0" ]
+        "npmDev": [
+            "grunt-dustjs@^1.2.0"
+        ]
     },
+
     "grunt": {
         "npmDev": [
             "grunt@^0.4.1",
@@ -18,13 +25,26 @@
             "grunt-config-dir@^0.3.2"
         ]
     },
+
     "less": {
-        "npm": [ "less@^1.6.1" ],
-        "npmDev": [ "grunt-contrib-less@^0.9.0" ]
+        "npm": [
+            "less@^1.6.1"
+        ],
+        "npmDev": [
+            "grunt-contrib-less@^0.9.0"
+        ]
     },
+
     "requirejs": {
-        "bower": [ "requirejs" ],
-        "npm": [ "requirejs@^2.1.11" ],
-        "npmDev": [ "grunt-contrib-requirejs@^0.4.3" ]
+        "bower": [
+            "requirejs"
+        ],
+        "npm": [
+            "requirejs@^2.1.11"
+        ],
+        "npmDev": [
+            "grunt-contrib-requirejs@^0.4.3"
+        ]
     }
-}
+
+};

@@ -25,7 +25,7 @@ var util = require('util'),
 
 
 
-var Generator = module.exports = function Generator(args, options, config) {
+var Generator = module.exports = function Generator(args, options) {
     yeoman.generators.Base.apply(this, arguments);
 
     krakenutil.banner();
@@ -37,14 +37,13 @@ var Generator = module.exports = function Generator(args, options, config) {
 
     // Install all dependencies when completed
     this.on('end', function () {
-        var that = this;
-
         this.installDependencies({
             skipMessage: true,
             skipInstall: options['skip-install'],
             callback: function () {
-                that.emit('dependencies:installed');
-            }
+                // Emit an event for a test hook
+                this.emit(this.options.namespace + ':installDependencies');
+            }.bind(this)
         });
     });
 };
@@ -57,13 +56,13 @@ util.inherits(Generator, yeoman.generators.Base);
   * Prompt the user for how to setup their project
   */
 Generator.prototype.askFor = function askFor() {
-    var prompts = require('./prompts'),
+    var prompts = require('./prompts')(this),
         next = this.async();
 
     this.prompt(prompts, function (props) {
         this.props = props;
 
-        // TODO: Move defaults to prompts
+        // TODO: Move these defaults to prompts for v1.0
         this.props.template = 'dust';
         this.props.css = 'less';
         this.props.task = 'grunt';
@@ -76,7 +75,7 @@ Generator.prototype.askFor = function askFor() {
  /**
   * Make the root directory for the app
   */
-Generator.prototype.appRoot = function appRoot() {
+Generator.prototype.root = function root() {
     var appRoot = this.appRoot = path.join(this.destinationRoot(), this.props.appName);
 
     this.mkdir(appRoot);
@@ -99,10 +98,12 @@ Generator.prototype.files = function app() {
   * Install bower components from prompts
   */
 Generator.prototype.installBower = function installBower() {
-    var dependencies = this._dependencyResolver('bower');
+    if (!this.options['skip-install-bower']) {
+        var dependencies = this._dependencyResolver('bower');
 
-    if (dependencies) {
-        this.bowerInstall(dependencies, { save: true }, this.async());
+        if (dependencies) {
+            this.bowerInstall(dependencies, { save: true }, this.async());
+        }
     }
 };
 
@@ -111,10 +112,12 @@ Generator.prototype.installBower = function installBower() {
   * Install npm modules from prompts
   */
 Generator.prototype.installNpm = function installNpm() {
-    var dependencies = this._dependencyResolver('npm');
+    if (!this.options['skip-install-npm']) {
+        var dependencies = this._dependencyResolver('npm');
 
-    if (dependencies) {
-        this.npmInstall(dependencies, { save: true }, this.async());
+        if (dependencies) {
+            this.npmInstall(dependencies, { save: true }, this.async());
+        }
     }
 };
 
@@ -123,10 +126,12 @@ Generator.prototype.installNpm = function installNpm() {
   * Install npm dev modules from prompts
   */
 Generator.prototype.installNpmDev = function installNpmDev() {
-    var dependencies = this._dependencyResolver('npmDev');
+    if (!this.options['skip-install-npm']) {
+        var dependencies = this._dependencyResolver('npmDev');
 
-    if (dependencies) {
-        this.npmInstall(dependencies, { saveDev: true }, this.async());
+        if (dependencies) {
+            this.npmInstall(dependencies, { saveDev: true }, this.async());
+        }
     }
 };
 
@@ -148,4 +153,4 @@ Generator.prototype._dependencyResolver = function dependencyResolver(type) {
     });
 
     return result.length ? result.join(' ') : false;
-}
+};

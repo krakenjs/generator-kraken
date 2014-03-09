@@ -20,25 +20,19 @@
 'use strict';
 
 
-var runGenerator = require('./util/generator').runGenerator,
-    BaseOptions = require('./util/generator').BaseOptions,
-    helpers = require('yeoman-generator').test;
+var helpers = require('yeoman-generator').test,
+    testutil = require('./util');
 
 
-describe('Template', function () {
+describe('kraken:template', function () {
 
-    var options = new BaseOptions('template');
-    options.dependencies = [
-        '../../template',
-        '../../locale'
-    ];
-    options.prompt = {};
-    options.args = ['Foo'];
+    it('creates new template and associated files', function (done) {
+        var base = testutil.makeBase('template');
 
+        base.args = ['Foo'];
 
-    it('creates new template and content bundle', function (done) {
-        runGenerator(options, function (err) {
-            helpers.assertFiles([
+        testutil.run(base, function (err) {
+            helpers.assertFile([
                 'public/templates/Foo.dust',
                 'locales/US/en/Foo.properties'
             ]);
