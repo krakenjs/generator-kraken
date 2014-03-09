@@ -28,6 +28,13 @@ var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.NamedBase.apply(this, arguments);
 
     krakenutil.update();
+
+    this.hookFor('kraken:locale', {
+        args: args,
+        options: {
+            options: options
+        }
+    });
 };
 
 

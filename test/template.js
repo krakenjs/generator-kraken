@@ -29,16 +29,18 @@ describe('Template', function () {
 
     var options = new BaseOptions('template');
     options.dependencies = [
-        '../../template'
+        '../../template',
+        '../../locale'
     ];
     options.prompt = {};
     options.args = ['Foo'];
 
 
-    it('creates new templates', function (done) {
+    it('creates new template and content bundle', function (done) {
         runGenerator(options, function (err) {
-            helpers.assertFile([
-                'public/templates/Foo.dust'
+            helpers.assertFiles([
+                'public/templates/Foo.dust',
+                'locales/US/en/Foo.properties'
             ]);
 
             done(err);
