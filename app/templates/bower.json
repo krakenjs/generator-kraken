@@ -1,5 +1,0 @@
-{
-    "name": "<%= _.slugify(props.appName) %>",
-    "version": "0.0.1",
-    "dependencies": {}
-}
