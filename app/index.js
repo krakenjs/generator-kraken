@@ -40,6 +40,7 @@ var Generator = module.exports = function Generator(args, options, config) {
         var that = this;
 
         this.installDependencies({
+            skipMessage: true,
             skipInstall: options['skip-install'],
             callback: function () {
                 that.emit('dependencies:installed');
@@ -61,6 +62,12 @@ Generator.prototype.askFor = function askFor() {
 
     this.prompt(prompts, function (props) {
         this.props = props;
+
+        // TODO: Move defaults to prompts
+        this.props.template = 'dust';
+        this.props.css = 'less';
+        this.props.task = 'grunt';
+
         next();
     }.bind(this));
 };
@@ -91,23 +98,35 @@ Generator.prototype.files = function app() {
  /**
   * Install bower components from prompts
   */
-Generator.prototype.bower = function bower() {
+Generator.prototype.installBower = function installBower() {
     var dependencies = this._dependencyResolver('bower');
 
-    if (dependencies.length) {
+    if (dependencies) {
         this.bowerInstall(dependencies, { save: true }, this.async());
     }
 };
 
 
  /**
-  * Install npm components from prompts
+  * Install npm modules from prompts
   */
-Generator.prototype.npm = function npm() {
+Generator.prototype.installNpm = function installNpm() {
     var dependencies = this._dependencyResolver('npm');
 
-    if (dependencies.length) {
+    if (dependencies) {
         this.npmInstall(dependencies, { save: true }, this.async());
+    }
+};
+
+
+ /**
+  * Install npm dev modules from prompts
+  */
+Generator.prototype.installNpmDev = function installNpmDev() {
+    var dependencies = this._dependencyResolver('npmDev');
+
+    if (dependencies) {
+        this.npmInstall(dependencies, { saveDev: true }, this.async());
     }
 };
 
@@ -116,9 +135,17 @@ Generator.prototype.npm = function npm() {
   * Resolves named dependencies from the prompt options
   */
 Generator.prototype._dependencyResolver = function dependencyResolver(type) {
-    var dependencies = require('./dependencies');
+    var dependencies = require('./dependencies'),
+        props = this.props,
+        result = [];
 
-    return [ this.props.template, this.props.css, this.props.js ].filter(function (x) {
-        return x && dependencies[x] && dependencies[x][type];
+    [ props.template, props.css, props.js, props.task ].forEach(function (x) {
+        var value = x && dependencies[x] && dependencies[x][type];
+
+        if (value) {
+            result.push(value.join(' '));
+        }
     });
+
+    return result.length ? result.join(' ') : false;
 }

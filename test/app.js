@@ -25,11 +25,13 @@ var runGenerator = require('./util/generator').runGenerator,
     fs = require('fs'),
     path = require('path'),
     assert = require('assert'),
-    helpers = require('yeoman-generator').test,
-    FULL_INSTALL_TIMEOUT = 120000;
+    helpers = require('yeoman-generator').test;
 
 
 describe('App', function () {
+
+    this.timeout(120000);
+
 
     it('creates dot files', function (done) {
         var options = new BaseOptions('app');
@@ -52,6 +54,7 @@ describe('App', function () {
 
     it('creates project files', function (done) {
         var options = new BaseOptions('app');
+
         runGenerator(options, function (err) {
             helpers.assertFile([
                 'Gruntfile.js',
@@ -79,9 +82,8 @@ describe('App', function () {
 
 
     it('creates an app bootstrapped with RequireJS', function (done) {
-        this.timeout(FULL_INSTALL_TIMEOUT);
-
         var options = new BaseOptions('app');
+
         options.prompt.js = 'requirejs';
 
         runGenerator(options, function (err) {
@@ -96,8 +98,6 @@ describe('App', function () {
 
 
     it.skip('creates an application taking the name from the command line arguments', function (done) {
-        this.timeout(FULL_INSTALL_TIMEOUT);
-
         var options = new BaseOptions('app'),
             customName = 'appNameFromCLI';
 
@@ -118,9 +118,8 @@ describe('App', function () {
 
 
     it('checks that a generated application builds', function (done) {
-        this.timeout(FULL_INSTALL_TIMEOUT);
-
         var options = new BaseOptions('app');
+
         options.skipInstall = false;
 
         runGenerator(options, function (err) {

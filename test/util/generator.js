@@ -70,12 +70,13 @@ module.exports.BaseOptions = function BaseOptions(generator) {
     this.skipInstall = true;
 
     this.prompt = {
-        appName: 'Awesomeness',
-        appDescription: 'Check out my new awesome app!',
-        appAuthor: 'Me',
-        template: false,
-        css: false,
-        js: false
+        appName: 'Foo',
+        appDescription: 'This is an app, foo!',
+        appAuthor: 'Jeff',
+        template: 'dust',
+        css: 'less',
+        js: '',
+        task: 'grunt'
     };
 };
 
