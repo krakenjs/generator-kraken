@@ -9,14 +9,14 @@
         "start": "node index.js"
     },
     "dependencies": {
-        "kraken-js": "~0.7.0",
+        "kraken-js": "^0.7.0",
         "express": "~3.4.4",
-        "adaro": "~0.1.x",
-        "nconf": "~0.6.8",
-        "less": "~1.6.1",
+        "adaro": "^0.1.0",
+        "nconf": "^0.6.8",
+        "less": "^1.6.1",
         "dustjs-linkedin": "~2.0.3",
-        "dustjs-helpers": "~1.1.1",
-        "makara": "~0.3.0"
+        "dustjs-helpers": "^1.1.1",
+        "makara": "^0.3.0"
     },
     "devDependencies": {
         "mocha": "~1.17.0",

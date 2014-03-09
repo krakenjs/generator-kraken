@@ -24,14 +24,6 @@ var util = require('util'),
     krakenutil = require('../util');
 
 
- function filter(props, key) {
-     var dependencies = require('./dependencies');
-
-     return [ props.template, props.css, props.js ].filter(function (x) {
-         return x && dependencies[x] && dependencies[x][key];
-     });
- }
-
 
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
@@ -41,10 +33,9 @@ var Generator = module.exports = function Generator(args, options, config) {
     krakenutil.update();
 
     // Generate the index files
-    this.hookFor('kraken:page', {
-        args: [ 'index' ]
-    });
+    this.hookFor('kraken:page', { args: [ 'index' ] });
 
+    // Install all dependencies when completed
     this.on('end', function () {
         var that = this;
 
@@ -107,11 +98,10 @@ Generator.prototype.files = function app() {
   * Install bower components from prompts
   */
 Generator.prototype.bower = function bower() {
-    var dependencies = filter(this.props, 'bower');
+    var dependencies = this._dependencyResolver('bower');
 
     if (dependencies.length) {
-        var next = this.async();
-        this.bowerInstall(dependencies, { save: true }, next);
+        this.bowerInstall(dependencies, { save: true }, this.async());
     }
 };
 
@@ -120,10 +110,21 @@ Generator.prototype.bower = function bower() {
   * Install npm components from prompts
   */
 Generator.prototype.npm = function npm() {
-    var dependencies = filter(this.props, 'npm');
+    var dependencies = this._dependencyResolver('npm');
 
     if (dependencies.length) {
-        var next = this.async();
-        this.npmInstall(dependencies, { save: true }, next);
+        this.npmInstall(dependencies, { save: true }, this.async());
     }
 };
+
+
+ /**
+  * Resolves named dependencies from the prompt options
+  */
+Generator.prototype._dependencyResolver = function dependencyResolver(type) {
+    var dependencies = require('./dependencies');
+
+    return [ this.props.template, this.props.css, this.props.js ].filter(function (x) {
+        return x && dependencies[x] && dependencies[x][type];
+    });
+}
