@@ -31,7 +31,7 @@ describe('kraken:controller', function () {
         var base = testutil.makeBase('controller');
 
         base.args = [ 'Foo' ];
-        base.prompt = { json: false };
+        base.prompt = { useJson: false };
 
         testutil.run(base, function (err) {
             helpers.assertFile([
@@ -51,7 +51,7 @@ describe('kraken:controller', function () {
         var base = testutil.makeBase('controller');
 
         base.args = [ 'Bar' ];
-        base.prompt = { json: true };
+        base.prompt = { useJson: true };
 
         testutil.run(base, function (err) {
             helpers.assertFile([

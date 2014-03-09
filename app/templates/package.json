@@ -1,8 +1,8 @@
 {
-    "name": "<%= _.slugify(props.appName) %>",
+    "name": "<%= _.slugify(appName) %>",
     "version": "0.1.0",
-    "description": "<%= props.appDescription.replace(/"/g, '\\"') %>",
-    "author": "<%= props.appAuthor.replace(/"/g, '\\"') %>",
+    "description": "<%= appDescription.replace(/"/g, '\\"') %>",
+    "author": "<%= appAuthor.replace(/"/g, '\\"') %>",
     "main": "index.js",
     "scripts": {
         "test": "grunt test",

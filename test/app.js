@@ -27,7 +27,7 @@ var assert = require('assert'),
 
 describe('kraken:app', function () {
 
-    this.timeout(60000);
+    this.timeout(100000);
 
     it('scaffolds dot files', function (done) {
          var base = testutil.makeBase('app');
@@ -84,7 +84,7 @@ describe('kraken:app', function () {
     it('creates an app bootstrapped with RequireJS', function (done) {
          var base = testutil.makeBase('app');
 
-         base.prompt.js = 'requirejs';
+         base.prompt.jsModule = 'requirejs';
 
          testutil.run(base, function (err) {
              helpers.assertFileContent([
@@ -99,14 +99,14 @@ describe('kraken:app', function () {
     });
 
 
-    // FIXME: The prompt default from the arg isn't being used...
-    it.skip('takes the name from the command line arguments', function (done) {
+    it('takes the name from the command line arguments', function (done) {
         var base = testutil.makeBase('app');
 
-        base.args = [ 'MyApp' ];
+        base.args = ['MyApp'];
         base.options['skip-install-bower'] = true;
         base.options['skip-install-npm'] = true;
-        base.prompt.appName = '';
+
+        delete base.prompt.appName;
 
         testutil.run(base, function (err) {
             helpers.assertFileContent([

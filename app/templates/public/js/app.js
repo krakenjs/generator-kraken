@@ -1,6 +1,6 @@
 'use strict';
 
-<% if (props.js === 'requirejs') { %>
+<% if (jsModule === 'requirejs') { %>
 
 requirejs.config({
     paths: {}

@@ -36,12 +36,12 @@ var Generator = module.exports = function Generator(args, options) {
     this.hookFor('kraken:controller', { args: [ 'index' ] });
 
     // Install all dependencies when completed
+    // Emit an event when installed
     this.on('end', function () {
         this.installDependencies({
             skipMessage: true,
             skipInstall: options['skip-install'],
             callback: function () {
-                // Emit an event for a test hook
                 this.emit(this.options.namespace + ':installDependencies');
             }.bind(this)
         });
@@ -52,40 +52,50 @@ var Generator = module.exports = function Generator(args, options) {
 util.inherits(Generator, yeoman.generators.Base);
 
 
- /**
-  * Prompt the user for how to setup their project
-  */
+/**
+ * Sets up defaults before the other methods run
+ */
+Generator.prototype.defaults = function defaults() {
+     this.argument('appName', { type: String, required: false });
+};
+
+
+/**
+ * Prompt the user for how to setup their project
+ */
 Generator.prototype.askFor = function askFor() {
     var prompts = require('./prompts')(this),
         next = this.async();
 
     this.prompt(prompts, function (props) {
-        this.props = props;
+        for (var key in props) {
+            this[key] = props[key];
+        }
 
         // TODO: Move these defaults to prompts for v1.0
-        this.props.template = 'dust';
-        this.props.css = 'less';
-        this.props.task = 'grunt';
+        this.templateModule = 'dust';
+        this.cssModule = 'less';
+        this.taskModule = 'grunt';
 
         next();
     }.bind(this));
 };
 
 
- /**
-  * Make the root directory for the app
-  */
+/**
+ * Make the root directory for the app
+ */
 Generator.prototype.root = function root() {
-    var appRoot = this.appRoot = path.join(this.destinationRoot(), this.props.appName);
+    var appRoot = this.appRoot = path.join(this.destinationRoot(), this.appName);
 
     this.mkdir(appRoot);
     process.chdir(appRoot);
 };
 
 
- /**
-  * Scaffold out the files
-  */
+/**
+ * Scaffold out the files
+ */
 Generator.prototype.files = function app() {
     // Boom!!1!
     this.directory('.', this.appRoot, function (body) {
@@ -94,9 +104,9 @@ Generator.prototype.files = function app() {
 };
 
 
- /**
-  * Install bower components from prompts
-  */
+/**
+ * Install bower components from prompts
+ */
 Generator.prototype.installBower = function installBower() {
     if (!this.options['skip-install-bower']) {
         var dependencies = this._dependencyResolver('bower');
@@ -108,9 +118,9 @@ Generator.prototype.installBower = function installBower() {
 };
 
 
- /**
-  * Install npm modules from prompts
-  */
+/**
+ * Install npm modules from prompts
+ */
 Generator.prototype.installNpm = function installNpm() {
     if (!this.options['skip-install-npm']) {
         var dependencies = this._dependencyResolver('npm');
@@ -122,9 +132,9 @@ Generator.prototype.installNpm = function installNpm() {
 };
 
 
- /**
-  * Install npm dev modules from prompts
-  */
+/**
+ * Install npm dev modules from prompts
+ */
 Generator.prototype.installNpmDev = function installNpmDev() {
     if (!this.options['skip-install-npm']) {
         var dependencies = this._dependencyResolver('npmDev');
@@ -136,15 +146,14 @@ Generator.prototype.installNpmDev = function installNpmDev() {
 };
 
 
- /**
-  * Resolves named dependencies from the prompt options
-  */
+/**
+ * Resolves named dependencies from the prompt options
+ */
 Generator.prototype._dependencyResolver = function dependencyResolver(type) {
     var dependencies = require('./dependencies'),
-        props = this.props,
         result = [];
 
-    [ props.template, props.css, props.js, props.task ].forEach(function (x) {
+    [ this.templateModule, this.cssModule, this.jsModule, this.taskModule ].forEach(function (x) {
         var value = x && dependencies[x] && dependencies[x][type];
 
         if (value) {

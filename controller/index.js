@@ -25,11 +25,11 @@ var util = require('util'),
 
 
 var Generator = module.exports = function Generator(args, options, config) {
-    yeoman.generators.NamedBase.apply(this, arguments);
+    yeoman.generators.Base.apply(this, arguments);
 
     krakenutil.update();
 
-    // Automatically create a module and template for a controller
+    // Create the corresponding model and template as well
     this.hookFor('kraken:model', {
         args: args,
         options: {
@@ -44,32 +44,35 @@ var Generator = module.exports = function Generator(args, options, config) {
         }
     });
 
-    // Defaults
-    this.props = {
-        json: false
-    };
+    // Handle errors politely
+    this.on('error', function (err) {
+        console.error(err.message);
+        console.log(this.help());
+        process.exit(1);
+    });
 };
 
 
 util.inherits(Generator, yeoman.generators.NamedBase);
 
 
-Generator.prototype.askFor = function askFor() {
-    var prompts = [],
-        callback = this.async();
+Generator.prototype.defaults = function defaults() {
+    this.argument('name', { type: String, required: true });
 
-    // Don't prompt for the index page
-    if (this.name !== 'index') {
-        prompts.push({
-            name: 'json',
-            type: 'confirm',
-            message: 'Respond to JSON requests?'
-        });
-    }
+    this.useJson = null;
+}
+
+
+Generator.prototype.askFor = function askFor() {
+    var prompts = require('./prompts')(this),
+        next = this.async();
 
     this.prompt(prompts, function (props) {
-        this.props = props;
-        callback();
+        for (var key in props) {
+            this[key] = props[key];
+        }
+
+        next();
     }.bind(this));
 };
 

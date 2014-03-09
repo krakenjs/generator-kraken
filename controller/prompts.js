@@ -19,50 +19,15 @@
 
 
 module.exports = function (generator) {
-    
+
     return [
         {
-            message: 'Name',
-            name: 'appName',
-            validate: function (str) {
-                return !!str;
-            },
+            message: 'Respond to JSON requests?',
+            name: 'useJson',
+            type: 'confirm',
             when: function () {
-                return !generator.appName;
+                return generator.hasJson === null && generator.name === 'index';
             }
-        },
-
-        {
-            message: 'Description',
-            name: 'appDescription',
-            validate: function (str) {
-                return !!str;
-            }
-        },
-
-        {
-            message: 'Author',
-            name: 'appAuthor',
-            validate: function (str) {
-                return !!str;
-            }
-        },
-
-        {
-            message: 'JavaScript module library?',
-            type: 'list',
-            name: 'jsModule',
-            choices: [
-                {
-                    name: 'RequireJS',
-                    value: 'requirejs'
-                },
-                {
-                    name: 'None',
-                    value: false
-                }
-            ]
         }
-
     ];
 };

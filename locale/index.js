@@ -25,31 +25,31 @@ var util = require('util'),
 
 
 var Generator = module.exports = function Generator(args, options, config) {
-    yeoman.generators.NamedBase.apply(this, arguments);
-
-    var country = args[1] || 'US',
-        language = args[2] || 'en';
-
-    this.argument('country', {
-        optional: true,
-        required: false,
-        type: String
-    });
-
-    this.argument('language', {
-        optional: true,
-        required: false,
-        type: String
-    });
-
-    this.country = country.toUpperCase();
-    this.language = language.toLowerCase();
+    yeoman.generators.Base.apply(this, arguments);
 
     krakenutil.update();
+
+    // Handle errors politely
+    this.on('error', function (err) {
+        console.error(err.message);
+        console.log(this.help());
+        process.exit(1);
+    });
 };
 
 
 util.inherits(Generator, yeoman.generators.NamedBase);
+
+
+Generator.prototype.defaults = function defaults() {
+    this.argument('name', { type: String, required: true });
+    this.argument('country', { type: String, required: false, defaults: 'US' });
+    this.argument('language', { type: String, required: false, defaults: 'en' });
+
+    // Force case sensitivity
+    this.country = this.country.toUpperCase();
+    this.language = this.language.toLowerCase();
+};
 
 
 Generator.prototype.files = function files() {

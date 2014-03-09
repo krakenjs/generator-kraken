@@ -1,3 +1,3 @@
-# <%= props.appName %>
+# <%= appName %>
 
-<%= props.appDescription %>
+<%= appDescription %>

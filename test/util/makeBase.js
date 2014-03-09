@@ -26,10 +26,10 @@ module.exports = function makeBase(generator) {
             appName: 'Foo',
             appDescription: 'This is an app, foo!',
             appAuthor: 'Jeff',
-            template: 'dust',
-            css: 'less',
-            js: '',
-            task: 'grunt'
+            templateModule: 'dust',
+            cssModule: 'less',
+            jsModule: '',
+            taskModule: 'grunt'
         }
     });
 };
