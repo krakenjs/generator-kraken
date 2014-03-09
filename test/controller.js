@@ -28,26 +28,22 @@ var runGenerator = require('./util/generator').runGenerator,
 describe('Controller', function () {
     var options = new BaseOptions('controller');
     options.dependencies = [
-        '../../controller'
+        '../../controller',
+        '../../model',
+        '../../template',
+        '../../locale'
     ];
     options.args = ['Foo'];
     options.prompt = {json: false};
 
 
-    it('creates new controllers', function (done) {
+    it('creates new controller, model, content bundle, and unit test', function (done) {
         runGenerator(options, function (err) {
-            helpers.assertFile([
-                'controllers/Foo.js'
-            ]);
-
-            done(err);
-        });
-    });
-
-
-    it('creates new tests', function (done) {
-        runGenerator(options, function (err) {
-            helpers.assertFile([
+            helpers.assertFiles([
+                'controllers/Foo.js',
+                'models/Foo.js',
+                'public/templates/Foo.dust',
+                'locales/US/en/Foo.properties',
                 'test/Foo.js'
             ]);
 
@@ -59,8 +55,12 @@ describe('Controller', function () {
     it('creates new XHR enabled controllers', function (done) {
         options.prompt.json = true;
         runGenerator(options, function (err) {
-            helpers.assertFileContent([
-                ['controllers/Foo.js', new RegExp(/res.format/)]
+            helpers.assertFiles([
+                ['controllers/Foo.js', /res.format/],
+                'models/Foo.js',
+                'public/templates/Foo.dust',
+                'locales/US/en/Foo.properties',
+                'test/Foo.js'
             ]);
 
             done(err);
