@@ -21,7 +21,8 @@
     "url": "git://github.com/paypal/generator-kraken.git"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "coverage": "istanbul cover _mocha -- test/*.js"
   },
   "dependencies": {
     "yeoman-generator": "^0.16.0",
@@ -30,7 +31,8 @@
   },
   "devDependencies": {
     "mocha": "^1.14.0",
-    "grunt": "^0.4.2"
+    "grunt": "^0.4.2",
+    "istanbul": "^0.2.6"
   },
   "peerDependencies": {
     "yo": ">=1.0.0"
