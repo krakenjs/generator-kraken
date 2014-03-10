@@ -126,4 +126,29 @@ describe('kraken:controller', function () {
         });
     });
 
+
+    it('should support deep linking of paths', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'a/deep/link' ];
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'controllers/a/deep/link.js',
+                'models/a/deep/link.js',
+                'test/a/deep/link.js',
+                'public/templates/a/deep/link.dust',
+                'locales/US/en/a/deep/link.properties'
+            ]);
+
+            helpers.assertFileContent([
+                ['controllers/a/deep/link.js', new RegExp(/require\('\.\.\/\.\.\/\.\.\/models\/a\/deep\/link\'\)/)],
+                ['controllers/a/deep/link.js', new RegExp(/app.get\(\'\/a\/deep\/link\'/)],
+                ['controllers/a/deep/link.js', new RegExp(/res.render\(\'a\/deep\/link\'/)]
+            ]);
+
+            done(err);
+        });
+    });
+
 });
