@@ -20,27 +20,37 @@
 'use strict';
 
 
-var runGenerator = require('./util/generator').runGenerator,
-    BaseOptions = require('./util/generator').BaseOptions,
-    helpers = require('yeoman-generator').test;
+var helpers = require('yeoman-generator').test,
+    testutil = require('./util');
 
 
-describe('Template', function () {
+describe('kraken:template', function () {
 
-    var options = new BaseOptions('template');
-    options.dependencies = [
-        '../../template',
-        '../../locale'
-    ];
-    options.prompt = {};
-    options.args = ['Foo'];
+    it('creates new dust template', function (done) {
+        var base = testutil.makeBase('template');
+
+        base.args = ['Foo'];
+        base.prompt.templateModule = 'dust';
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'public/templates/Foo.dust'
+            ]);
+
+            done(err);
+        });
+    });
 
 
-    it('creates new template and content bundle', function (done) {
-        runGenerator(options, function (err) {
-            helpers.assertFiles([
-                'public/templates/Foo.dust',
-                'locales/US/en/Foo.properties'
+    it('creates a locale file for a dust template', function (done) {
+        var base = testutil.makeBase('template');
+
+        base.args = ['Bar'];
+        base.prompt.templateModule = 'dust';
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'locales/US/en/Bar.properties'
             ]);
 
             done(err);

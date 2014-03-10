@@ -21,14 +21,15 @@
 var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
-    update = require('../lib/update');
+    krakenutil = require('../util');
+
 
 var Generator = module.exports = function Generator(args, options, config) {
+    yeoman.generators.Base.apply(this, arguments);
 
-    yeoman.generators.NamedBase.apply(this, arguments);
+    krakenutil.update();
 
-    update.check();
-
+    // Create the corresponding model and template as well
     this.hookFor('kraken:model', {
         args: args,
         options: {
@@ -43,44 +44,40 @@ var Generator = module.exports = function Generator(args, options, config) {
         }
     });
 
-    this.hookFor('kraken:locale', {
-        args: args,
-        options: {
-            options: options
-        }
+    // Handle errors politely
+    this.on('error', function (err) {
+        console.error(err.message);
+        console.log(this.help());
+        process.exit(1);
     });
-
-    this.auth = options.auth;
-    this.json = options.json;
 };
 
 
 util.inherits(Generator, yeoman.generators.NamedBase);
 
 
-Generator.prototype.askFor = function askFor() {
-    var prompts = [],
-        callback = this.async();
+Generator.prototype.defaults = function defaults() {
+    this.argument('name', { type: String, required: true });
 
-    if (typeof this.json === 'undefined') {
-        prompts.push({
-            name: 'json',
-            type: 'confirm',
-            message: 'Respond to JSON requests?'
-        });
-    }
+    this.useJson = null;
+}
+
+
+Generator.prototype.askFor = function askFor() {
+    var prompts = require('./prompts')(this),
+        next = this.async();
 
     this.prompt(prompts, function (props) {
         for (var key in props) {
             this[key] = props[key];
         }
 
-        callback();
+        next();
     }.bind(this));
 };
 
 
 Generator.prototype.files = function files() {
-    this.template('_controller.js', path.join('controllers', this.name + '.js'));
-    this.template('_test.js', path.join('test', this.name + '.js'));
+    this.template('controller.js', path.join('controllers', this.name + '.js'));
+    this.template('test.js', path.join('test', this.name + '.js'));
 };

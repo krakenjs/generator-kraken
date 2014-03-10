@@ -20,23 +20,18 @@
 'use strict';
 
 
-var runGenerator = require('./util/generator').runGenerator,
-    BaseOptions = require('./util/generator').BaseOptions,
-    helpers = require('yeoman-generator').test;
+var helpers = require('yeoman-generator').test,
+    testutil = require('./util');
 
 
-describe('Locale', function () {
-
-    var options = new BaseOptions('locale');
-    options.dependencies = [
-        '../../locale'
-    ];
-    options.prompt = {};
-
+describe('kraken:locale', function () {
 
     it('creates new locales', function (done) {
-        options.args = ['Foo', 'DE', 'de'];
-        runGenerator(options, function (err) {
+        var base = testutil.makeBase('locale');
+
+        base.args = ['Foo', 'DE', 'de'];
+
+        testutil.run(base, function (err) {
             helpers.assertFile([
                 'locales/DE/de/Foo.properties'
             ]);
@@ -47,8 +42,11 @@ describe('Locale', function () {
 
 
     it('creates default locales as en_US', function (done) {
-        options.args = ['Bar'];
-        runGenerator(options, function (err) {
+        var base = testutil.makeBase('locale');
+
+        base.args = ['Bar'];
+
+        testutil.run(base, function (err) {
             helpers.assertFile([
                 'locales/US/en/Bar.properties'
             ]);

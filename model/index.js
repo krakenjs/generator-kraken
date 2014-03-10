@@ -21,18 +21,31 @@
 var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
-    update = require('../lib/update');
+    krakenutil = require('../util');
 
 
 var Generator = module.exports = function Generator(args, options, config) {
-    yeoman.generators.NamedBase.apply(this, arguments);
-    update.check();
+    yeoman.generators.Base.apply(this, arguments);
+
+    krakenutil.update();
+
+    // Handle errors politely
+    this.on('error', function (err) {
+        console.error(err.message);
+        console.log(this.help());
+        process.exit(1);
+    });
 };
 
 
 util.inherits(Generator, yeoman.generators.NamedBase);
 
 
+Generator.prototype.defaults = function defaults() {
+    this.argument('name', { type: String, required: true });
+};
+
+
 Generator.prototype.files = function files() {
-    this.template('_model.js', path.join('models', this.name + '.js'));
+    this.template('model.js', path.join('models', this.name + '.js'));
 };

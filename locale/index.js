@@ -21,37 +21,35 @@
 var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
-    update = require('../lib/update');
+    krakenutil = require('../util');
 
 
 var Generator = module.exports = function Generator(args, options, config) {
-    yeoman.generators.NamedBase.apply(this, arguments);
+    yeoman.generators.Base.apply(this, arguments);
 
-    var country = args[1] || 'US',
-        language = args[2] || 'en';
+    krakenutil.update();
 
-    this.argument('country', {
-        optional: true,
-        required: false,
-        type: String
+    // Handle errors politely
+    this.on('error', function (err) {
+        console.error(err.message);
+        console.log(this.help());
+        process.exit(1);
     });
-
-    this.argument('language', {
-        optional: true,
-        required: false,
-        type: String
-    });
-
-    this.country = country.toUpperCase();
-    this.language = language.toLowerCase();
-
-    update.check();
 };
 
 
 util.inherits(Generator, yeoman.generators.NamedBase);
 
 
+Generator.prototype.defaults = function defaults() {
+    this.argument('name', { type: String, required: true });
+    this.argument('country', { type: String, required: false, defaults: 'US' });
+    this.argument('language', { type: String, required: false, defaults: 'en' });
+};
+
+
 Generator.prototype.files = function files() {
-    this.template('index.properties', path.join('locales', this.country, this.language, this.name + '.properties'));
+    var filepath = path.join('locales', this.country.toUpperCase(), this.language.toLowerCase(), this.name + '.properties');
+
+    this.template('index.properties', filepath);
 };

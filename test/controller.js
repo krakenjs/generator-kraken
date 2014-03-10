@@ -20,31 +20,26 @@
 'use strict';
 
 
-var runGenerator = require('./util/generator').runGenerator,
-    BaseOptions = require('./util/generator').BaseOptions,
-    helpers = require('yeoman-generator').test;
+var helpers = require('yeoman-generator').test,
+    testutil = require('./util');
 
 
-describe('Controller', function () {
-    var options = new BaseOptions('controller');
-    options.dependencies = [
-        '../../controller',
-        '../../model',
-        '../../template',
-        '../../locale'
-    ];
-    options.args = ['Foo'];
-    options.prompt = {json: false};
 
+describe('kraken:controller', function () {
 
-    it('creates new controller, model, content bundle, and unit test', function (done) {
-        runGenerator(options, function (err) {
-            helpers.assertFiles([
+    it('creates new controller', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'Foo' ];
+        base.prompt = { useJson: false };
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
                 'controllers/Foo.js',
+                'test/Foo.js',
                 'models/Foo.js',
                 'public/templates/Foo.dust',
-                'locales/US/en/Foo.properties',
-                'test/Foo.js'
+                'locales/US/en/Foo.properties'
             ]);
 
             done(err);
@@ -52,15 +47,79 @@ describe('Controller', function () {
     });
 
 
-    it('creates new XHR enabled controllers', function (done) {
-        options.prompt.json = true;
-        runGenerator(options, function (err) {
-            helpers.assertFiles([
-                ['controllers/Foo.js', /res.format/],
-                'models/Foo.js',
-                'public/templates/Foo.dust',
-                'locales/US/en/Foo.properties',
-                'test/Foo.js'
+    it('supports JSON content negotiation', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'JSONTest' ];
+        base.prompt = { useJson: true };
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'controllers/JSONTest.js'
+            ]);
+
+            helpers.assertFileContent([
+                ['controllers/JSONTest.js', new RegExp(/res.format/)]
+            ]);
+
+            done(err);
+        });
+    });
+
+
+    it('creates a test for each controller', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'Testy' ];
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'test/Testy.js'
+            ]);
+
+            done(err);
+        });
+    });
+
+
+    it('creates a model for each controller', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'ModelTest' ];
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'models/ModelTest.js'
+            ]);
+
+            done(err);
+        });
+    });
+
+
+    it('creates a template for each controller', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'TemplateTest' ];
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'public/templates/TemplateTest.dust'
+            ]);
+
+            done(err);
+        });
+    });
+
+
+    it('creates a content bundle for each controller', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'ContentTest' ];
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'public/templates/ContentTest.dust'
             ]);
 
             done(err);

@@ -20,23 +20,19 @@
 'use strict';
 
 
-var runGenerator = require('./util/generator').runGenerator,
-    BaseOptions = require('./util/generator').BaseOptions,
-    helpers = require('yeoman-generator').test;
+var helpers = require('yeoman-generator').test,
+    testutil = require('./util');
 
 
-describe('Model', function () {
-
-    var options = new BaseOptions('model');
-    options.dependencies = [
-        '../../model'
-    ];
-    options.prompt = {};
+describe('kraken:model', function () {
 
 
     it('creates new models', function (done) {
-        options.args = ['Foo'];
-        runGenerator(options, function (err) {
+        var base = testutil.makeBase('model');
+
+        base.args = ['Foo'];
+
+        testutil.run(base, function (err) {
             helpers.assertFileContent([
                 ['models/Foo.js', new RegExp(/FooModel\(\)/)]
             ]);
@@ -47,8 +43,11 @@ describe('Model', function () {
 
 
     it('properly deals with slugged names', function (done) {
-        options.args = ['foo-bar'];
-        runGenerator(options, function (err) {
+        var base = testutil.makeBase('model');
+
+        base.args = ['foo-bar'];
+
+        testutil.run(base, function (err) {
             helpers.assertFileContent([
                 ['models/foo-bar.js', new RegExp(/FooBarModel\(\)/)]
             ]);

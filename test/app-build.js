@@ -20,79 +20,28 @@
 'use strict';
 
 
-var helpers = require('yeoman-generator').test,
+var assert = require('assert'),
+    helpers = require('yeoman-generator').test,
     testutil = require('./util');
 
 
 describe('kraken:app', function () {
 
-
-    it('scaffolds dot files', function (done) {
-         var base = testutil.makeBase('app');
-
-         base.options['skip-install-bower'] = true;
-         base.options['skip-install-npm'] = true;
-
-         testutil.run(base, function (err) {
-             helpers.assertFile([
-                 '.bowerrc',
-                 '.editorconfig',
-                 '.gitignore',
-                 '.jshintignore',
-                 '.jshintrc',
-                 '.nodemonignore'
-             ]);
-
-             done(err);
-         });
-
-    });
+    this.timeout(100000);
 
 
-    it('scaffolds base project files', function (done) {
-         var base = testutil.makeBase('app');
-
-         base.options['skip-install-bower'] = true;
-         base.options['skip-install-npm'] = true;
-
-         testutil.run(base, function (err) {
-             helpers.assertFile([
-                 'Gruntfile.js',
-                 'README.md',
-                 'index.js',
-                 'package.json',
-                 'config/app.json',
-                 'config/middleware.json',
-                 'locales/US/en/errors/404.properties',
-                 'locales/US/en/errors/500.properties',
-                 'locales/US/en/errors/503.properties',
-                 'public/js/app.js',
-                 'public/templates/errors/404.dust',
-                 'public/templates/errors/500.dust',
-                 'public/templates/errors/503.dust'
-             ]);
-
-             done(err);
-         });
-    });
-
-
-    it('takes the name from the command line arguments', function (done) {
+    it('scaffolded application can run the build task', function (done) {
         var base = testutil.makeBase('app');
 
-        base.args = ['MyApp'];
-        base.options['skip-install-bower'] = true;
-        base.options['skip-install-npm'] = true;
-
-        delete base.prompt.appName;
+        base.options['skip-install'] = false;
 
         testutil.run(base, function (err) {
-            helpers.assertFileContent([
-                ['package.json', new RegExp(/\"name\"\: \"myapp\"/)]
-            ]);
+            var build = require('child_process').spawn('grunt', ['test', 'build']);
 
-            done(err);
+            build.on('close', function (code) {
+                assert.strictEqual(code, 0);
+                done(err);
+            });
         });
     });
-
 });

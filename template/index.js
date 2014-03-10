@@ -21,19 +21,27 @@
 var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
-    update = require('../lib/update');
+    krakenutil = require('../util');
 
 
 var Generator = module.exports = function Generator(args, options, config) {
-    yeoman.generators.NamedBase.apply(this, arguments);
+    yeoman.generators.Base.apply(this, arguments);
 
-    update.check();
+    krakenutil.update();
 
+    // Create the corresponding locale as well
     this.hookFor('kraken:locale', {
         args: args,
         options: {
             options: options
         }
+    });
+
+    // Handle errors politely
+    this.on('error', function (err) {
+        console.error(err.message);
+        console.log(this.help());
+        process.exit(1);
     });
 };
 
@@ -41,6 +49,11 @@ var Generator = module.exports = function Generator(args, options, config) {
 util.inherits(Generator, yeoman.generators.NamedBase);
 
 
+Generator.prototype.defaults = function defaults() {
+    this.argument('name', { type: String, required: true });
+};
+
+
 Generator.prototype.files = function files() {
-    this.template('_template.dust', path.join('public', 'templates', this.name + '.dust'));
+    this.template('template.dust', path.join('public', 'templates', this.name + '.dust'));
 };

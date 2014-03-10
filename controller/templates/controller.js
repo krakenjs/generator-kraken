@@ -10,7 +10,7 @@ module.exports = function (app) {
 
 
     app.get('/<% if (name !== "index") { %><%= _.slugify(name) %><% } %>', function (req, res) {
-        <% if (json) { %>
+        <% if (useJson) { %>
         res.format({
             json: function () {
                 res.json(model);

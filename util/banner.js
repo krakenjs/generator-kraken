@@ -18,43 +18,19 @@
 'use strict';
 
 
-var util = require('util'),
-    yeoman = require('yeoman-generator'),
-    update = require('../lib/update');
+var chalk = require('chalk');
 
-var Generator = module.exports = function Generator(args, options, config) {
-    yeoman.generators.NamedBase.apply(this, arguments);
 
-    update.check();
-
-    this.hookFor('kraken:controller', {
-        args: args,
-        options: {
-            options: options
-        }
-    });
-
-    this.hookFor('kraken:model', {
-        args: args,
-        options: {
-            options: options
-        }
-    });
-
-    this.hookFor('kraken:template', {
-        args: args,
-        options: {
-            options: options
-        }
-    });
-
-    this.hookFor('kraken:locale', {
-        args: args,
-        options: {
-            options: options
-        }
-    });
+module.exports = function banner() {
+    console.log('');
+    console.log(chalk.blue('     ,\'""`. '));
+    console.log(chalk.blue('hh  / _  _ \\'));
+    console.log(chalk.blue('    |(@)(@)|  '), chalk.white.bold('Release the Kraken!'));
+    console.log(chalk.blue('    )  __  ('));
+    console.log(chalk.blue('   /,\'))((`.\\ '));
+    console.log(chalk.blue('  (( ((  )) ))'));
+    console.log(chalk.blue('   `\\ `)(\' /\''));
+    console.log('');
+    console.log('Tell me a bit about your application:');
+    console.log('');
 };
-
-
-util.inherits(Generator, yeoman.generators.NamedBase);
