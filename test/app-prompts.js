@@ -32,7 +32,7 @@ describe('kraken:app', function () {
     it('creates an app which uses dust', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt.templateModule = 'dust';
+        base.prompt['dependency:templateModule'] = 'dependency:dust';
 
         testutil.run(base, function (err) {
             helpers.assertFile([
@@ -57,7 +57,7 @@ describe('kraken:app', function () {
     it('creates an app which uses less', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt.cssModule = 'less';
+        base.prompt['dependency:cssModule'] = 'less';
 
         testutil.run(base, function (err) {
             helpers.assertFile([
@@ -77,7 +77,7 @@ describe('kraken:app', function () {
     it('creates an app which uses RequireJS', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt.jsModule = 'requirejs';
+        base.prompt['dependency:jsModule'] = 'requirejs';
 
         testutil.run(base, function (err) {
             helpers.assertFileContent([

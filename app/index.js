@@ -21,8 +21,9 @@
 var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
+    prompts = require('./prompts'),
+    dependencies = require('./dependencies'),
     krakenutil = require('../util');
-
 
 
 var Generator = module.exports = function Generator(args, options) {
@@ -56,7 +57,16 @@ util.inherits(Generator, yeoman.generators.Base);
  * Sets up defaults before the other methods run
  */
 Generator.prototype.defaults = function defaults() {
-     this.argument('appName', { type: String, required: false });
+    this.argument('appName', { type: String, required: false });
+
+    this.dependencies = [];
+
+    // TODO: Move these defaults to prompts for v1.0
+    this.templateModule = 'dust';
+    this.cssModule = 'less';
+    this.taskModule = 'grunt';
+
+    this.dependencies.push(this.templateModule, this.cssModule, this.taskModule);
 };
 
 
@@ -64,18 +74,23 @@ Generator.prototype.defaults = function defaults() {
  * Prompt the user for how to setup their project
  */
 Generator.prototype.askFor = function askFor() {
-    var prompts = require('./prompts')(this),
+    var userPrompts = prompts(this),
         next = this.async();
 
-    this.prompt(prompts, function (props) {
-        for (var key in props) {
-            this[key] = props[key];
-        }
+    this.prompt(userPrompts, function (props) {
+        var dependency, prop;
 
-        // TODO: Move these defaults to prompts for v1.0
-        this.templateModule = 'dust';
-        this.cssModule = 'less';
-        this.taskModule = 'grunt';
+        for (var key in props) {
+            prop = props[key];
+            dependency = key.split('dependency:')[1];
+
+            if (dependency) {
+                this.dependencies.push(prop);
+                this[dependency] = prop;
+            } else {
+                this[key] = prop;
+            }
+        }
 
         next();
     }.bind(this));
@@ -150,10 +165,9 @@ Generator.prototype.installNpmDev = function installNpmDev() {
  * Resolves named dependencies from the prompt options
  */
 Generator.prototype._dependencyResolver = function dependencyResolver(type) {
-    var dependencies = require('./dependencies'),
-        result = [];
+    var result = [];
 
-    [ this.templateModule, this.cssModule, this.jsModule, this.taskModule ].forEach(function (x) {
+    this.dependencies.forEach(function (x) {
         var value = x && dependencies[x] && dependencies[x][type];
 
         if (value) {

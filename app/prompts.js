@@ -51,7 +51,7 @@ module.exports = function (generator) {
         {
             message: 'JavaScript module library?',
             type: 'list',
-            name: 'jsModule',
+            name: 'dependency:jsModule',
             choices: [
                 {
                     name: 'RequireJS',
