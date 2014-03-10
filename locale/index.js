@@ -45,13 +45,11 @@ Generator.prototype.defaults = function defaults() {
     this.argument('name', { type: String, required: true });
     this.argument('country', { type: String, required: false, defaults: 'US' });
     this.argument('language', { type: String, required: false, defaults: 'en' });
-
-    // Force case sensitivity
-    this.country = this.country.toUpperCase();
-    this.language = this.language.toLowerCase();
 };
 
 
 Generator.prototype.files = function files() {
-    this.template('index.properties', path.join('locales', this.country, this.language, this.name + '.properties'));
+    var filepath = path.join('locales', this.country.toUpperCase(), this.language.toLowerCase(), this.name + '.properties');
+
+    this.template('index.properties', filepath);
 };

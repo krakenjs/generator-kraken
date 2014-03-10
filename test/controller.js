@@ -27,7 +27,7 @@ var helpers = require('yeoman-generator').test,
 
 describe('kraken:controller', function () {
 
-    it('creates new controller and associated files', function (done) {
+    it('creates new controller', function (done) {
         var base = testutil.makeBase('controller');
 
         base.args = [ 'Foo' ];
@@ -47,23 +47,79 @@ describe('kraken:controller', function () {
     });
 
 
-    it('creates new XHR enabled controllers', function (done) {
+    it('supports JSON content negotiation', function (done) {
         var base = testutil.makeBase('controller');
 
-        base.args = [ 'Bar' ];
+        base.args = [ 'JSONTest' ];
         base.prompt = { useJson: true };
 
         testutil.run(base, function (err) {
             helpers.assertFile([
-                'controllers/Bar.js',
-                'test/Bar.js',
-                'models/Bar.js',
-                'public/templates/Bar.dust',
-                'locales/US/en/Bar.properties'
+                'controllers/JSONTest.js'
             ]);
 
             helpers.assertFileContent([
-                ['controllers/Bar.js', new RegExp(/res.format/)]
+                ['controllers/JSONTest.js', new RegExp(/res.format/)]
+            ]);
+
+            done(err);
+        });
+    });
+
+
+    it('creates a test for each controller', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'Testy' ];
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'test/Testy.js'
+            ]);
+
+            done(err);
+        });
+    });
+
+
+    it('creates a model for each controller', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'ModelTest' ];
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'models/ModelTest.js'
+            ]);
+
+            done(err);
+        });
+    });
+
+
+    it('creates a template for each controller', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'TemplateTest' ];
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'public/templates/TemplateTest.dust'
+            ]);
+
+            done(err);
+        });
+    });
+
+
+    it('creates a content bundle for each controller', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'ContentTest' ];
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'public/templates/ContentTest.dust'
             ]);
 
             done(err);

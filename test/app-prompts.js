@@ -26,69 +26,65 @@ var helpers = require('yeoman-generator').test,
 
 describe('kraken:app', function () {
 
-
-    it('scaffolds dot files', function (done) {
-         var base = testutil.makeBase('app');
-
-         base.options['skip-install-bower'] = true;
-         base.options['skip-install-npm'] = true;
-
-         testutil.run(base, function (err) {
-             helpers.assertFile([
-                 '.bowerrc',
-                 '.editorconfig',
-                 '.gitignore',
-                 '.jshintignore',
-                 '.jshintrc',
-                 '.nodemonignore'
-             ]);
-
-             done(err);
-         });
-
-    });
+    this.timeout(100000);
 
 
-    it('scaffolds base project files', function (done) {
-         var base = testutil.makeBase('app');
-
-         base.options['skip-install-bower'] = true;
-         base.options['skip-install-npm'] = true;
-
-         testutil.run(base, function (err) {
-             helpers.assertFile([
-                 'Gruntfile.js',
-                 'README.md',
-                 'index.js',
-                 'package.json',
-                 'config/app.json',
-                 'config/middleware.json',
-                 'locales/US/en/errors/404.properties',
-                 'locales/US/en/errors/500.properties',
-                 'locales/US/en/errors/503.properties',
-                 'public/js/app.js',
-                 'public/templates/errors/404.dust',
-                 'public/templates/errors/500.dust',
-                 'public/templates/errors/503.dust'
-             ]);
-
-             done(err);
-         });
-    });
-
-
-    it('takes the name from the command line arguments', function (done) {
+    it('creates an app which uses dust', function (done) {
         var base = testutil.makeBase('app');
 
-        base.args = ['MyApp'];
-        base.options['skip-install-bower'] = true;
-        base.options['skip-install-npm'] = true;
+        base.prompt.templateModule = 'dust';
 
-        delete base.prompt.appName;
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'public/templates/index.dust',
+                'public/templates/layouts/master.dust',
+                'public/components/dustjs-linkedin/',
+                'public/components/dustjs-linkedin-helpers/'
+            ]);
+
+            helpers.assertFileContent([
+                ['package.json', new RegExp(/\"dustjs-linkedin\"\:/)],
+                ['package.json', new RegExp(/\"dustjs-helpers\"\:/)],
+                ['package.json', new RegExp(/\"adaro\"\:/)],
+                ['package.json', new RegExp(/\"grunt-dustjs\"\:/)]
+            ]);
+
+            done(err);
+        });
+    });
+
+
+    it('creates an app which uses less', function (done) {
+        var base = testutil.makeBase('app');
+
+        base.prompt.cssModule = 'less';
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'public/css/app.less'
+            ]);
+
+            helpers.assertFileContent([
+                ['package.json', new RegExp(/\"less\"\:/)],
+                ['package.json', new RegExp(/\"grunt-contrib-less\"\:/)]
+            ]);
+
+            done(err);
+        });
+    });
+
+
+    it('creates an app which uses RequireJS', function (done) {
+        var base = testutil.makeBase('app');
+
+        base.prompt.jsModule = 'requirejs';
 
         testutil.run(base, function (err) {
             helpers.assertFileContent([
-                ['package.json', new RegExp(/\"name\"\: \"myapp\"/)]
+                ['package.json', new RegExp(/\"requirejs\"\:/)],
+                ['package.json', new RegExp(/\"grunt-contrib-requirejs\"\:/)],
+                ['public/templates/layouts/master.dust', new RegExp(/require\.js/)],
+                ['public/js/app.js', new RegExp(/require\(/)]
             ]);
 
             done(err);

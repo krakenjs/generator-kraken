@@ -23,10 +23,10 @@ module.exports = function run(config, done) {
 
         app.run({}, function (err) {
             if (app.options['skip-install']) {
-                done(err);
+                done(err, app);
             } else {
                 app.once(config.type + ':installDependencies', function () {
-                    done(err);
+                    done(err, app);
                 });
             }
         });

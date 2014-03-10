@@ -26,15 +26,31 @@ var helpers = require('yeoman-generator').test,
 
 describe('kraken:template', function () {
 
-    it('creates new template and associated files', function (done) {
+    it('creates new dust template', function (done) {
         var base = testutil.makeBase('template');
 
         base.args = ['Foo'];
+        base.prompt.templateModule = 'dust';
 
         testutil.run(base, function (err) {
             helpers.assertFile([
-                'public/templates/Foo.dust',
-                'locales/US/en/Foo.properties'
+                'public/templates/Foo.dust'
+            ]);
+
+            done(err);
+        });
+    });
+
+
+    it('creates a locale file for a dust template', function (done) {
+        var base = testutil.makeBase('template');
+
+        base.args = ['Bar'];
+        base.prompt.templateModule = 'dust';
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'locales/US/en/Bar.properties'
             ]);
 
             done(err);

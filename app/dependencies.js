@@ -4,6 +4,10 @@
 module.exports = {
 
     "dust": {
+        "bower": [
+            "dustjs-linkedin#~2.0.3",
+            "dustjs-linkedin-helpers#^1.1.1"
+        ],
         "npm": [
             "dustjs-linkedin@~2.0.3",
             "dustjs-helpers@^1.1.1",
@@ -37,7 +41,7 @@ module.exports = {
 
     "requirejs": {
         "bower": [
-            "requirejs"
+            "requirejs#^2.1.11"
         ],
         "npm": [
             "requirejs@^2.1.11"
