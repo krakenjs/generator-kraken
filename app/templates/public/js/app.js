@@ -7,7 +7,7 @@ requirejs.config({
 });
 
 
-require([/* Dependencies */], function (config) {
+require([/* Dependencies */], function () {
 
     var app = {
         initialize: function () {
