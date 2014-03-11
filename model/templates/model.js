@@ -1,8 +1,12 @@
 'use strict';
+<%
 
+var modelName = _.capitalize(_.classify(name)) + 'Model';
 
-module.exports = function <%= _.capitalize(_.classify(name)) %>Model() {
+%>
+
+module.exports = function <%= modelName %>() {
     return {
-        name: '<%= _.slugify(name) %>'
+        name: '<%= name %>'
     };
 };

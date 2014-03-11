@@ -1,25 +1,28 @@
 'use strict';
+<%
+    var modelName = _.capitalize(_.classify(name)) + 'Model';
+    var modelPath = rootPath + '/models/' + name;
+%>
 
-
-var <%= _.capitalize(_.classify(name)) %>Model = require('../models/<%= name %>');
+var <%= modelName %> = require('<%= modelPath %>');
 
 
 module.exports = function (app) {
 
-    var model = new <%= _.capitalize(_.classify(name)) %>Model();
+    var model = new <%= modelName %>();
 
 
-    app.get('/<% if (name !== "index") { %><%= _.slugify(name) %><% } %>', function (req, res) {
+    app.get('<%= urlPath %>', function (req, res) {
         <% if (useJson) { %>
         res.format({
             json: function () {
                 res.json(model);
             },
             html: function () {
-                res.render('<%= _.slugify(name) %>', model);
+                res.render('<%= name %>', model);
             }
         });<% } else { %>
-        res.render('<%= _.slugify(name) %>', model);
+        res.render('<%= name %>', model);
         <% } %>
     });
 

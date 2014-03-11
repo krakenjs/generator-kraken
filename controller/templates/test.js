@@ -5,11 +5,10 @@
 
 var app = require('../index'),
     kraken = require('kraken-js'),
-    request = require('supertest'),
-    assert = require('assert');
+    request = require('supertest');
 
 
-describe('<%= _.slugify(name) %>', function () {
+describe('<%= urlPath %>', function () {
 
     var mock;
 
@@ -29,7 +28,7 @@ describe('<%= _.slugify(name) %>', function () {
 
     it('should say "hello"', function (done) {
         request(mock)
-            .get('/<% if (name !== "index") { %><%= _.slugify(name) %><% } %>')
+            .get('<% urlPath %>')
             .expect(200)
             .expect('Content-Type', /html/)
             .expect(/Hello, /)

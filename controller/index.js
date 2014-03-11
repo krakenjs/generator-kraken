@@ -60,7 +60,9 @@ Generator.prototype.defaults = function defaults() {
     this.argument('name', { type: String, required: true });
 
     this.useJson = null;
-}
+    this.rootPath = path.relative(this.name, './');
+    this.urlPath = (this.name === 'index') ? '/' : '/' + this.name;
+};
 
 
 Generator.prototype.askFor = function askFor() {
