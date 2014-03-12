@@ -2,4 +2,5 @@
 
 {<body}
     <h1>{@pre type="content" key="greeting"/}</h1>
+    <h1>I am not localized.</h1>
 {/body}

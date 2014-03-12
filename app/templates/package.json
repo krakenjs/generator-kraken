@@ -9,9 +9,9 @@
         "start": "node index.js"
     },
     "dependencies": {
-        "kraken-js": "^0.7.0",
-        "express": "~3.4.4",
-        "nconf": "^0.6.8"
+        "kraken-js": "git://github.com/paypal/kraken-js.git#kraken.next",
+        "kraken-devtools": "git://github.com/jeffharrell/kraken-devtools.git",
+        "express": "~3.4.8"
     },
     "devDependencies": {
         "mocha": "^1.17.0",

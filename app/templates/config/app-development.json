@@ -1,19 +1,19 @@
 {
 
     "view engines": {
-        "js": {
+        "dust": {
             "module": "adaro",
             "renderer": {
-                "method": "js",
+                "method": "dust",
                 "arguments": [{ "cache": false }]
             }
         }
     },
-    
+
     "express": {
         "view cache": false,
-        "view engine": "js",
-        "views": "path:./.build/templates",
+        "view engine": "dust",
+        "views": "path:./public/templates",
         "route": "/"
     }
 }
