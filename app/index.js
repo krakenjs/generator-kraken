@@ -127,7 +127,7 @@ Generator.prototype.installBower = function installBower() {
         var dependencies = this._dependencyResolver('bower');
 
         if (dependencies) {
-            this.bowerInstall(dependencies, { save: true, 'config.interactive': false }, this.async());
+            this.bowerInstall(dependencies, { save: true }, this.async());
         }
     }
 };
