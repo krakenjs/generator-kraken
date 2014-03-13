@@ -1,0 +1,18 @@
+{
+    "middleware": {
+        "devtools": {
+            "enabled": true,
+            "priority": 35,
+            "module": "kraken-devtools",
+            "arguments": [
+                "path:./public",
+                "path:./.build",
+                {
+                    "dust": "templates",
+                    "less": "css",
+                    "default": ""
+                }
+            ]
+        }
+    }
+}
