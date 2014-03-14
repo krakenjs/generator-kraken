@@ -4,20 +4,23 @@
 
 
 var app = require('../index'),
-    kraken = require('kraken-js'),
+    kraken = require('kraken.next'),
+    express = require('express'),
     request = require('supertest');
 
 
 describe('<%= urlPath %>', function () {
 
-    var mock;
+    var app, mock;
 
 
     beforeEach(function (done) {
-        kraken.create(app).listen(function (err, server) {
-            mock = server;
-            done(err);
-        });
+        app = express();
+        app.on('start', done);
+        app.use(kraken());
+
+        mock = app.listen(1337);
+
     });
 
 
