@@ -1,5 +1,6 @@
 {
     "middleware": {
+
         "devtools": {
             "enabled": true,
             "priority": 35,
@@ -8,11 +9,12 @@
                 "path:./public",
                 "path:./.build",
                 {
-                    "dust": "templates",
-                    "less": "css",
-                    "default": ""
+                    "dust": { "dir": "templates" },
+                    "less": { "dir": "css" },
+                    "default": { "dir": "" }
                 }
             ]
         }
+
     }
 }

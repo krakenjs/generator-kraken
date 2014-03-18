@@ -1,5 +1,11 @@
 {
 
+    "express": {
+        "view cache": false,
+        "view engine": "js",
+        "views": "path:./.build/templates"
+    },
+
     "view engines": {
         "js": {
             "module": "engine-munger",
@@ -13,12 +19,6 @@
     "i18n": {
         "contentPath": "path:./locales",
         "fallback": "en-US"
-    },
-    
-    "express": {
-        "view cache": false,
-        "view engine": "js",
-        "views": "path:./.build/templates",
-        "route": "/"
     }
+
 }
