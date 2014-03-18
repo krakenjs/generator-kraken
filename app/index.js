@@ -18,7 +18,8 @@
 'use strict';
 
 
-var util = require('util'),
+var fs = require('fs'),
+    util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
     prompts = require('./prompts'),
@@ -62,9 +63,10 @@ Generator.prototype.defaults = function defaults() {
     this.dependencies = [];
 
     // TODO: Move these defaults to prompts for v1.0
-    this.templateModule = 'dust';
+    this.templateModule = 'dustjs';
     this.cssModule = 'less';
     this.taskModule = 'grunt';
+    this.i18n = true;
 
     this.dependencies.push(this.templateModule, this.cssModule, this.taskModule);
 };
@@ -112,10 +114,21 @@ Generator.prototype.root = function root() {
  * Scaffold out the files
  */
 Generator.prototype.files = function app() {
-    // Boom!!1!
-    this.directory('.', this.appRoot, function (body) {
+    // Boom!!1! Copy over common files
+    this.directory('./common', this.appRoot, function (body) {
         return this.engine(body, this);
     }.bind(this));
+
+    // Copy over dependency tasks
+    this.dependencies.forEach(function (dependency) {
+        this._dependencyCopier(dependency);
+    }.bind(this));
+
+    // Copy over misc
+    if (this.i18n) {
+        this._dependencyCopier('i18n');
+        this._dependencyCopier('localizr');
+    }
 };
 
 
@@ -177,3 +190,15 @@ Generator.prototype._dependencyResolver = function dependencyResolver(type) {
 
     return result.length ? result.join(' ') : false;
 };
+
+
+/**
+ * Copies a task over for a give dependency
+ */
+ Generator.prototype._dependencyCopier = function dependencyCopier(name) {
+    var file = path.join(__dirname, 'templates', 'tasks', name + '.js');
+    
+    if (fs.existsSync(file)) {
+        this.template(file, path.join(this.appRoot, 'tasks', name + '.js'));
+    }
+ };

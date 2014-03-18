@@ -4,7 +4,7 @@
 module.exports = function spec(app) {
 
     return {
-        onconfig: function (config, next) {
+        onconfig: function (config, next) {<% if (i18n) { %>
             var i18n = config.get('i18n');
 
             // Setup dev-tools for i18n compiling
@@ -22,7 +22,7 @@ module.exports = function spec(app) {
      
             config.get('view engines:dust:renderer:arguments').push(engine);
             config.get('view engines:js:renderer:arguments').push(engine, app);
-
+            <% } %>
             next(null, config);
         }
     };

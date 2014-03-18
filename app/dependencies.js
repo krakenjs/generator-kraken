@@ -3,7 +3,7 @@
 
 module.exports = {
 
-    "dust": {
+    "dustjs": {
         "bower": [
             "dustjs-linkedin#~2.0.3",
             "dustjs-linkedin-helpers#^1.1.1"

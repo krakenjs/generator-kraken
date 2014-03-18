@@ -32,26 +32,49 @@ describe('kraken:app', function () {
     it('creates an app which uses dust', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = 'dependency:dust';
+        base.prompt['i18n'] = false;
 
         testutil.run(base, function (err) {
             helpers.assertFile([
                 'public/templates/index.dust',
                 'public/templates/layouts/master.dust',
                 'public/components/dustjs-linkedin/',
-                'public/components/dustjs-linkedin-helpers/'
+                'public/components/dustjs-linkedin-helpers/',
+                'tasks/dustjs.js'
             ]);
 
             helpers.assertFileContent([
                 ['package.json', new RegExp(/\"dustjs-linkedin\"\:/)],
                 ['package.json', new RegExp(/\"dustjs-helpers\"\:/)],
-                ['package.json', new RegExp(/\"adaro\"\:/)],
-                ['package.json', new RegExp(/\"grunt-dustjs\"\:/)]
+                ['package.json', new RegExp(/\"engine-munger\"\:/)],
+                ['package.json', new RegExp(/\"grunt-dustjs\"\:/)],
+                ['Gruntfile.js', new RegExp(/'dustjs'/)]
             ]);
 
             done(err);
         });
     });
+
+
+     it('creates an app which uses localized dust', function (done) {
+        var base = testutil.makeBase('app');
+
+        base.prompt['i18n'] = true;
+
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                'tasks/i18n.js',
+                'tasks/localizr.js'
+            ]);
+
+            helpers.assertFileContent([
+                ['package.json', new RegExp(/\"localizr\"\:/)],
+                ['Gruntfile.js', new RegExp(/'i18n'/)]
+            ]);
+
+            done(err);
+        });
+    });   
 
 
     it('creates an app which uses less', function (done) {
@@ -61,7 +84,8 @@ describe('kraken:app', function () {
 
         testutil.run(base, function (err) {
             helpers.assertFile([
-                'public/css/app.less'
+                'public/css/app.less',
+                'tasks/less.js'
             ]);
 
             helpers.assertFileContent([
@@ -80,6 +104,10 @@ describe('kraken:app', function () {
         base.prompt['dependency:jsModule'] = 'requirejs';
 
         testutil.run(base, function (err) {
+            helpers.assertFile([
+                'tasks/requirejs.js'
+            ]);
+
             helpers.assertFileContent([
                 ['package.json', new RegExp(/\"requirejs\"\:/)],
                 ['package.json', new RegExp(/\"grunt-contrib-requirejs\"\:/)],

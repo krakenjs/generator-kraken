@@ -9,7 +9,7 @@ module.exports = function (grunt) {
     });
 
     // Register group tasks
-    grunt.registerTask('build', [ 'jshint',<% if (cssModule) { %> '<%= cssModule %>',<% } %><% if (jsModule) { %> '<%= jsModule %>',<% } %> 'copyto', 'i18n' ]);
+    grunt.registerTask('build', [ 'jshint',<% if (cssModule) { %> '<%= cssModule %>',<% } %><% if (jsModule) { %> '<%= jsModule %>',<% } %><% if (i18n) { %> 'i18n',<% } else { %> '<%= templateModule %>',<% } %> 'copyto' ]);
     grunt.registerTask('test', [ 'jshint', 'mochacli' ]);
 
 };

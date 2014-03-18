@@ -26,7 +26,7 @@ module.exports = function makeBase(generator) {
             appName: 'Foo',
             appDescription: 'This is an app, foo!',
             appAuthor: 'Jeff',
-            templateModule: 'dust',
+            templateModule: 'dustjs',
             cssModule: 'less',
             jsModule: '',
             taskModule: 'grunt'
