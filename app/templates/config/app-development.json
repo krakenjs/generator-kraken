@@ -2,7 +2,7 @@
 
     "view engines": {
         "dust": {
-            "module": "adaro",
+            "module": "engine-munger",
             "renderer": {
                 "method": "dust",
                 "arguments": [{ "cache": false }]

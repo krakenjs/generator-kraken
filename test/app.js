@@ -63,6 +63,7 @@ describe('kraken:app', function () {
                  'package.json',
                  'config/app.json',
                  'config/middleware.json',
+                 'lib/spec.js',
                  'locales/US/en/errors/404.properties',
                  'locales/US/en/errors/500.properties',
                  'locales/US/en/errors/503.properties',

@@ -2,12 +2,17 @@
 
     "view engines": {
         "js": {
-            "module": "adaro",
+            "module": "engine-munger",
             "renderer": {
                 "method": "js",
                 "arguments": [{ "cache": false }]
             }
         }
+    },
+
+    "i18n": {
+        "contentPath": "path:./locales",
+        "fallback": "en-US"
     },
     
     "express": {

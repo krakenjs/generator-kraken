@@ -1,15 +1,15 @@
 'use strict';
 
 
-var kraken = require('kraken.next'),
-    express = require('express'),
-    app = express(),
+var kraken = require('kraken-js'),
+    app = require('express')(),
+    options = require('./lib/spec')(app),
     port = process.env.PORT || 8000;
 
 
-app.use(kraken());
+app.use(kraken(options));
 
 
-app.listen(port, function () {
-    console.log('Listening on http://127.0.0.1:8000/');
+app.listen(port, function (err) {
+    console.log('[%s] Listening on http://localhost:%d', app.settings.env, port);
 });
