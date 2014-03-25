@@ -9,9 +9,23 @@
                 "path:./public",
                 "path:./.build",
                 {
-                    "dust": { "dir": "templates" },
-                    "less": { "dir": "css" },
-                    "default": { "dir": "" }
+                    "livereload": {
+                        "debug": false,
+                        "exts": [ "dust", "less" ]
+                    },
+                    "dust": {
+                        "module": "kraken-devtools/lib/plugins/dust",
+                        "files": "/templates/**/*.js",
+                        "base": "templates"
+                    },
+                    "less": {
+                        "module": "kraken-devtools/lib/plugins/less",
+                        "files": "/css/**/*.css"
+                    },
+                    "copier": {
+                        "module": "kraken-devtools/lib/plugins/copier",
+                        "files": "**/*"
+                    }
                 }
             ]
         }
