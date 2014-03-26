@@ -26,10 +26,7 @@ module.exports = function makeBase(generator) {
             appName: 'Foo',
             appDescription: 'This is an app, foo!',
             appAuthor: 'Jeff',
-            templateModule: 'dust',
-            cssModule: 'less',
-            jsModule: '',
-            taskModule: 'grunt'
+            jsModule: ''
         }
     });
 };
