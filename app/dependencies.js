@@ -5,14 +5,14 @@ module.exports = {
 
     "dustjs": {
         "bower": [
-            "dustjs-linkedin#~2.0.3",
+            "dustjs-linkedin#^2.0.3",
             "dustjs-linkedin-helpers#^1.1.1"
         ],
         "npm": [
-            "dustjs-linkedin@~2.0.3",
+            "dustjs-linkedin@^2.0.3",
             "dustjs-helpers@^1.1.1",
             "adaro@^0.1.5",
-            "git://github.com/totherik/localizr.git"
+            "localizr@^0.1.0"
         ],
         "npmDev": [
             "grunt-dustjs@^1.2.0",
