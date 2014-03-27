@@ -16,7 +16,7 @@ module.exports = {
         ],
         "npmDev": [
             "grunt-dustjs@^1.2.0",
-            "git://github.com/pvenkatakrishnan/grunt-localizr.git"
+            "grunt-localizr@^0.1.0"
         ]
     },
 
