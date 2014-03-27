@@ -12,11 +12,11 @@ module.exports = {
             "dustjs-linkedin@~2.0.3",
             "dustjs-helpers@^1.1.1",
             "adaro@^0.1.5",
-            "git://github.com/totherik/localizr.git"
+            "localizr@^0.1.0"
         ],
         "npmDev": [
             "grunt-dustjs@^1.2.0",
-            "git://github.com/pvenkatakrishnan/grunt-localizr.git"
+            "grunt-localizr@^0.1.0"
         ]
     },
 
