@@ -6,11 +6,14 @@ module.exports = function spec(app) {
     return {
         onconfig: function (config, next) {<% if (i18n || specialization) { %>
             var i18n = config.get('i18n'),
-                specialization = config.get('specialization');
+                specialization = config.get('specialization'),
+                args;
 
             // Setup dev-tools for i18n compiling
             if (i18n && config.get('middleware:devtools')) {
-                config.set('middleware:devtools:i18n', i18n);
+                args = config.get('middleware:devtools:arguments');
+                args[2].dust.i18n = i18n;
+                config.set('middleware:devtools:arguments', args);
             }
 
             // Setup engine-munger for i18n and / or specialization
