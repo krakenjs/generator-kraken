@@ -1,5 +1,19 @@
 # CHANGELOG
 
+
+## v0.7.1
+
+- Updating node dependencies to use ^
+- Latest dustjs minor version used automatically
+- Adds support for deep linked pages in subgenerator (#49)
+- Breaks apart Grunt tasks 
+- RequireJS configration fixes (#46, #54)
+- Sub-generators generate dependencies (#68)
+- Bower dependencies are now scaffolded out
+- Fixes mochacli options (#83)
+- More test cases!
+
+
 ## v0.7.0
 
 - Updating kraken dependency to 0.7
