@@ -11,8 +11,8 @@ module.exports = {
         "npm": [
             "dustjs-linkedin@^2.0.3",
             "dustjs-helpers@^1.1.1",
-            "adaro@^0.1.0",
-            "makara@^0.3.0"
+            "adaro@^0.1.5",
+            "makara@^0.3.4"
         ],
         "npmDev": [
             "grunt-dustjs@^1.2.0"
