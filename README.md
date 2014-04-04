@@ -28,7 +28,9 @@ $ yo kraken
 `$ yo kraken`  
 Creates a new kraken application. Parameters:
 
+    --cssModule - (Optional) Set the cssModule from the CLI
     --jsModule - (Optional) Set the jsModule from the CLI
+
 
 `$ yo kraken:controller myController`  
 Generates a new controller named *myController* and it's dependencies.

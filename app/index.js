@@ -81,13 +81,16 @@ proto.defaults = function defaults() {
     // CLI option defaults
     options = this.options || {};
 
+    if (options.cssModule) {
+        this._addDependency('cssModule', options.cssModule);
+    }
+
     if (options.jsModule) {
         this._addDependency('jsModule', options.jsModule);
     }
 
     this._addDependency('templateModule', 'dustjs');
     this._addDependency('taskModule', 'grunt');
-    this._addDependency('cssModule', 'less');
 };
 
 
@@ -224,12 +227,10 @@ proto._dependencyResolver = function dependencyResolver(type) {
 
 
 /**
- * Copies a task over for a give dependency
+ * Copies dependency files
  */
 proto._dependencyCopier = function dependencyCopier(name) {
-    var file = path.join(__dirname, 'templates', 'tasks', name + '.js');
-    
-    if (fs.existsSync(file)) {
-        this.template(file, path.join(this.appRoot, 'tasks', name + '.js'));
-    }
+    this.directory(path.join('.', 'dependencies', name), this.appRoot, function (body) {
+        return this.engine(body, this);
+    }.bind(this));
 };

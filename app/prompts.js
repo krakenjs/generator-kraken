@@ -49,6 +49,33 @@ module.exports = function (generator) {
         },
 
         {
+            message: 'CSS preprocessor library?',
+            type: 'list',
+            name: 'dependency:cssModule',
+            choices: [
+                {
+                    name: 'LESS',
+                    value: 'less'
+                },
+                {
+                    name: 'SASS',
+                    value: 'sass'
+                },
+                {
+                    name: 'Stylus',
+                    value: 'stylus'
+                },
+                {
+                    name: 'None',
+                    value: false
+                }
+            ],
+            when: function () {
+                return !generator.options.cssModule;
+            }
+        },
+
+        {
             message: 'JavaScript module library?',
             type: 'list',
             name: 'dependency:jsModule',

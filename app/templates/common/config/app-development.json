@@ -1,5 +1,6 @@
 {
 
+    <% if (templateModule) { %>
     "express": {
         "view engine": "dust",
         "view cache": false,
@@ -15,5 +16,6 @@
             }
         }
     }
+    <% } %>
 
 }

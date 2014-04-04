@@ -1,5 +1,6 @@
 {
 
+    <% if (templateModule) { %>
     "express": {
         "view engine": "js",
         "view cache": false,
@@ -15,10 +16,13 @@
             }
         }
     },
+    <% } %>
 
+    <% if (i18n) { %>
     "i18n": {
         "contentPath": "path:./locales",
         "fallback": "en-US"
     }
+    <% } %>
 
 }
