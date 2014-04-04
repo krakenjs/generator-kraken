@@ -25,6 +25,7 @@ var fs = require('fs'),
     prompts = require('./prompts'),
     dependencies = require('./dependencies'),
     krakenutil = require('../util'),
+    pkg = require('../package'),
     proto;
 
 
@@ -63,6 +64,7 @@ proto.defaults = function defaults() {
     this.argument('appName', { type: String, required: false });
 
     this.dependencies = [];
+    this.pkg = pkg;
 
     // TODO: Move these defaults to prompts for v1.0
     this.templateModule = 'dustjs';
@@ -132,14 +134,6 @@ proto.files = function app() {
         this._dependencyCopier('i18n');
         this._dependencyCopier('localizr');
     }
-};
-
-
-/**
- * Add meta information
- */
-proto.meta = function meta() {
-
 };
 
 
