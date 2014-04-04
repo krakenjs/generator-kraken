@@ -47,6 +47,21 @@ describe('kraken:controller', function () {
     });
 
 
+    it('routes are case-sensitive', function (done) {
+        var base = testutil.makeBase('controller');
+
+        base.args = [ 'cAsEsEnSiTiVe' ];
+
+        testutil.run(base, function (err) {
+            helpers.assertFileContent([
+                ['controllers/cAsEsEnSiTiVe.js', new RegExp(/app.get\('\/cAsEsEnSiTiVe'/)]
+            ]);
+
+            done(err);
+        });
+    });
+
+
     it('supports JSON content negotiation', function (done) {
         var base = testutil.makeBase('controller');
 

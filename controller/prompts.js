@@ -26,7 +26,7 @@ module.exports = function (generator) {
             name: 'useJson',
             type: 'confirm',
             when: function () {
-                return generator.hasJson === null && generator.name === 'index';
+                return generator.useJson === null && generator.name !== 'index';
             }
         }
     ];
