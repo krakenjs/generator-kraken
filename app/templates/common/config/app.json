@@ -1,8 +1,8 @@
 {
 
     "express": {
-        "view cache": false,
         "view engine": "js",
+        "view cache": false,
         "views": "path:./.build/templates"
     },
 

@@ -1,8 +1,8 @@
 {
 
     "express": {
-        "view cache": false,
         "view engine": "dust",
+        "view cache": false,
         "views": "path:./public/templates"
     },
 

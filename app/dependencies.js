@@ -50,6 +50,13 @@ module.exports = {
         "npmDev": [
             "grunt-contrib-requirejs@^0.4.3"
         ]
+    },
+
+
+    "browserify": {
+        "npmDev": [
+            "grunt-browserify@^2.0.1"
+        ]
     }
 
 };

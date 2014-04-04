@@ -23,10 +23,12 @@ $ [sudo] npm install -g yo generator-kraken
 $ yo kraken
 ```
 
-### API
+### Generators
 
 `$ yo kraken`  
-Creates a new kraken application.
+Creates a new kraken application. Parameters:
+
+    --jsModule - (Optional) Set the jsModule from the CLI
 
 `$ yo kraken:controller myController`  
 Generates a new controller named *myController* and it's dependencies.
@@ -39,6 +41,8 @@ Generates a new template named *myTemplate* and it's dependencies.
 
 `$ yo kraken:locale myFile myCountry myLang`  
 Generates a new content bundle named *myFile*. Both *myCountry* and *myLang* are optional.
+
+
 
 
 ## Learning Your Way Around

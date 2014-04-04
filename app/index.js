@@ -50,6 +50,13 @@ var Generator = module.exports = function Generator(args, options) {
             }.bind(this)
         });
     });
+
+    // Handle errors politely
+    this.on('error', function (err) {
+        console.error(err.message);
+        console.log(this.help());
+        process.exit(1);
+    });
 };
 
 
@@ -61,19 +68,26 @@ proto = Generator.prototype;
  * Sets up defaults before the other methods run
  */
 proto.defaults = function defaults() {
-    this.argument('appName', { type: String, required: false });
+    var options;
 
     this.dependencies = [];
     this.pkg = pkg;
-
-    // TODO: Move these defaults to prompts for v1.0
-    this.templateModule = 'dustjs';
-    this.cssModule = 'less';
-    this.taskModule = 'grunt';
     this.i18n = true;
     this.specialization = true;
 
-    this.dependencies.push(this.templateModule, this.cssModule, this.taskModule);
+    // CLI args
+    this.argument('appName', { type: String, required: false });
+
+    // CLI option defaults
+    options = this.options || {};
+
+    if (options.jsModule) {
+        this._addDependency('jsModule', options.jsModule);
+    }
+
+    this._addDependency('templateModule', 'dustjs');
+    this._addDependency('taskModule', 'grunt');
+    this._addDependency('cssModule', 'less');
 };
 
 
@@ -92,8 +106,7 @@ proto.askFor = function askFor() {
             dependency = key.split('dependency:')[1];
 
             if (dependency) {
-                this.dependencies.push(prop);
-                this[dependency] = prop;
+                this._addDependency(dependency, prop);
             } else {
                 this[key] = prop;
             }
@@ -175,6 +188,19 @@ proto.installNpmDev = function installNpmDev() {
         if (dependencies) {
             this.npmInstall(dependencies, { saveDev: true }, this.async());
         }
+    }
+};
+
+
+/**
+ * Adds a dependency
+ */
+proto._addDependency = function addDependency(key, value) {
+    if (dependencies[value]) {
+        this.dependencies.push(value);
+        this[key] = value;
+    } else {
+        throw new Error('Unable to resolve dependency: ' + key + ':' + value);
     }
 };
 

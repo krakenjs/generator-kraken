@@ -58,10 +58,17 @@ module.exports = function (generator) {
                     value: 'requirejs'
                 },
                 {
+                    name: 'Browserify',
+                    value: 'browserify'
+                },
+                {
                     name: 'None',
                     value: false
                 }
-            ]
+            ],
+            when: function () {
+                return !generator.options.jsModule;
+            }
         }
 
     ];
