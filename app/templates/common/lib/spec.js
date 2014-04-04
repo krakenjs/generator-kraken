@@ -4,7 +4,8 @@
 module.exports = function spec(app) {
 
     return {
-        onconfig: function (config, next) {<% if (i18n || specialization) { %>
+        onconfig: function (config, next) {<% if (templateModule) { %>
+            <% if (i18n || specialization) { %>
             var i18n = config.get('i18n'),
                 specialization = config.get('specialization');
 
@@ -26,6 +27,7 @@ module.exports = function spec(app) {
             }
 
             config.get('view engines:js:renderer:arguments').push(engine, app);
+            <% } %>
             <% } %>
             next(null, config);
         }

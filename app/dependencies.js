@@ -28,14 +28,23 @@ module.exports = {
         npm: [
             'dustjs-linkedin@^2.0.3',
             'dustjs-helpers@^1.1.1',
-            'adaro@^0.1.5',
+            'adaro@^0.1.5'
+        ],
+        npmDev: [
+            'grunt-dustjs@^1.2.0'
+        ]
+    },
+
+    i18n: {
+        npm: [
             'localizr@^0.1.0'
         ],
         npmDev: [
-            'grunt-dustjs@^1.2.0',
             'grunt-localizr@^0.1.0'
         ]
     },
+
+    specialization: {},
 
     grunt: {
         npmDev: [
@@ -59,10 +68,10 @@ module.exports = {
 
     sass: {
         npm: [
-            'sass@^0.5.0'
+            'node-sass@^0.8.4'
         ],
         npmDev: [
-            'grunt-contrib-sass@^0.7.3'
+            'grunt-sass@^0.12.1'
         ]
     },
 

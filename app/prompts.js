@@ -49,6 +49,25 @@ module.exports = function (generator) {
         },
 
         {
+            message: 'Template library?',
+            type: 'list',
+            name: 'dependency:templateModule',
+            choices: [
+                {
+                    name: 'Dust',
+                    value: 'dustjs'
+                },
+                {
+                    name: 'None',
+                    value: false
+                }
+            ],
+            when: function () {
+                return !generator.options.templateModule;
+            }
+        },
+
+        {
             message: 'CSS preprocessor library?',
             type: 'list',
             name: 'dependency:cssModule',
@@ -76,7 +95,7 @@ module.exports = function (generator) {
         },
 
         {
-            message: 'JavaScript module library?',
+            message: 'JavaScript library?',
             type: 'list',
             name: 'dependency:jsModule',
             choices: [

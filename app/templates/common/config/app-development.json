@@ -1,7 +1,5 @@
 {
-
-    <% if (templateModule) { %>
-    "express": {
+    <% if (templateModule) { %>"express": {
         "view engine": "dust",
         "view cache": false,
         "views": "path:./public/templates"
@@ -15,7 +13,5 @@
                 "arguments": [{ "cache": false }]
             }
         }
-    }
-    <% } %>
-
+    }<% } %>
 }

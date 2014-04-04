@@ -18,8 +18,7 @@
 'use strict';
 
 
-var fs = require('fs'),
-    util = require('util'),
+var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
     prompts = require('./prompts'),
@@ -72,8 +71,6 @@ proto.defaults = function defaults() {
 
     this.dependencies = [];
     this.pkg = pkg;
-    this.i18n = true;
-    this.specialization = true;
 
     // CLI args
     this.argument('appName', { type: String, required: false });
@@ -81,16 +78,12 @@ proto.defaults = function defaults() {
     // CLI option defaults
     options = this.options || {};
 
-    if (options.cssModule) {
-        this._addDependency('cssModule', options.cssModule);
-    }
-
-    if (options.jsModule) {
-        this._addDependency('jsModule', options.jsModule);
-    }
-
-    this._addDependency('templateModule', 'dustjs');
+    this._addDependency('templateModule', options.templateModule);
+    this._addDependency('cssModule', options.cssModule);
+    this._addDependency('jsModule', options.jsModule);
     this._addDependency('taskModule', 'grunt');
+    this._addDependency('i18n', 'i18n');
+    this._addDependency('specialization', 'specialization');
 };
 
 
@@ -144,12 +137,6 @@ proto.files = function app() {
     this.dependencies.forEach(function (dependency) {
         this._dependencyCopier(dependency);
     }.bind(this));
-
-    // Copy over misc
-    if (this.i18n) {
-        this._dependencyCopier('i18n');
-        this._dependencyCopier('localizr');
-    }
 };
 
 
@@ -199,11 +186,14 @@ proto.installNpmDev = function installNpmDev() {
  * Adds a dependency
  */
 proto._addDependency = function addDependency(key, value) {
-    if (dependencies[value]) {
-        this.dependencies.push(value);
-        this[key] = value;
-    } else {
-        throw new Error('Unable to resolve dependency: ' + key + ':' + value);
+    this[key] = value;
+
+    if (value) {
+        if (dependencies[value]) {
+            this.dependencies.push(value);
+        } else {
+            throw new Error('Unable to resolve dependency: ' + key + ':' + value);
+        }
     }
 };
 

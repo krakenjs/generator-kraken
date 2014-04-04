@@ -9,7 +9,6 @@
             "arguments": [{ "directory": "path:./controllers" }]
         },
 
-        <% if (templateModule) { %>
         "fileNotFound": {
             "enabled": true,
             "priority": 130,
@@ -23,7 +22,6 @@
             "module": "kraken-js/middleware/500",
             "arguments": [ "errors/500" ]
         }
-        <% } %>
-        
+
     }
 }

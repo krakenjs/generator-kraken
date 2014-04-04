@@ -1,5 +1,4 @@
 {
-
     <% if (templateModule) { %>
     "express": {
         "view engine": "js",
@@ -16,7 +15,6 @@
             }
         }
     },
-    <% } %>
 
     <% if (i18n) { %>
     "i18n": {
@@ -24,5 +22,5 @@
         "fallback": "en-US"
     }
     <% } %>
-
+    <% } %>
 }
