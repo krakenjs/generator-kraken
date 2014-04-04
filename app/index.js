@@ -24,7 +24,9 @@ var fs = require('fs'),
     yeoman = require('yeoman-generator'),
     prompts = require('./prompts'),
     dependencies = require('./dependencies'),
-    krakenutil = require('../util');
+    krakenutil = require('../util'),
+    pkg = require('../package'),
+    proto;
 
 
 var Generator = module.exports = function Generator(args, options) {
@@ -52,15 +54,17 @@ var Generator = module.exports = function Generator(args, options) {
 
 
 util.inherits(Generator, yeoman.generators.Base);
+proto = Generator.prototype;
 
 
 /**
  * Sets up defaults before the other methods run
  */
-Generator.prototype.defaults = function defaults() {
+proto.defaults = function defaults() {
     this.argument('appName', { type: String, required: false });
 
     this.dependencies = [];
+    this.pkg = pkg;
 
     // TODO: Move these defaults to prompts for v1.0
     this.templateModule = 'dustjs';
@@ -76,7 +80,7 @@ Generator.prototype.defaults = function defaults() {
 /**
  * Prompt the user for how to setup their project
  */
-Generator.prototype.askFor = function askFor() {
+proto.askFor = function askFor() {
     var userPrompts = prompts(this),
         next = this.async();
 
@@ -103,7 +107,7 @@ Generator.prototype.askFor = function askFor() {
 /**
  * Make the root directory for the app
  */
-Generator.prototype.root = function root() {
+proto.root = function root() {
     var appRoot = this.appRoot = path.join(this.destinationRoot(), this.appName);
 
     this.mkdir(appRoot);
@@ -114,7 +118,7 @@ Generator.prototype.root = function root() {
 /**
  * Scaffold out the files
  */
-Generator.prototype.files = function app() {
+proto.files = function app() {
     // Boom!!1! Copy over common files
     this.directory('./common', this.appRoot, function (body) {
         return this.engine(body, this);
@@ -136,7 +140,7 @@ Generator.prototype.files = function app() {
 /**
  * Install bower components from prompts
  */
-Generator.prototype.installBower = function installBower() {
+proto.installBower = function installBower() {
     if (!this.options['skip-install-bower']) {
         var dependencies = this._dependencyResolver('bower');
 
@@ -150,7 +154,7 @@ Generator.prototype.installBower = function installBower() {
 /**
  * Install npm modules from prompts
  */
-Generator.prototype.installNpm = function installNpm() {
+proto.installNpm = function installNpm() {
     if (!this.options['skip-install-npm']) {
         var dependencies = this._dependencyResolver('npm');
 
@@ -164,7 +168,7 @@ Generator.prototype.installNpm = function installNpm() {
 /**
  * Install npm dev modules from prompts
  */
-Generator.prototype.installNpmDev = function installNpmDev() {
+proto.installNpmDev = function installNpmDev() {
     if (!this.options['skip-install-npm']) {
         var dependencies = this._dependencyResolver('npmDev');
 
@@ -178,7 +182,7 @@ Generator.prototype.installNpmDev = function installNpmDev() {
 /**
  * Resolves named dependencies from the prompt options
  */
-Generator.prototype._dependencyResolver = function dependencyResolver(type) {
+proto._dependencyResolver = function dependencyResolver(type) {
     var result = [];
 
     this.dependencies.forEach(function (x) {
@@ -196,10 +200,10 @@ Generator.prototype._dependencyResolver = function dependencyResolver(type) {
 /**
  * Copies a task over for a give dependency
  */
- Generator.prototype._dependencyCopier = function dependencyCopier(name) {
+proto._dependencyCopier = function dependencyCopier(name) {
     var file = path.join(__dirname, 'templates', 'tasks', name + '.js');
     
     if (fs.existsSync(file)) {
         this.template(file, path.join(this.appRoot, 'tasks', name + '.js'));
     }
- };
+};

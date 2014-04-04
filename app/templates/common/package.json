@@ -17,5 +17,12 @@
     "devDependencies": {
         "mocha": "^1.18.0",
         "supertest": "^0.9.0"
+    },
+    "generator-kraken": {
+        "version": "<%= pkg.version %>",
+        "template": <% if (templateModule) { %>"<%= templateModule %>"<% } else { %>false<% } %>,
+        "css": <% if (cssModule) { %>"<%= cssModule %>"<% } else { %>false<% } %>,
+        "js": <% if (jsModule) { %>"<%= jsModule %>"<% } else { %>false<% } %>,
+        "task": <% if (taskModule) { %>"<%= taskModule %>"<% } else { %>false<% } %>
     }
 }
