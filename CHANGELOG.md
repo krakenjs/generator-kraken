@@ -3,6 +3,12 @@
 
 ## v0.7.1
 
+- Fixes crash in versions of `yo` < 1.1.x
+- Fixes dependency install issues in Windows
+
+
+## v0.7.1
+
 - Updating node dependencies to use ^
 - Latest dustjs minor version used automatically
 - Adds support for deep linked pages in subgenerator (#49)
