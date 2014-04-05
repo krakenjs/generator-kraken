@@ -26,8 +26,8 @@ var helpers = require('yeoman-generator').test,
 
 describe('kraken:app', function () {
 
-    this.timeout(100000);
-
+    // Disable timeout since we're doing multiple installs
+    this.timeout(0);
 
     it('creates an app which uses dust', function (done) {
         var base = testutil.makeBase('app');

@@ -2,8 +2,8 @@
 
 
 module.exports = function copyto(grunt) {
-	// Load task
-	grunt.loadNpmTasks('grunt-copy-to');
+    // Load task
+    grunt.loadNpmTasks('grunt-copy-to');
 
 	// Options
 	return {

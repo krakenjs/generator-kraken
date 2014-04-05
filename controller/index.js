@@ -60,7 +60,10 @@ Generator.prototype.defaults = function defaults() {
     this.argument('name', { type: String, required: true });
 
     this.useJson = null;
+    
+    // path.relative is a workaround to determines the number of directories to go up
     this.rootPath = path.relative(this.name, './');
+    
     this.urlPath = (this.name === 'index') ? '/' : '/' + this.name;
 };
 

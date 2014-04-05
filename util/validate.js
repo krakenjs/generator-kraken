@@ -24,7 +24,7 @@
      var ns = options.namespace && options.namespace.split(':');
 
      // Ensure `yo kraken` was called with a valid sub-generator
-     if (ns.length > 1 && ns[1] !== 'app') {
+     if (ns && ns.length > 1 && ns[1] !== 'app') {
          options.namespace = ns[0];
 
          console.error('Error: Invalid sub-generator', ns[1]);

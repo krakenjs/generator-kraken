@@ -2,10 +2,10 @@
 
 Generator for scaffolding out Kraken applications.
 
-[![Build Status](https://travis-ci.org/paypal/generator-kraken.png)](https://travis-ci.org/paypal/generator-kraken)
+[![Build Status](https://travis-ci.org/krakenjs/generator-kraken.png)](https://travis-ci.org/krakenjs/generator-kraken)
 [![NPM version](https://badge.fury.io/js/generator-kraken.png)](http://badge.fury.io/js/generator-kraken)
-[![Dependencies Status](https://david-dm.org/paypal/generator-kraken.png)](https://david-dm.org/paypal/generator-kraken)
-[![DevDependencies Status](https://david-dm.org/paypal/generator-kraken/dev-status.png)](https://david-dm.org/paypal/generator-kraken#info=devDependencies)
+[![Dependencies Status](https://david-dm.org/krakenjs/generator-kraken.png)](https://david-dm.org/krakenjs/generator-kraken)
+[![DevDependencies Status](https://david-dm.org/krakenjs/generator-kraken/dev-status.png)](https://david-dm.org/krakenjs/generator-kraken#info=devDependencies)
 
 
 ## Getting Started
