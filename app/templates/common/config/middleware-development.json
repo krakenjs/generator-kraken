@@ -10,7 +10,7 @@
                 "path:./.build",
                 {   <% if (templateModule) { %>
                     "template": {
-                        "module": "kraken-devtools/plugins/<%= templateModule %>",
+                        "module": "kraken-devtools/plugins/dust",
                         "files": "/templates/**/*.js",
                         "base": "templates"
                     },<% } %><% if (cssModule) { %>

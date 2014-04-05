@@ -64,13 +64,7 @@ describe('kraken:app', function () {
                  'config/app.json',
                  'config/middleware.json',
                  'lib/spec.js',
-                 'locales/US/en/errors/404.properties',
-                 'locales/US/en/errors/500.properties',
-                 'locales/US/en/errors/503.properties',
-                 'public/js/app.js',
-                 'public/templates/errors/404.dust',
-                 'public/templates/errors/500.dust',
-                 'public/templates/errors/503.dust'
+                 'public/js/app.js'
              ]);
 
              done(err);
