@@ -8,9 +8,11 @@ module.exports = function copyto(grunt) {
 	// Options
 	return {
 	    build: {
-	        files: [
-	            { cwd: 'public', src: ['**/*'], dest: '.build/' }
-	        ],
+            files: [{
+                cwd: 'public',
+                src: ['**/*'],
+                dest: '.build/'
+            }],
 	        options: {
 	            ignore: [
 	            	<% if (cssModule) { %>'public/css/**/*',<% } %>

@@ -7,13 +7,17 @@ module.exports = function less(grunt) {
 
 	// Options
 	return {
-	    build: {
-	        options: {
-	            style: 'compressed'
-	        },
-	        files: {
-	            '.build/css/app.css': 'public/css/app.scss'
-	        }
-	    }
+        build: {
+            options: {
+                style: 'compressed'
+            },
+            files: [{
+                expand: true,
+                cwd: 'public/css',
+                src: ['**/*.scss'],
+                dest: '.build/css/',
+                ext: '.css'
+            }]
+        }
 	};
 };

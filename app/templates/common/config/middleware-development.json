@@ -9,12 +9,12 @@
                 "path:./public",
                 "path:./.build",
                 {   <% if (templateModule) { %>
-                    "dust": {
-                        "module": "kraken-devtools/plugins/dust",
+                    "template": {
+                        "module": "kraken-devtools/plugins/<%= templateModule %>",
                         "files": "/templates/**/*.js",
                         "base": "templates"
                     },<% } %><% if (cssModule) { %>
-                    "less": {
+                    "css": {
                         "module": "kraken-devtools/plugins/<%= cssModule %>",
                         "files": "/css/**/*.css"
                     },<% } %>

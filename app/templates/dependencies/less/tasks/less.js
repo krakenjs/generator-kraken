@@ -8,13 +8,18 @@ module.exports = function less(grunt) {
 	// Options
 	return {
 	    build: {
-	        options: {
-	            yuicompress: true,
-	            paths: [ 'public/css' ]
-	        },
-	        files: {
-	            '.build/css/app.css': 'public/css/app.less'
-	        }
+            options: {
+                cleancss: false
+            },
+            build: {
+                files: [{
+                    expand: true,
+                    cwd: 'public/css',
+                    src: ['**/*.less'],
+                    dest: '.build/css/',
+                    ext: '.css'
+                }]
+            }
 	    }
 	};
 };
