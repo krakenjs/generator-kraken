@@ -1,8 +1,8 @@
 {
-
+    <% if (templateModule) { %>
     "express": {
-        "view cache": false,
         "view engine": "js",
+        "view cache": false,
         "views": "path:./.build/templates"
     },
 
@@ -16,9 +16,11 @@
         }
     },
 
+    <% if (i18n) { %>
     "i18n": {
         "contentPath": "path:./locales",
         "fallback": "en-US"
     }
-
+    <% } %>
+    <% } %>
 }

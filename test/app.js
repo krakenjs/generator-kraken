@@ -56,23 +56,17 @@ describe('kraken:app', function () {
         base.options['skip-install-bower'] = true;
         base.options['skip-install-npm'] = true;
 
-        testutil.run(base, function (err) {
-            helpers.assertFile([
-                'Gruntfile.js',
-                'README.md',
-                'index.js',
-                'package.json',
-                'config/app.json',
-                'config/middleware.json',
-                'lib/spec.js',
-                'locales/US/en/errors/404.properties',
-                'locales/US/en/errors/500.properties',
-                'locales/US/en/errors/503.properties',
-                'public/js/app.js',
-                'public/templates/errors/404.dust',
-                'public/templates/errors/500.dust',
-                'public/templates/errors/503.dust'
-            ]);
+         testutil.run(base, function (err) {
+             helpers.assertFile([
+                 'Gruntfile.js',
+                 'README.md',
+                 'index.js',
+                 'package.json',
+                 'config/app.json',
+                 'config/middleware.json',
+                 'lib/spec.js',
+                 'public/js/app.js'
+             ]);
 
             done(err);
         });

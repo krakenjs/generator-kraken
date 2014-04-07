@@ -8,16 +8,16 @@
             "arguments": [
                 "path:./public",
                 "path:./.build",
-                {
-                    "dust": {
+                {   <% if (templateModule) { %>
+                    "template": {
                         "module": "kraken-devtools/plugins/dust",
                         "files": "/templates/**/*.js",
                         "base": "templates"
-                    },
-                    "less": {
-                        "module": "kraken-devtools/plugins/less",
+                    },<% } %><% if (cssModule) { %>
+                    "css": {
+                        "module": "kraken-devtools/plugins/<%= cssModule %>",
                         "files": "/css/**/*.css"
-                    },
+                    },<% } %>
                     "copier": {
                         "module": "kraken-devtools/plugins/copier",
                         "files": "**/*"

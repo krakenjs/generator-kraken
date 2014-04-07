@@ -22,6 +22,6 @@
             "module": "kraken-js/middleware/500",
             "arguments": [ "errors/500" ]
         }
-        
+
     }
 }

@@ -26,9 +26,8 @@ var assert = require('assert'),
 
 
 describe('kraken:app', function () {
-
-    this.timeout(100000);
-
+    // Disable timeout since we're doing a full install
+    this.timeout(0);
 
     it('scaffolded application can run the build task', function (done) {
         var base = testutil.makeBase('app');

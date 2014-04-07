@@ -49,7 +49,53 @@ module.exports = function (generator) {
         },
 
         {
-            message: 'JavaScript module library?',
+            message: 'Template library?',
+            type: 'list',
+            name: 'dependency:templateModule',
+            choices: [
+                {
+                    name: 'Dust',
+                    value: 'dustjs'
+                },
+                {
+                    name: 'None',
+                    value: false
+                }
+            ],
+            when: function () {
+                return !generator.options.templateModule;
+            }
+        },
+
+        {
+            message: 'CSS preprocessor library?',
+            type: 'list',
+            name: 'dependency:cssModule',
+            choices: [
+                {
+                    name: 'LESS',
+                    value: 'less'
+                },
+                {
+                    name: 'SASS',
+                    value: 'sass'
+                },
+                {
+                    name: 'Stylus',
+                    value: 'stylus'
+                },
+                {
+                    name: 'None',
+                    value: false
+                }
+            ],
+            when: function () {
+                return !generator.options.cssModule;
+            }
+        },
+
+        {
+            message: 'JavaScript library?',
             type: 'list',
             name: 'dependency:jsModule',
             choices: [
@@ -58,10 +104,17 @@ module.exports = function (generator) {
                     value: 'requirejs'
                 },
                 {
+                    name: 'Browserify',
+                    value: 'browserify'
+                },
+                {
                     name: 'None',
                     value: false
                 }
-            ]
+            ],
+            when: function () {
+                return !generator.options.jsModule;
+            }
         }
 
     ];

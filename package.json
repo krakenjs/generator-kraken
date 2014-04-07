@@ -8,8 +8,8 @@
     "kraken",
     "kraken.js"
   ],
-  "homepage": "https://github.com/paypal/generator-kraken",
-  "bugs": "https://github.com/paypal/generator-kraken/issues",
+  "homepage": "https://github.com/krakenjs/generator-kraken",
+  "bugs": "https://github.com/krakenjs/generator-kraken/issues",
   "author": {
     "name": "Jeff Harrell",
     "email": "jeff@juxtadesign.com",
@@ -18,7 +18,7 @@
   "main": "app/index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/paypal/generator-kraken.git"
+    "url": "git://github.com/krakenjs/generator-kraken.git"
   },
   "scripts": {
     "test": "mocha",
@@ -35,7 +35,7 @@
     "istanbul": "^0.2.6"
   },
   "peerDependencies": {
-    "yo": ">=1.0.0"
+    "yo": ">=1.1.0"
   },
   "engines": {
     "node": ">=0.8.0",

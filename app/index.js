@@ -18,8 +18,7 @@
 'use strict';
 
 
-var fs = require('fs'),
-    util = require('util'),
+var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
     prompts = require('./prompts'),
@@ -50,6 +49,13 @@ var Generator = module.exports = function Generator(args, options) {
             }.bind(this)
         });
     });
+
+    // Handle errors politely
+    this.on('error', function (err) {
+        console.error(err.message);
+        console.log(this.help());
+        process.exit(1);
+    });
 };
 
 
@@ -61,19 +67,23 @@ proto = Generator.prototype;
  * Sets up defaults before the other methods run
  */
 proto.defaults = function defaults() {
-    this.argument('appName', { type: String, required: false });
+    var options;
 
     this.dependencies = [];
     this.pkg = pkg;
 
-    // TODO: Move these defaults to prompts for v1.0
-    this.templateModule = 'dustjs';
-    this.cssModule = 'less';
-    this.taskModule = 'grunt';
-    this.i18n = true;
-    this.specialization = true;
+    // CLI args
+    this.argument('appName', { type: String, required: false });
 
-    this.dependencies.push(this.templateModule, this.cssModule, this.taskModule);
+    // CLI option defaults
+    options = this.options || {};
+
+    this._addDependency('templateModule', options.templateModule);
+    this._addDependency('cssModule', options.cssModule);
+    this._addDependency('jsModule', options.jsModule);
+    this._addDependency('taskModule', 'grunt');
+    this._addDependency('i18n', 'i18n');
+    this._addDependency('specialization', 'specialization');
 };
 
 
@@ -92,8 +102,7 @@ proto.askFor = function askFor() {
             dependency = key.split('dependency:')[1];
 
             if (dependency) {
-                this.dependencies.push(prop);
-                this[dependency] = prop;
+                this._addDependency(dependency, prop);
             } else {
                 this[key] = prop;
             }
@@ -128,12 +137,6 @@ proto.files = function app() {
     this.dependencies.forEach(function (dependency) {
         this._dependencyCopier(dependency);
     }.bind(this));
-
-    // Copy over misc
-    if (this.i18n) {
-        this._dependencyCopier('i18n');
-        this._dependencyCopier('localizr');
-    }
 };
 
 
@@ -180,6 +183,22 @@ proto.installNpmDev = function installNpmDev() {
 
 
 /**
+ * Adds a dependency
+ */
+proto._addDependency = function addDependency(key, value) {
+    this[key] = value;
+
+    if (value) {
+        if (dependencies[value]) {
+            this.dependencies.push(value);
+        } else {
+            throw new Error('Unable to resolve dependency: ' + key + ':' + value);
+        }
+    }
+};
+
+
+/**
  * Resolves named dependencies from the prompt options
  */
 proto._dependencyResolver = function dependencyResolver(type) {
@@ -198,12 +217,10 @@ proto._dependencyResolver = function dependencyResolver(type) {
 
 
 /**
- * Copies a task over for a give dependency
+ * Copies dependency files
  */
 proto._dependencyCopier = function dependencyCopier(name) {
-    var file = path.join(__dirname, 'templates', 'tasks', name + '.js');
-    
-    if (fs.existsSync(file)) {
-        this.template(file, path.join(this.appRoot, 'tasks', name + '.js'));
-    }
+    this.directory(path.join('.', 'dependencies', name), this.appRoot, function (body) {
+        return this.engine(body, this);
+    }.bind(this));
 };
