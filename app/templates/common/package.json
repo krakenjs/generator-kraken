@@ -9,7 +9,7 @@
         "start": "node index.js"
     },
     "dependencies": {
-        "kraken-js": "^1.0.0-rc.1",
+        "kraken-js": "^1.0.0-rc.2",
         "kraken-devtools": "^1.0.0-alpha.3",
         "engine-munger": "^0.1.1",
         "express": "^3.5.0"
