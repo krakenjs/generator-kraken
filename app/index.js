@@ -67,7 +67,6 @@ Generator.prototype.defaults = function defaults() {
     this.cssModule = 'less';
     this.taskModule = 'grunt';
     this.i18n = true;
-    this.specialization = true;
 
     this.dependencies.push(this.templateModule, this.cssModule, this.taskModule);
 };
