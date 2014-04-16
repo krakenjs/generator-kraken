@@ -1,5 +1,5 @@
 {
-
+    <% if (templateModule) { %>
     "express": {
         "view cache": false,
         "view engine": "dust",
@@ -22,7 +22,7 @@
                 ]
             }
         }
-    },
+    },<% } %>
 
     "middleware": {
 
@@ -38,7 +38,7 @@
                         "module": "kraken-devtools/plugins/<%= templateModule %>",
                         "files": "/templates/**/*.js",
                         "base": "templates",
-                        "i18n": "config:18n"
+                        "i18n": "config:i18n"
                     },<% } %><% if (cssModule) { %>
                     "css": {
                         "module": "kraken-devtools/plugins/<%= cssModule %>",
