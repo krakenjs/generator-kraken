@@ -21,7 +21,9 @@
 var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
-    krakenutil = require('../util');
+    krakenutil = require('../util'),
+    prompts = require('./prompts');
+
 
 
 var Generator = module.exports = function Generator(args, options, config) {
@@ -60,16 +62,19 @@ Generator.prototype.defaults = function defaults() {
     this.argument('name', { type: String, required: true });
 
     this.useJson = null;
+    
+    // path.relative is a workaround to determines the number of directories to go up
     this.rootPath = path.relative(this.name, './');
+    
     this.urlPath = (this.name === 'index') ? '/' : '/' + this.name;
 };
 
 
 Generator.prototype.askFor = function askFor() {
-    var prompts = require('./prompts')(this),
+    var userPrompts = prompts(this),
         next = this.async();
 
-    this.prompt(prompts, function (props) {
+    this.prompt(userPrompts, function (props) {
         for (var key in props) {
             this[key] = props[key];
         }

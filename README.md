@@ -2,10 +2,10 @@
 
 Generator for scaffolding out Kraken applications.
 
-[![Build Status](https://travis-ci.org/paypal/generator-kraken.png)](https://travis-ci.org/paypal/generator-kraken)
+[![Build Status](https://travis-ci.org/krakenjs/generator-kraken.png)](https://travis-ci.org/krakenjs/generator-kraken)
 [![NPM version](https://badge.fury.io/js/generator-kraken.png)](http://badge.fury.io/js/generator-kraken)
-[![Dependencies Status](https://david-dm.org/paypal/generator-kraken.png)](https://david-dm.org/paypal/generator-kraken)
-[![DevDependencies Status](https://david-dm.org/paypal/generator-kraken/dev-status.png)](https://david-dm.org/paypal/generator-kraken#info=devDependencies)
+[![Dependencies Status](https://david-dm.org/krakenjs/generator-kraken.png)](https://david-dm.org/krakenjs/generator-kraken)
+[![DevDependencies Status](https://david-dm.org/krakenjs/generator-kraken/dev-status.png)](https://david-dm.org/krakenjs/generator-kraken#info=devDependencies)
 
 
 ## Getting Started
@@ -23,10 +23,15 @@ $ [sudo] npm install -g yo generator-kraken
 $ yo kraken
 ```
 
-### API
+### Generators
 
-`$ yo kraken`  
-Creates a new kraken application.
+`$ yo kraken [myApp]`
+Creates a new kraken application. Parameters:
+
+    --templateModule - (Optional) Set the template module
+    --cssModule - (Optional) Set the CSS module
+    --jsModule - (Optional) Set the JavaScript module
+
 
 `$ yo kraken:controller myController`  
 Generates a new controller named *myController* and it's dependencies.
@@ -37,8 +42,10 @@ Generates a new model named *myModel*.
 `$ yo kraken:template myTemplate`  
 Generates a new template named *myTemplate* and it's dependencies.
 
-`$ yo kraken:locale myFile myCountry myLang`  
-Generates a new content bundle named *myFile*. Both *myCountry* and *myLang* are optional.
+`$ yo kraken:locale myFile [myCountry myLang]`
+Generates a new content bundle named *myFile*.
+
+
 
 
 ## Learning Your Way Around

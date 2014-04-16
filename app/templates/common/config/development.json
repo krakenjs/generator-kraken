@@ -33,29 +33,23 @@
             "arguments": [
                 "path:./public",
                 "path:./.build",
-                {
-                    "livereload": {
-                        "debug": false,
-                        "exts": [ "dust", "less" ]
-                    },
-                    "dust": {
-                        "module": "kraken-devtools/lib/plugins/dust",
+                {   <% if (templateModule) { %>
+                    "template": {
+                        "module": "kraken-devtools/plugins/<%= templateModule %>",
                         "files": "/templates/**/*.js",
                         "base": "templates",
-                        "i18n": "config:i18n"
-                    },
-                    "less": {
-                        "module": "kraken-devtools/lib/plugins/less",
+                        "i18n": "config:18n"
+                    },<% } %><% if (cssModule) { %>
+                    "css": {
+                        "module": "kraken-devtools/plugins/<%= cssModule %>",
                         "files": "/css/**/*.css"
-                    },
+                    },<% } %>
                     "copier": {
-                        "module": "kraken-devtools/lib/plugins/copier",
+                        "module": "kraken-devtools/plugins/copier",
                         "files": "**/*"
                     }
                 }
             ]
         }
-
     }
-
 }
