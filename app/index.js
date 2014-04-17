@@ -83,7 +83,6 @@ proto.defaults = function defaults() {
     this._addDependency('jsModule', options.jsModule);
     this._addDependency('taskModule', 'grunt');
     this._addDependency('i18n', 'i18n');
-    this._addDependency('specialization', 'specialization');
 };
 
 

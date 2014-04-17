@@ -18,7 +18,7 @@ describe('<%= urlPath %>', function () {
         app = express();
         app.on('start', done);
         app.use(kraken({
-            basedir: '.',
+            basedir: process.cwd(),
             onconfig: spec(app).onconfig
         }));
 
