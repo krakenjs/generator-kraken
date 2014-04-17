@@ -62,8 +62,8 @@ describe('kraken:app', function () {
                  'README.md',
                  'index.js',
                  'package.json',
-                 'config/app.json',
-                 'config/middleware.json',
+                 'config/config.json',
+                 'config/development.json',
                  'lib/spec.js',
                  'public/js/app.js'
              ]);
