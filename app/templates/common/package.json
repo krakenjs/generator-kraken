@@ -1,0 +1,28 @@
+{
+    "name": "<%= _.slugify(appName) %>",
+    "version": "0.1.0",
+    "description": "<%= appDescription.replace(/"/g, '\\"') %>",
+    "author": "<%= appAuthor.replace(/"/g, '\\"') %>",
+    "main": "index.js",
+    "scripts": {
+        "test": "grunt test",
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "kraken-js": "^1.0.0-rc.2",
+        "kraken-devtools": "^1.0.0-alpha.3",
+        "engine-munger": "^0.1.3",
+        "express": "^3.5.0"
+    },
+    "devDependencies": {
+        "mocha": "^1.18.0",
+        "supertest": "^0.9.0"
+    },
+    "generator-kraken": {
+        "version": "<%= pkg.version %>",
+        "template": <% if (templateModule) { %>"<%= templateModule %>"<% } else { %>false<% } %>,
+        "css": <% if (cssModule) { %>"<%= cssModule %>"<% } else { %>false<% } %>,
+        "js": <% if (jsModule) { %>"<%= jsModule %>"<% } else { %>false<% } %>,
+        "task": <% if (taskModule) { %>"<%= taskModule %>"<% } else { %>false<% } %>
+    }
+}

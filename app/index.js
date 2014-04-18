@@ -23,7 +23,9 @@ var util = require('util'),
     yeoman = require('yeoman-generator'),
     prompts = require('./prompts'),
     dependencies = require('./dependencies'),
-    krakenutil = require('../util');
+    krakenutil = require('../util'),
+    pkg = require('../package'),
+    proto;
 
 
 var Generator = module.exports = function Generator(args, options) {
@@ -47,33 +49,47 @@ var Generator = module.exports = function Generator(args, options) {
             }.bind(this)
         });
     });
+
+    // Handle errors politely
+    this.on('error', function (err) {
+        console.error(err.message);
+        console.log(this.help());
+        process.exit(1);
+    });
 };
 
 
 util.inherits(Generator, yeoman.generators.Base);
+proto = Generator.prototype;
 
 
 /**
  * Sets up defaults before the other methods run
  */
-Generator.prototype.defaults = function defaults() {
-    this.argument('appName', { type: String, required: false });
+proto.defaults = function defaults() {
+    var options;
 
     this.dependencies = [];
+    this.pkg = pkg;
 
-    // TODO: Move these defaults to prompts for v1.0
-    this.templateModule = 'dust';
-    this.cssModule = 'less';
-    this.taskModule = 'grunt';
+    // CLI args
+    this.argument('appName', { type: String, required: false });
 
-    this.dependencies.push(this.templateModule, this.cssModule, this.taskModule);
+    // CLI option defaults
+    options = this.options || {};
+
+    this._addDependency('templateModule', options.templateModule);
+    this._addDependency('cssModule', options.cssModule);
+    this._addDependency('jsModule', options.jsModule);
+    this._addDependency('taskModule', 'grunt');
+    this._addDependency('i18n', 'i18n');
 };
 
 
 /**
  * Prompt the user for how to setup their project
  */
-Generator.prototype.askFor = function askFor() {
+proto.askFor = function askFor() {
     var userPrompts = prompts(this),
         next = this.async();
 
@@ -85,8 +101,7 @@ Generator.prototype.askFor = function askFor() {
             dependency = key.split('dependency:')[1];
 
             if (dependency) {
-                this.dependencies.push(prop);
-                this[dependency] = prop;
+                this._addDependency(dependency, prop);
             } else {
                 this[key] = prop;
             }
@@ -100,7 +115,7 @@ Generator.prototype.askFor = function askFor() {
 /**
  * Make the root directory for the app
  */
-Generator.prototype.root = function root() {
+proto.root = function root() {
     var appRoot = this.appRoot = path.join(this.destinationRoot(), this.appName);
 
     this.mkdir(appRoot);
@@ -111,10 +126,15 @@ Generator.prototype.root = function root() {
 /**
  * Scaffold out the files
  */
-Generator.prototype.files = function app() {
-    // Boom!!1!
-    this.directory('.', this.appRoot, function (body) {
+proto.files = function app() {
+    // Boom!!1! Copy over common files
+    this.directory('./common', this.appRoot, function (body) {
         return this.engine(body, this);
+    }.bind(this));
+
+    // Copy over dependency tasks
+    this.dependencies.forEach(function (dependency) {
+        this._dependencyCopier(dependency);
     }.bind(this));
 };
 
@@ -122,7 +142,7 @@ Generator.prototype.files = function app() {
 /**
  * Install bower components from prompts
  */
-Generator.prototype.installBower = function installBower() {
+proto.installBower = function installBower() {
     if (!this.options['skip-install-bower']) {
         var dependencies = this._dependencyResolver('bower');
 
@@ -136,7 +156,7 @@ Generator.prototype.installBower = function installBower() {
 /**
  * Install npm modules from prompts
  */
-Generator.prototype.installNpm = function installNpm() {
+proto.installNpm = function installNpm() {
     if (!this.options['skip-install-npm']) {
         var dependencies = this._dependencyResolver('npm');
 
@@ -150,7 +170,7 @@ Generator.prototype.installNpm = function installNpm() {
 /**
  * Install npm dev modules from prompts
  */
-Generator.prototype.installNpmDev = function installNpmDev() {
+proto.installNpmDev = function installNpmDev() {
     if (!this.options['skip-install-npm']) {
         var dependencies = this._dependencyResolver('npmDev');
 
@@ -162,9 +182,25 @@ Generator.prototype.installNpmDev = function installNpmDev() {
 
 
 /**
+ * Adds a dependency
+ */
+proto._addDependency = function addDependency(key, value) {
+    this[key] = value;
+
+    if (value) {
+        if (dependencies[value]) {
+            this.dependencies.push(value);
+        } else {
+            throw new Error('Unable to resolve dependency: ' + key + ':' + value);
+        }
+    }
+};
+
+
+/**
  * Resolves named dependencies from the prompt options
  */
-Generator.prototype._dependencyResolver = function dependencyResolver(type) {
+proto._dependencyResolver = function dependencyResolver(type) {
     var result = [];
 
     this.dependencies.forEach(function (x) {
@@ -176,4 +212,14 @@ Generator.prototype._dependencyResolver = function dependencyResolver(type) {
     });
 
     return result.length ? result.join(' ') : false;
+};
+
+
+/**
+ * Copies dependency files
+ */
+proto._dependencyCopier = function dependencyCopier(name) {
+    this.directory(path.join('.', 'dependencies', name), this.appRoot, function (body) {
+        return this.engine(body, this);
+    }.bind(this));
 };

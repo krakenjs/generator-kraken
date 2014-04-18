@@ -1,0 +1,60 @@
+{
+
+    <% if (templateModule) { %>"express": {
+        "view cache": false,
+        "view engine": "js",
+        "views": "path:./.build/templates"
+    },
+
+    "view engines": {
+        "js": {
+            "module": "engine-munger",
+            "renderer": {
+                "method": "js",
+                "arguments": [
+                    { "cache": true },
+                    {
+                        "views": "config:express.views",
+                        "view engine": "config:express.view engine",
+                        "specialization": "config:specialization",
+                        "i18n": "config:i18n"
+                    }
+                ]
+            }
+        }
+    },
+    <% if (i18n) { %>
+
+    "i18n": {
+        "contentPath": "path:./locales",
+        "fallback": "en-US"
+    },
+    <% } %>
+    <% } %>
+
+    "middleware": {
+
+        "static": {
+            "arguments": [ "path:./.build" ]
+        },
+
+        "router": {
+            "arguments": [{ "directory": "path:./controllers" }]
+        },
+
+        "fileNotFound": {
+            "enabled": true,
+            "priority": 130,
+            "module": "kraken-js/middleware/404",
+            "arguments": [ "errors/404" ]
+        },
+
+        "serverError": {
+            "enabled": true,
+            "priority": 140,
+            "module": "kraken-js/middleware/500",
+            "arguments": [ "errors/500" ]
+        }
+
+    }
+}

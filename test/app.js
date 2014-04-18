@@ -20,7 +20,9 @@
 'use strict';
 
 
-var helpers = require('yeoman-generator').test,
+var path = require('path'),
+    assert = require('assert'),
+    helpers = require('yeoman-generator').test,
     testutil = require('./util');
 
 
@@ -28,32 +30,31 @@ describe('kraken:app', function () {
 
 
     it('scaffolds dot files', function (done) {
-         var base = testutil.makeBase('app');
+        var base = testutil.makeBase('app');
 
-         base.options['skip-install-bower'] = true;
-         base.options['skip-install-npm'] = true;
+        base.options['skip-install-bower'] = true;
+        base.options['skip-install-npm'] = true;
 
-         testutil.run(base, function (err) {
-             helpers.assertFile([
-                 '.bowerrc',
-                 '.editorconfig',
-                 '.gitignore',
-                 '.jshintignore',
-                 '.jshintrc',
-                 '.nodemonignore'
-             ]);
+        testutil.run(base, function (err) {
+            helpers.assertFile([
+                '.bowerrc',
+                '.editorconfig',
+                '.gitignore',
+                '.jshintignore',
+                '.jshintrc',
+                '.nodemonignore'
+            ]);
 
-             done(err);
-         });
-
+            done(err);
+        });
     });
 
 
     it('scaffolds base project files', function (done) {
-         var base = testutil.makeBase('app');
+        var base = testutil.makeBase('app');
 
-         base.options['skip-install-bower'] = true;
-         base.options['skip-install-npm'] = true;
+        base.options['skip-install-bower'] = true;
+        base.options['skip-install-npm'] = true;
 
          testutil.run(base, function (err) {
              helpers.assertFile([
@@ -61,19 +62,14 @@ describe('kraken:app', function () {
                  'README.md',
                  'index.js',
                  'package.json',
-                 'config/app.json',
-                 'config/middleware.json',
-                 'locales/US/en/errors/404.properties',
-                 'locales/US/en/errors/500.properties',
-                 'locales/US/en/errors/503.properties',
-                 'public/js/app.js',
-                 'public/templates/errors/404.dust',
-                 'public/templates/errors/500.dust',
-                 'public/templates/errors/503.dust'
+                 'config/config.json',
+                 'config/development.json',
+                 'lib/spec.js',
+                 'public/js/app.js'
              ]);
 
-             done(err);
-         });
+            done(err);
+        });
     });
 
 
@@ -93,6 +89,36 @@ describe('kraken:app', function () {
 
             done(err);
         });
+    });
+
+
+    it('writes meta data to package.json', function (done) {
+        var base = testutil.makeBase('app');
+
+        base.options['skip-install-bower'] = true;
+        base.options['skip-install-npm'] = true;
+
+        base.prompt['appName'] = 'MetaTest';
+        base.prompt['templateModule'] = 'a';
+        base.prompt['cssModule'] = 'b';
+        base.prompt['jsModule'] = false;
+        base.prompt['taskModule'] = 'd';
+
+        testutil.run(base, function (err) {
+            var pkg = require('../package'),
+                appRoot = path.join(__dirname, '..', 'tmp', base.prompt['appName']),
+                appPkg = require(path.join(appRoot, 'package')),
+                meta = appPkg[pkg.name];
+
+            assert(meta.version === pkg.version);
+            assert(meta.template === base.prompt['templateModule']);
+            assert(meta.css === base.prompt['cssModule']);
+            assert(meta.js === base.prompt['jsModule']);
+            assert(meta.task === base.prompt['taskModule']);
+
+            done(err);
+        });
+
     });
 
 });
