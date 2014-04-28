@@ -54,7 +54,7 @@ describe('kraken:controller', function () {
 
         testutil.run(base, function (err) {
             helpers.assertFileContent([
-                ['controllers/cAsEsEnSiTiVe.js', new RegExp(/app.get\('\/cAsEsEnSiTiVe'/)]
+                ['controllers/cAsEsEnSiTiVe.js', new RegExp(/router.get\('\/cAsEsEnSiTiVe'/)]
             ]);
 
             done(err);
@@ -158,7 +158,7 @@ describe('kraken:controller', function () {
 
             helpers.assertFileContent([
                 ['controllers/a/deep/link.js', new RegExp(/require\('\.\.\/\.\.\/\.\.\/models\/a\/deep\/link\'\)/)],
-                ['controllers/a/deep/link.js', new RegExp(/app.get\(\'\/a\/deep\/link\'/)],
+                ['controllers/a/deep/link.js', new RegExp(/router.get\(\'\/a\/deep\/link\'/)],
                 ['controllers/a/deep/link.js', new RegExp(/res.render\(\'a\/deep\/link\'/)]
             ]);
 
