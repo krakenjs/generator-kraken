@@ -7,12 +7,12 @@
 var <%= modelName %> = require('<%= modelPath %>');
 
 
-module.exports = function (app) {
+module.exports = function (router) {
 
     var model = new <%= modelName %>();
 
 
-    app.get('<%= urlPath %>', function (req, res) {
+    router.get('<%= urlPath %>', function (req, res) {
         <% if (useJson) { %>
         res.format({
             json: function () {
