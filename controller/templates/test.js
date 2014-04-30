@@ -6,7 +6,7 @@
 var kraken = require('kraken-js'),
     express = require('express'),
     request = require('supertest'),
-    spec = require('../lib/spec');
+    spec = require('<%= rootPath %>/lib/spec');
 
 
 describe('<%= urlPath %>', function () {

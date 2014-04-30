@@ -62,11 +62,14 @@ Generator.prototype.defaults = function defaults() {
     this.argument('name', { type: String, required: true });
 
     this.useJson = null;
-    
-    // path.relative is a workaround to determines the number of directories to go up
-    this.rootPath = path.relative(this.name, './');
-    
-    this.urlPath = (this.name === 'index') ? '/' : '/' + this.name;
+
+    var parts = krakenutil.parsePath(this.name);
+    this.rootPath = parts.root;
+    this.urlPath = parts.route;
+    this.dir = parts.dir;
+    this.base = parts.base;
+    this.model = parts.model;
+    this.fullname = parts.fullname;
 };
 
 
@@ -85,6 +88,6 @@ Generator.prototype.askFor = function askFor() {
 
 
 Generator.prototype.files = function files() {
-    this.template('controller.js', path.join('controllers', this.name + '.js'));
-    this.template('test.js', path.join('test', this.name + '.js'));
+    this.template('controller.js', path.join('controllers', this.fullname + '.js'));
+    this.template('test.js', path.join('test', this.fullname + '.js'));
 };

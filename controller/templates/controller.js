@@ -1,7 +1,7 @@
 'use strict';
 <%
-    var modelName = _.capitalize(_.classify(name)) + 'Model';
-    var modelPath = rootPath + '/models/' + name;
+    var modelName = _.capitalize(_.classify(model)) + 'Model';
+    var modelPath = rootPath + '/models/' + model;
 %>
 
 var <%= modelName %> = require('<%= modelPath %>');
@@ -19,10 +19,10 @@ module.exports = function (router) {
                 res.json(model);
             },
             html: function () {
-                res.render('<%= name %>', model);
+                res.render('<%= fullname %>', model);
             }
         });<% } else { %>
-        res.render('<%= name %>', model);
+        res.render('<%= fullname %>', model);
         <% } %>
     });
 
