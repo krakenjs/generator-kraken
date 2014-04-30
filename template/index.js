@@ -51,9 +51,17 @@ util.inherits(Generator, yeoman.generators.NamedBase);
 
 Generator.prototype.defaults = function defaults() {
     this.argument('name', { type: String, required: true });
+
+    var parts = krakenutil.parsePath(this.name);
+    this.rootPath = parts.root;
+    this.urlPath = parts.route;
+    this.dir = parts.dir;
+    this.base = parts.base;
+    this.model = parts.model;
+    this.fullname = parts.fullname;
 };
 
 
 Generator.prototype.files = function files() {
-    this.template('template.dust', path.join('public', 'templates', this.name + '.dust'));
+    this.template('template.dust', path.join('public', 'templates', this.fullname + '.dust'));
 };
