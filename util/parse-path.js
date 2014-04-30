@@ -43,6 +43,7 @@ function parsePath(name) {
     }
   }
 
+  parts.fullroute = '/' + (parts.dir !== '.' ? parts.dir : '' );
   parts.fullname = path.join(parts.dir, parts.base);
   parts.root = path.relative(parts.fullname, './');
 

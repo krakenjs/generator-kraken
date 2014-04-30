@@ -31,6 +31,7 @@ describe('parsePath', function () {
       dir: '.',
       root: '..',
       route: '/',
+      fullroute: '/',
       model: 'index',
       fullname: 'index'
     };
@@ -46,6 +47,7 @@ describe('parsePath', function () {
       dir: 'new',
       root: '../..',
       route: '/',
+      fullroute: 'new',
       model: 'new',
       fullname: 'new/index'
     };
@@ -61,6 +63,7 @@ describe('parsePath', function () {
       dir: 'new/sub',
       root: '../../..',
       route: '/',
+      fullroute: 'new/sub',
       model: 'sub',
       fullname: 'new/sub/index'
     };
