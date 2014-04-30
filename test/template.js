@@ -34,7 +34,7 @@ describe('kraken:template', function () {
 
         testutil.run(base, function (err) {
             helpers.assertFile([
-                'public/templates/Foo.dust'
+                'public/templates/Foo/index.dust'
             ]);
 
             done(err);
@@ -50,7 +50,7 @@ describe('kraken:template', function () {
 
         testutil.run(base, function (err) {
             helpers.assertFile([
-                'locales/US/en/Bar.properties'
+                'locales/US/en/Bar/index.properties'
             ]);
 
             done(err);
