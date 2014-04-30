@@ -1,7 +1,7 @@
 'use strict';
 <%
     var modelName = _.capitalize(_.classify(model)) + 'Model';
-    var modelPath = rootPath + '/models/' + model;
+    var modelPath = root + '/models/' + model;
 %>
 
 var <%= modelName %> = require('<%= modelPath %>');
@@ -12,7 +12,7 @@ module.exports = function (router) {
     var model = new <%= modelName %>();
 
 
-    router.get('<%= urlPath %>', function (req, res) {
+    router.get('<%= route %>', function (req, res) {
         <% if (useJson) { %>
         res.format({
             json: function () {

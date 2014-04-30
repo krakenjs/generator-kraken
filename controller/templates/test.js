@@ -6,10 +6,10 @@
 var kraken = require('kraken-js'),
     express = require('express'),
     request = require('supertest'),
-    spec = require('<%= rootPath %>/lib/spec');
+    spec = require('<%= root %>/lib/spec');
 
 
-describe('<%= urlPath %>', function () {
+describe('<%= route %>', function () {
 
     var app, mock;
 
@@ -34,7 +34,7 @@ describe('<%= urlPath %>', function () {
 
     it('should say "hello"', function (done) {
         request(mock)
-            .get('<%= urlPath %>')
+            .get('<%= fullroute %>')
             .expect(200)
             .expect('Content-Type', /html/)
             .expect(/Hello, /)
