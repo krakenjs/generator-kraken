@@ -53,12 +53,7 @@ Generator.prototype.defaults = function defaults() {
     this.argument('name', { type: String, required: true });
 
     var parts = krakenutil.parsePath(this.name);
-    this.rootPath = parts.root;
-    this.urlPath = parts.route;
-    this.dir = parts.dir;
-    this.base = parts.base;
-    this.model = parts.model;
-    this.fullname = parts.fullname;
+    krakenutil.extend(this, parts);
 };
 
 
