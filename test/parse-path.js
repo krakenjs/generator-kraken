@@ -47,7 +47,7 @@ describe('parsePath', function () {
       dir: 'new',
       root: '../..',
       route: '/',
-      fullroute: 'new',
+      fullroute: '/new',
       model: 'new',
       fullname: 'new/index'
     };
@@ -63,7 +63,7 @@ describe('parsePath', function () {
       dir: 'new/sub',
       root: '../../..',
       route: '/',
-      fullroute: 'new/sub',
+      fullroute: '/new/sub',
       model: 'sub',
       fullname: 'new/sub/index'
     };
