@@ -139,6 +139,7 @@ Additionally, routes are now—by default—automatically determined for you bas
 'use strict';
 
 module.exports = function (router) {
+    // note that we don't need to specify "/users"
     router.get('/', function (req, res) {
         res.send('You can find me at /users');
     });
