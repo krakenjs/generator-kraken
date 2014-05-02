@@ -10,6 +10,11 @@ Generator for scaffolding out Kraken applications.
 
 ## Getting Started
 
+### :warning: Upgrading to 1.x?
+
+Route registration has been [enhanced](https://github.com/krakenjs/express-enrouten/blob/a1d1117dd017b7371c4292ec379ea8070f6321f2/README.md#directory) with kraken 1.x. Please be aware that this changes where controllers are generated.
+
+Already familiar with the generator? [Skip right to the new stuff](#warning-new-in-kraken-1x).
 
 ### Installation
 
@@ -34,7 +39,7 @@ Creates a new kraken application. Parameters:
 
 
 `$ yo kraken:controller myController`  
-Generates a new controller named *myController* and it's dependencies.
+Generates a new controller namespace called *myController* and it's dependencies.
 
 `$ yo kraken:model myModel`  
 Generates a new model named *myModel*.
@@ -89,14 +94,14 @@ Listening on 8000
 - **/public/** - Web resources that are publicly available
 - **/public/templates/** - Server and browser-side templates
 - **/tests/** - Unit and functional test cases
-- **/index.js** - Application entry point 
+- **/index.js** - Application entry point
 
 
 ### Configuration
 
-Application configuration can be found in `/config/app.json`.
+Application configuration can be found in `/config/config.json`.
 
-Different environment configuration can be loaded by creating an alternate file with the environment as a suffix, e.g. `./config/app-development.json`. You can control which file is loaded by defining an environment variable, `NODE_ENV`, and setting its value to `production` or `development`.
+Different environment configuration can be loaded by creating an alternate file with the environment, e.g. `./config/development.json`. You can control which file is loaded by defining an environment variable, `NODE_ENV`, and setting its value to `production` or `development`.
 
 
 
@@ -111,10 +116,10 @@ For example, a route for your home page, would use a `/controllers/index.js` fil
 
 var IndexModel = require('../models/index');
 
-module.exports = function (server) {
+module.exports = function (router) {
     var model = new IndexModel();
- 
-    server.get('/', function (req, res) {
+
+    router.get('/', function (req, res) {
         res.render('index', model);
     });
 };
@@ -124,7 +129,31 @@ This file would define the routes and the logic for the home page. The advantage
 
 When a new controller is created, the generator will also create a template, locale file, and model for you.
 
+##### :warning: **New in kraken 1.x**
 
+Kraken 1.x now leverages [express 4](http://www.expressjs.com) and, most notably, passes a [router](http://expressjs.com/4x/api.html#router) into your controllers.
+
+Additionally, routes are now—by default—automatically determined for you based on directory structure. For example, if we wanted to have a number of routes that start with `/users`, we could simply create a `/controllers/users/index.js` file with the following contents:
+
+```js
+'use strict';
+
+module.exports = function (router) {
+    // note that we don't need to specify "/users"
+    router.get('/', function (req, res) {
+        res.send('You can find me at /users');
+    });
+
+    router.get('/new', function (req, res) {
+        res.send('You can find me at /users/new');
+    });
+}
+
+```
+
+Calling `yo kraken:controller users` would be enough to generate the basis for that file. Want to register routes that begin with `/users/all`? `yo kraken:controller users/all` is the command you're looking for.
+
+Route registration is highly customizable. If you're interested in trying a different behavior, be sure to check out the module that takes care of it in kraken: [express-enrouten](https://github.com/krakenjs/express-enrouten).
 
 ### Models
 
