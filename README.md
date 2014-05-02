@@ -99,9 +99,9 @@ Listening on 8000
 
 ### Configuration
 
-Application configuration can be found in `/config/app.json`.
+Application configuration can be found in `/config/config.json`.
 
-Different environment configuration can be loaded by creating an alternate file with the environment as a suffix, e.g. `./config/app-development.json`. You can control which file is loaded by defining an environment variable, `NODE_ENV`, and setting its value to `production` or `development`.
+Different environment configuration can be loaded by creating an alternate file with the environment, e.g. `./config/development.json`. You can control which file is loaded by defining an environment variable, `NODE_ENV`, and setting its value to `production` or `development`.
 
 
 
