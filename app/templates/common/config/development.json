@@ -29,27 +29,29 @@
         "devtools": {
             "enabled": true,
             "priority": 35,
-            "module": "kraken-devtools",
-            "arguments": [
-                "path:./public",
-                "path:./.build",
-                {   <% if (templateModule) { %>
-                    "template": {
-                        "module": "kraken-devtools/plugins/<%= templateModule %>",
-                        "files": "/templates/**/*.js",
-                        "base": "templates",
-                        "i18n": "config:i18n"
-                    },<% } %><% if (cssModule) { %>
-                    "css": {
-                        "module": "kraken-devtools/plugins/<%= cssModule %>",
-                        "files": "/css/**/*.css"
-                    },<% } %>
-                    "copier": {
-                        "module": "kraken-devtools/plugins/copier",
-                        "files": "**/*"
+            "module": {
+                "name": "kraken-devtools",
+                "arguments": [
+                    "path:./public",
+                    "path:./.build",
+                    {   <% if (templateModule) { %>
+                        "template": {
+                            "module": "kraken-devtools/plugins/<%= templateModule %>",
+                            "files": "/templates/**/*.js",
+                            "base": "templates",
+                            "i18n": "config:i18n"
+                        },<% } %><% if (cssModule) { %>
+                        "css": {
+                            "module": "kraken-devtools/plugins/<%= cssModule %>",
+                            "files": "/css/**/*.css"
+                        },<% } %>
+                        "copier": {
+                            "module": "kraken-devtools/plugins/copier",
+                            "files": "**/*"
+                        }
                     }
-                }
-            ]
+                ]
+            }
         }
     }
 }

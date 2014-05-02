@@ -17,46 +17,37 @@
 \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
 
+var path = require('path');
 
-var util = require('util'),
-    path = require('path'),
-    yeoman = require('yeoman-generator'),
-    krakenutil = require('../util');
+function parsePath(name) {
 
+  var DEFAULT_IDX = 'index';
 
-var Generator = module.exports = function Generator(args, options, config) {
-    yeoman.generators.Base.apply(this, arguments);
+  var parts = {
+    ext: path.extname(name),
+    dir: path.dirname(name),
+    model: 'index',
+    route: '/'
+  };
 
-    krakenutil.update();
+  parts.base = path.basename(name, parts.ext) || DEFAULT_IDX;
 
-    // Create the corresponding locale as well
-    this.hookFor('kraken:locale', {
-        args: args,
-        options: {
-            options: options
-        }
-    });
+  if (parts.base.toLowerCase() !== DEFAULT_IDX) {
+    parts.model = parts.base;
+    parts.dir = path.join(parts.dir, parts.base);
+    parts.base = DEFAULT_IDX;
+  } else {
+    var newBase = path.basename(parts.dir);
+    if (newBase !== '.') {
+      parts.model = newBase;
+    }
+  }
 
-    // Handle errors politely
-    this.on('error', function (err) {
-        console.error(err.message);
-        console.log(this.help());
-        process.exit(1);
-    });
-};
+  parts.fullroute = '/' + (parts.dir !== '.' ? parts.dir : '' );
+  parts.fullname = path.join(parts.dir, parts.base);
+  parts.root = path.relative(parts.fullname, './');
 
+  return parts;
+}
 
-util.inherits(Generator, yeoman.generators.NamedBase);
-
-
-Generator.prototype.defaults = function defaults() {
-    this.argument('name', { type: String, required: true });
-
-    var parts = krakenutil.parsePath(this.name);
-    krakenutil.extend(this, parts);
-};
-
-
-Generator.prototype.files = function files() {
-    this.template('template.dust', path.join('public', 'templates', this.fullname + '.dust'));
-};
+module.exports = parsePath;

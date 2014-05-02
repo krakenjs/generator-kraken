@@ -45,11 +45,14 @@ Generator.prototype.defaults = function defaults() {
     this.argument('name', { type: String, required: true });
     this.argument('country', { type: String, required: false, defaults: 'US' });
     this.argument('language', { type: String, required: false, defaults: 'en' });
+
+    var parts = krakenutil.parsePath(this.name);
+    krakenutil.extend(this, parts);
 };
 
 
 Generator.prototype.files = function files() {
-    var filepath = path.join('locales', this.country.toUpperCase(), this.language.toLowerCase(), this.name + '.properties');
+    var filepath = path.join('locales', this.country.toUpperCase(), this.language.toLowerCase(), this.fullname + '.properties');
 
     this.template('index.properties', filepath);
 };

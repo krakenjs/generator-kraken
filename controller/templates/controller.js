@@ -1,28 +1,28 @@
 'use strict';
 <%
-    var modelName = _.capitalize(_.classify(name)) + 'Model';
-    var modelPath = rootPath + '/models/' + name;
+    var modelName = _.capitalize(_.classify(model)) + 'Model';
+    var modelPath = root + '/models/' + model;
 %>
 
 var <%= modelName %> = require('<%= modelPath %>');
 
 
-module.exports = function (app) {
+module.exports = function (router) {
 
     var model = new <%= modelName %>();
 
 
-    app.get('<%= urlPath %>', function (req, res) {
+    router.get('<%= route %>', function (req, res) {
         <% if (useJson) { %>
         res.format({
             json: function () {
                 res.json(model);
             },
             html: function () {
-                res.render('<%= name %>', model);
+                res.render('<%= fullname %>', model);
             }
         });<% } else { %>
-        res.render('<%= name %>', model);
+        res.render('<%= fullname %>', model);
         <% } %>
     });
 

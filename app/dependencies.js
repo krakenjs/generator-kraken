@@ -50,7 +50,7 @@ module.exports = {
         npmDev: [
             'grunt@^0.4.1',
             'grunt-contrib-clean@^0.5.0',
-            'grunt-contrib-jshint@^0.6.4',
+            'grunt-contrib-jshint@^0.10.0',
             'grunt-mocha-cli@^1.5.0',
             'grunt-copy-to@^0.0.10',
             'grunt-config-dir@^0.3.2'

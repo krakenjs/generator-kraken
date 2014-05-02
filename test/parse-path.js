@@ -19,40 +19,73 @@
 
 'use strict';
 
-
-var helpers = require('yeoman-generator').test,
-    testutil = require('./util');
-
-
-describe('kraken:locale', function () {
-
-    it('creates new locales', function (done) {
-        var base = testutil.makeBase('locale');
-
-        base.args = ['Foo', 'DE', 'de'];
-
-        testutil.run(base, function (err) {
-            helpers.assertFile([
-                'locales/DE/de/Foo/index.properties'
-            ]);
-
-            done(err);
-        });
-    });
+var assert = require('assert');
+var parsePath = require('../util/parse-path');
 
 
-    it('creates default locales as en_US', function (done) {
-        var base = testutil.makeBase('locale');
+describe('parsePath', function () {
 
-        base.args = ['Bar'];
+  it('should parse "index" correctly', function () {
+    var expectation = {
+      base: 'index',
+      dir: '.',
+      root: '..',
+      route: '/',
+      fullroute: '/',
+      model: 'index',
+      fullname: 'index'
+    };
+    assertPath('index', expectation);
+    assertPath('index.js', expectation);
+    assertPath('./index', expectation);
+    assertPath('./index.js', expectation);
+  });
 
-        testutil.run(base, function (err) {
-            helpers.assertFile([
-                'locales/US/en/Bar/index.properties'
-            ]);
+  it('should parse "new" correctly', function () {
+    var expectation = {
+      base: 'index',
+      dir: 'new',
+      root: '../..',
+      route: '/',
+      fullroute: '/new',
+      model: 'new',
+      fullname: 'new/index'
+    };
+    assertPath('new', expectation);
+    assertPath('new/', expectation);
+    assertPath('new/index', expectation);
+    assertPath('new/index.js', expectation);
+  });
 
-            done(err);
-        });
-    });
-
+  it('should parse "new/sub" correctly', function () {
+    var expectation = {
+      base: 'index',
+      dir: 'new/sub',
+      root: '../../..',
+      route: '/',
+      fullroute: '/new/sub',
+      model: 'sub',
+      fullname: 'new/sub/index'
+    };
+    assertPath('new/sub', expectation);
+    assertPath('new/sub/', expectation);
+    assertPath('new/sub/index', expectation);
+    assertPath('new/sub/index.js', expectation);
+  });
 });
+
+function assertPath(name, expectedParts) {
+  var parts = parsePath(name);
+  assert(compareObjects(parts, expectedParts), name + ' doesn\'t equal the expected parts');
+}
+
+function compareObjects(actual, expected) {
+  return Object.keys(expected).every(function (key) {
+    try {
+      assert.deepEqual(expected[key], actual[key]);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  });
+}

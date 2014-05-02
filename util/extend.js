@@ -17,46 +17,18 @@
 \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
 
+function extend(target) {
+  if (typeof target !== 'object' || target === null) {
+    throw new Error('extend: target must be an object');
+  }
 
-var util = require('util'),
-    path = require('path'),
-    yeoman = require('yeoman-generator'),
-    krakenutil = require('../util');
-
-
-var Generator = module.exports = function Generator(args, options, config) {
-    yeoman.generators.Base.apply(this, arguments);
-
-    krakenutil.update();
-
-    // Create the corresponding locale as well
-    this.hookFor('kraken:locale', {
-        args: args,
-        options: {
-            options: options
-        }
+  var objs = Array.prototype.slice.call(arguments, 1);
+  return objs.reduce(function (previous, obj) {
+    Object.keys(obj).forEach(function (key) {
+      previous[key] = obj[key];
     });
+    return previous;
+  }, target);
+}
 
-    // Handle errors politely
-    this.on('error', function (err) {
-        console.error(err.message);
-        console.log(this.help());
-        process.exit(1);
-    });
-};
-
-
-util.inherits(Generator, yeoman.generators.NamedBase);
-
-
-Generator.prototype.defaults = function defaults() {
-    this.argument('name', { type: String, required: true });
-
-    var parts = krakenutil.parsePath(this.name);
-    krakenutil.extend(this, parts);
-};
-
-
-Generator.prototype.files = function files() {
-    this.template('template.dust', path.join('public', 'templates', this.fullname + '.dust'));
-};
+module.exports = extend;
