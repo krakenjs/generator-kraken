@@ -14,7 +14,7 @@ Generator for scaffolding out Kraken applications.
 
 Route registration has been [enhanced](https://github.com/krakenjs/express-enrouten/blob/a1d1117dd017b7371c4292ec379ea8070f6321f2/README.md#directory) with kraken 1.x. Please be aware that this changes where controllers are generated.
 
-Already familiar with the generator? Skip right to the new stuff.
+Already familiar with the generator? [Skip right to the new stuff](#warning-new-in-kraken-1x).
 
 ### Installation
 
