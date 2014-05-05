@@ -19,6 +19,7 @@
 
 'use strict';
 
+var path = require('path');
 var assert = require('assert');
 var parsePath = require('../util/parse-path');
 
@@ -33,7 +34,8 @@ describe('parsePath', function () {
       route: '/',
       fullroute: '/',
       model: 'index',
-      fullname: 'index'
+      fullname: 'index',
+      fullpath: 'index'
     };
     assertPath('index', expectation);
     assertPath('index.js', expectation);
@@ -45,11 +47,12 @@ describe('parsePath', function () {
     var expectation = {
       base: 'index',
       dir: 'new',
-      root: '../..',
+      root: path.join('..', '..'),
       route: '/',
       fullroute: '/new',
       model: 'new',
-      fullname: 'new/index'
+      fullname: 'new/index',
+      fullpath: path.join('new', 'index')
     };
     assertPath('new', expectation);
     assertPath('new/', expectation);
@@ -60,12 +63,13 @@ describe('parsePath', function () {
   it('should parse "new/sub" correctly', function () {
     var expectation = {
       base: 'index',
-      dir: 'new/sub',
-      root: '../../..',
+      dir: path.join('new', 'sub'),
+      root: path.join('..', '..', '..'),
       route: '/',
-      fullroute: '/new/sub',
       model: 'sub',
-      fullname: 'new/sub/index'
+      fullroute: '/new/sub',
+      fullname: 'new/sub/index',
+      fullpath: path.join('new', 'sub', 'index')
     };
     assertPath('new/sub', expectation);
     assertPath('new/sub/', expectation);

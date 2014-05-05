@@ -23,6 +23,8 @@ function parsePath(name) {
 
   var DEFAULT_IDX = 'index';
 
+  name = name.replace(/\//g, path.sep);
+
   var parts = {
     ext: path.extname(name),
     dir: path.dirname(name),
@@ -43,8 +45,10 @@ function parsePath(name) {
     }
   }
 
-  parts.fullroute = '/' + (parts.dir !== '.' ? parts.dir : '' );
-  parts.fullname = path.join(parts.dir, parts.base);
+  var slashes = parts.dir.split(path.sep).join('/');
+  parts.fullroute = '/' + (parts.dir !== '.' ? slashes : '' );
+  parts.fullname = parts.dir !== '.' ? slashes + '/' + parts.base : parts.base;
+  parts.fullpath = path.join(parts.dir, parts.base);
   parts.root = path.relative(parts.fullname, './');
 
   return parts;
