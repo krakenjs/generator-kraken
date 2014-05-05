@@ -83,6 +83,6 @@ Generator.prototype.askFor = function askFor() {
 
 
 Generator.prototype.files = function files() {
-    this.template('controller.js', path.join('controllers', this.fullname + '.js'));
-    this.template('test.js', path.join('test', this.fullname + '.js'));
+    this.template('controller.js', path.join('controllers', this.fullpath + '.js'));
+    this.template('test.js', path.join('test', this.fullpath + '.js'));
 };

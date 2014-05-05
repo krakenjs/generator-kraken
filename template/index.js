@@ -58,5 +58,5 @@ Generator.prototype.defaults = function defaults() {
 
 
 Generator.prototype.files = function files() {
-    this.template('template.dust', path.join('public', 'templates', this.fullname + '.dust'));
+    this.template('template.dust', path.join('public', 'templates', this.fullpath + '.dust'));
 };

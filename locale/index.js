@@ -52,7 +52,7 @@ Generator.prototype.defaults = function defaults() {
 
 
 Generator.prototype.files = function files() {
-    var filepath = path.join('locales', this.country.toUpperCase(), this.language.toLowerCase(), this.fullname + '.properties');
+    var filepath = path.join('locales', this.country.toUpperCase(), this.language.toLowerCase(), this.fullpath + '.properties');
 
     this.template('index.properties', filepath);
 };
