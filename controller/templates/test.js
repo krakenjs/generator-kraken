@@ -6,10 +6,10 @@
 var kraken = require('kraken-js'),
     express = require('express'),
     request = require('supertest'),
-    spec = require('<%= root %>/lib/spec');
+    spec = require('<%= specPath %>');
 
 
-describe('<%= route %>', function () {
+describe('<%= fullroute %>', function () {
 
     var app, mock;
 

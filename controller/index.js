@@ -64,6 +64,12 @@ Generator.prototype.defaults = function defaults() {
     this.useJson = null;
 
     var parts = krakenutil.parsePath(this.name);
+    parts.modelPath = path.join(parts.root, 'models', parts.model);
+    parts.specPath = path.join(parts.root, 'lib', 'spec');
+    if (path.sep === '\\') {
+        parts.modelPath = parts.modelPath.replace(/\\/g, '/');
+        parts.specPath = parts.specPath.replace(/\\/g, '/');
+    }
     krakenutil.extend(this, parts);
 };
 
