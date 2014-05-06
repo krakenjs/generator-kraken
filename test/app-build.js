@@ -35,7 +35,7 @@ describe('kraken:app', function () {
         base.options['skip-install'] = false;
 
         testutil.run(base, function (err) {
-            var build = require('child_process').spawn('grunt', ['test', 'build']);
+            var build = require('child_process').exec('grunt test build');
 
             build.on('close', function (code) {
                 assert.strictEqual(code, 0);

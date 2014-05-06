@@ -1,7 +1,6 @@
 'use strict';
 <%
     var modelName = _.capitalize(_.classify(model)) + 'Model';
-    var modelPath = root + '/models/' + model;
 %>
 
 var <%= modelName %> = require('<%= modelPath %>');
