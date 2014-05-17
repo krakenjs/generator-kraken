@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = function less(grunt) {
+module.exports = function stylus(grunt) {
 	// Load task
 	grunt.loadNpmTasks('grunt-contrib-stylus');
 
