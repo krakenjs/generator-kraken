@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = function less(grunt) {
+module.exports = function sass(grunt) {
 	// Load task
 	grunt.loadNpmTasks('grunt-sass');
 
