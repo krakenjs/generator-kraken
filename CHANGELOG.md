@@ -1,6 +1,12 @@
 # CHANGELOG
 
 
+## v1.0.0
+
+- Upgrading to kraken-js v1.0.0
+- Controller generator follows new controller implementation
+
+
 ## v0.7.1
 
 - Fixes crash in versions of `yo` < 1.1.x
