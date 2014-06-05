@@ -46,6 +46,16 @@
             }
         },
 
+        <% if (i18n) { %>
+        "expressView": {
+            "priority": 100,
+            "enabled": true,
+            "module": {
+                "name": "engine-munger/lib/expressView"
+            }
+        },
+        <% } %>
+
         "fileNotFound": {
             "enabled": true,
             "priority": 130,
