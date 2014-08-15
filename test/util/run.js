@@ -25,7 +25,7 @@ module.exports = function run(config, done) {
             if (app.options['skip-install']) {
                 done(err, app);
             } else {
-                app.once(config.type + ':installDependencies', function () {
+                app.once('npmInstall:end', function () {
                     done(err, app);
                 });
             }
