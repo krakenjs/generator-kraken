@@ -21,7 +21,7 @@
 
 
 var path = require('path'),
-    assert = require('assert'),
+    assert = require('yeoman-generator').assert,
     helpers = require('yeoman-generator').test,
     testutil = require('./util');
 
@@ -115,6 +115,21 @@ describe('kraken:app', function () {
             assert(meta.js === base.prompt['jsModule']);
             assert(meta.task === base.prompt['taskModule']);
 
+            done(err);
+        });
+
+    });
+
+    it('should have an app.css file if cssModule is not false', function (done) {
+        var base = testutil.makeBase('app');
+
+        base.options['skip-install-bower'] = true;
+        base.options['skip-install-npm'] = true;
+
+        base.prompt['cssModule'] = 'b';
+
+        testutil.run(base, function (err) {
+            assert.fileContent('public/templates/layouts/master.dust', /href\="\/css\/app\.css"/);
             done(err);
         });
 
