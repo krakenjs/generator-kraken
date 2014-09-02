@@ -46,7 +46,7 @@ describe('kraken:app', function () {
         });
     });
 
-    it('scaffolded application does not have suffer dll hell with dust-helpers', function (done) {
+    it('scaffolded application does not suffer from dll hell with dust-helpers', function (done) {
         var base = testutil.makeBase('app');
 
         base.options['skip-install'] = false;
