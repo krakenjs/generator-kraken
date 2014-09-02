@@ -22,7 +22,9 @@
 
 var assert = require('assert'),
     helpers = require('yeoman-generator').test,
-    testutil = require('./util');
+    testutil = require('./util'),
+    resolve = require('resolve'),
+    path = require('path');
 
 
 describe('kraken:app', function () {
@@ -43,4 +45,24 @@ describe('kraken:app', function () {
             });
         });
     });
+
+    it('scaffolded application does not have suffer dll hell with dust-helpers', function (done) {
+        var base = testutil.makeBase('app');
+
+        base.options['skip-install'] = false;
+        base.prompt.templateModule = 'dust';
+
+        testutil.run(base, function (err) {
+
+            var basedir = process.cwd();
+            var dustPath = resolve.sync('dustjs-linkedin', {basedir: basedir});
+            var helpersPath = resolve.sync('dustjs-helpers', {basedir: basedir});
+            var helpersDir = path.dirname(helpersPath);
+            var helpersDustPath = resolve.sync('dustjs-linkedin', {basedir: helpersDir});
+
+            assert(dustPath === helpersDustPath);
+            done(err);
+        });
+    });
+
 });
