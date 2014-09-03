@@ -30,9 +30,10 @@
     "update-notifier": "^0.1.7"
   },
   "devDependencies": {
-    "mocha": "~1.20",
     "grunt": "^0.4.2",
-    "istanbul": "^0.2.6"
+    "istanbul": "^0.2.6",
+    "mocha": "~1.20",
+    "resolve": "^1.0.0"
   },
   "peerDependencies": {
     "yo": ">=1.1.0"
