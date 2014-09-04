@@ -8,8 +8,8 @@ var kraken = require('kraken-js');
 var options, app, server;
 
 /*
- * Create and configure application.
- * Also exports application instance for use by tests.
+ * Create and configure application. Also exports application instance for use by tests.
+ * See https://github.com/krakenjs/kraken-js#options for additional configuration options.
  */
 options = {
     onconfig: function (config, next) {
@@ -36,9 +36,8 @@ app.on('start', function () {
 if (!module.parent) {
 
     /*
-     * This is only done when this module is run directly, e.g. `node .`
-     * to allow for the application to be used in tests without binding
-     * to a port or file descriptor.
+     * This is only done when this module is run directly, e.g. `node .` to allow for the
+     * application to be used in tests without binding to a port or file descriptor.
      */
     server = http.createServer(app);
     server.listen(process.env.PORT || 8000);
