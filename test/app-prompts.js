@@ -29,10 +29,11 @@ describe('kraken:app', function () {
     // Disable timeout since we're doing multiple installs
     this.timeout(Infinity);
 
-    it('creates an app which uses dust', function (done) {
+    it.only('creates an app which uses dust', function (done) {
         var base = testutil.makeBase('app');
 
         base.prompt['dependency:templateModule'] = 'dustjs';
+        base.prompt['dependency:cssModule'] = 'less';
         base.prompt['i18n'] = false;
         base.prompt['dependency:jsModule'] = false;
 
