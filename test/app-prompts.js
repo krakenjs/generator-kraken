@@ -29,7 +29,7 @@ describe('kraken:app', function () {
     // Disable timeout since we're doing multiple installs
     this.timeout(Infinity);
 
-    it('creates an app which uses dust', function (done) {
+    it.only('creates an app which uses dust', function (done) {
         var base = testutil.makeBase('app');
 
         base.prompt['dependency:templateModule'] = 'dustjs';
@@ -53,7 +53,8 @@ describe('kraken:app', function () {
                 ['package.json', new RegExp(/\"dustjs-helpers\"\:/)],
                 ['package.json', new RegExp(/\"engine-munger\"\:/)],
                 ['package.json', new RegExp(/\"grunt-dustjs\"\:/)],
-                ['Gruntfile.js', new RegExp(/'dustjs'/)]
+                ['Gruntfile.js', new RegExp(/'dustjs'/)],
+                ['public/templates/layouts/master.dust', new RegExp(/(app\.css)/) ]
             ]);
 
             done(err);
@@ -82,7 +83,7 @@ describe('kraken:app', function () {
 
             done(err);
         });
-    });   
+    });
 
 
     it('creates an app which uses less', function (done) {
