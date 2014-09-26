@@ -33,6 +33,7 @@ describe('kraken:app', function () {
         var base = testutil.makeBase('app');
 
         base.prompt['dependency:templateModule'] = 'dustjs';
+        base.prompt['dependency:cssModule'] = 'less';
         base.prompt['i18n'] = false;
         base.prompt['dependency:jsModule'] = false;
 
@@ -53,7 +54,8 @@ describe('kraken:app', function () {
                 ['package.json', new RegExp(/\"dustjs-helpers\"\:/)],
                 ['package.json', new RegExp(/\"engine-munger\"\:/)],
                 ['package.json', new RegExp(/\"grunt-dustjs\"\:/)],
-                ['Gruntfile.js', new RegExp(/'dustjs'/)]
+                ['Gruntfile.js', new RegExp(/'dustjs'/)],
+                ['public/templates/layouts/master.dust', new RegExp(/(app\.css)/) ]
             ]);
 
             done(err);
@@ -82,7 +84,7 @@ describe('kraken:app', function () {
 
             done(err);
         });
-    });   
+    });
 
 
     it('creates an app which uses less', function (done) {
