@@ -180,10 +180,6 @@ proto.installNpmDev = function installNpmDev() {
     }
 };
 
-
-proto._addControllers = function addControllers() {
-};
-
 /**
  * Adds a dependency
  */
