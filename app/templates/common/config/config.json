@@ -38,34 +38,36 @@
             "module": {
                 "arguments": [ "path:./.build" ]
             }
-        },
+        }
 
-        "router": {
+        ,"router": {
             "module": {
                 "arguments": [{ "directory": "path:./controllers" }]
             }
-        },
+        }
 
         <% if (i18n) { %>
-        "expressView": {
+        ,"expressView": {
             "priority": 100,
             "enabled": true,
             "module": {
                 "name": "engine-munger/lib/expressView"
             }
-        },
+        }
         <% } %>
 
-        "fileNotFound": {
+        <% if (templateModule) { %>
+
+        ,"fileNotFound": {
             "enabled": true,
             "priority": 130,
             "module": {
                 "name": "kraken-js/middleware/404",
                 "arguments": [ "errors/404" ]
             }
-        },
+        }
 
-        "serverError": {
+        ,"serverError": {
             "enabled": true,
             "priority": 140,
             "module": {
@@ -74,5 +76,6 @@
             }
         }
 
+        <% } %>
     }
 }

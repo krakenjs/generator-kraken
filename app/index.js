@@ -35,9 +35,6 @@ var Generator = module.exports = function Generator(args, options) {
     krakenutil.validate(options);
     krakenutil.update();
 
-    // Generate the index files
-    this.hookFor('kraken:controller', { args: [ 'index' ] });
-
     // Install all dependencies when completed
     // Emit an event when installed
     this.on('end', function () {
@@ -56,6 +53,7 @@ var Generator = module.exports = function Generator(args, options) {
         console.log(this.help());
         process.exit(1);
     });
+
 };
 
 
@@ -79,6 +77,7 @@ proto.defaults = function defaults() {
     options = this.options || {};
 
     this._addDependency('templateModule', options.templateModule);
+    this._addDependency('bower', options.UIPackageManager);
     this._addDependency('cssModule', options.cssModule);
     this._addDependency('jsModule', options.jsModule);
     this._addDependency('taskModule', 'grunt');
@@ -120,6 +119,7 @@ proto.root = function root() {
 
     this.mkdir(appRoot);
     process.chdir(appRoot);
+    this.invoke('kraken:controller', { args: [ 'index', this.templateModule ] });
 };
 
 
@@ -136,6 +136,7 @@ proto.files = function app() {
     this.dependencies.forEach(function (dependency) {
         this._dependencyCopier(dependency);
     }.bind(this));
+
 };
 
 
@@ -159,7 +160,6 @@ proto.installBower = function installBower() {
 proto.installNpm = function installNpm() {
     if (!this.options['skip-install-npm']) {
         var dependencies = this._dependencyResolver('npm');
-
         if (dependencies) {
             this.npmInstall(dependencies, { save: true }, this.async());
         }
@@ -180,6 +180,9 @@ proto.installNpmDev = function installNpmDev() {
     }
 };
 
+
+proto._addControllers = function addControllers() {
+};
 
 /**
  * Adds a dependency

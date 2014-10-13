@@ -12,6 +12,7 @@ module.exports = function (router) {
 
 
     router.get('<%= route %>', function (req, res) {
+        <% if (hasTemplates) { %>
         <% if (useJson) { %>
         res.format({
             json: function () {
@@ -22,6 +23,9 @@ module.exports = function (router) {
             }
         });<% } else { %>
         res.render('<%= fullname %>', model);
+        <% } %>
+        <% } else { %>
+        res.json(model);
         <% } %>
     });
 

@@ -30,7 +30,7 @@ describe('kraken:template', function () {
         var base = testutil.makeBase('template');
 
         base.args = ['Foo'];
-        base.prompt.templateModule = 'dust';
+        base.prompt.templateModule = 'dustjs';
 
         testutil.run(base, function (err) {
             helpers.assertFile([
@@ -46,7 +46,7 @@ describe('kraken:template', function () {
         var base = testutil.makeBase('template');
 
         base.args = ['Bar'];
-        base.prompt.templateModule = 'dust';
+        base.prompt.templateModule = 'dustjs';
 
         testutil.run(base, function (err) {
             helpers.assertFile([
