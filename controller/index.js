@@ -42,7 +42,7 @@ var Generator = module.exports = function Generator(args, options, config) {
     });
 
     //if there is a templateModule selected
-    if(args.length > 1) {
+    if(args[1]) {
         args.pop();
         this.hookFor('kraken:template', {
             args: args,

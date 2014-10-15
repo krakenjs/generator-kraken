@@ -164,4 +164,24 @@ describe('kraken:controller', function () {
         });
     });
 
+    it('should create a controller with no templateModule', function(done) {
+        var base = testutil.makeBase('controller');
+        base.args = ['index'];
+
+        testutil.run(base, function(err) {
+            helpers.assertFile([
+                'controllers/index.js',
+                'models/index.js',
+                'test/index.js'
+            ]);
+
+            helpers.assertNoFile([
+                'public/templates/a/deep/link/index.dust',
+                'locales/US/en/a/deep/link/index.properties'
+            ]);
+            done(err);
+        });
+
+    });
+
 });

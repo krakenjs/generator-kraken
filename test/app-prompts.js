@@ -83,7 +83,7 @@ describe('kraken:app', function () {
             helpers.assertFileContent([
                 ['config/config.json', new RegExp(/^((?!fileNotFound)[\s\S])*$/)],
                 ['config/config.json', new RegExp(/^((?!serverError)[\s\S])*$/)],
-                ['controllers/index.js',new RegExp(/res.json/)],
+                ['controllers/index.js',new RegExp(/res.send/)],
                 ['controllers/index.js', new RegExp(/^((?!res.render)[\s\S])*$/)]
             ]);
 

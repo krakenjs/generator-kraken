@@ -25,7 +25,7 @@ module.exports = function (router) {
         res.render('<%= fullname %>', model);
         <% } %>
         <% } else { %>
-        res.json(model);
+        res.send('<code><pre>' + JSON.stringify(model, null, 2) + '</pre></code>');
         <% } %>
     });
 
