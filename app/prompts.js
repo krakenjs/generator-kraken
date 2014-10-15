@@ -68,6 +68,25 @@ module.exports = function (generator) {
         },
 
         {
+            message: 'Front end package manager ?',
+            type: 'list',
+            name: 'dependency:UIPackageManager',
+            choices: [
+                {
+                    name: 'Bower',
+                    value: 'bower'
+                },
+                {
+                    name: 'No',
+                    value: false
+                }
+            ],
+            when: function () {
+                return !generator.options.templateModule;
+            }
+        },
+
+        {
             message: 'CSS preprocessor library?',
             type: 'list',
             name: 'dependency:cssModule',

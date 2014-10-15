@@ -33,6 +33,7 @@ describe('kraken:app', function () {
         var base = testutil.makeBase('app');
 
         base.prompt['dependency:templateModule'] = 'dustjs';
+        base.prompt['dependency:UIPackageManager'] = 'bower';
         base.prompt['dependency:cssModule'] = 'less';
         base.prompt['i18n'] = false;
         base.prompt['dependency:jsModule'] = false;
@@ -61,6 +62,35 @@ describe('kraken:app', function () {
             done(err);
         });
     });
+
+    it('creates an app which does not have any view engine', function (done) {
+        var base = testutil.makeBase('app');
+
+        base.prompt['dependency:templateModule'] = false;
+        base.prompt['dependency:cssModule'] = false;
+        base.prompt['i18n'] = false;
+        base.prompt['dependency:jsModule'] = false;
+
+        testutil.run(base, function (err) {
+
+            helpers.assertFile([
+                'config/config.json',
+                'controllers/index.js'
+            ]);
+            helpers.assertNoFile([
+                '.bowerrc'
+            ]);
+            helpers.assertFileContent([
+                ['config/config.json', new RegExp(/^((?!fileNotFound)[\s\S])*$/)],
+                ['config/config.json', new RegExp(/^((?!serverError)[\s\S])*$/)],
+                ['controllers/index.js',new RegExp(/res.send/)],
+                ['controllers/index.js', new RegExp(/^((?!res.render)[\s\S])*$/)]
+            ]);
+
+            done(err);
+        });
+    });
+
 
 
     it('creates an app which uses i18n', function (done) {

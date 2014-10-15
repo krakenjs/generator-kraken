@@ -34,6 +34,7 @@ describe('kraken:app', function () {
 
         base.options['skip-install-bower'] = true;
         base.options['skip-install-npm'] = true;
+        base.prompt['dependency:UIPackageManager'] = 'bower';
 
         testutil.run(base, function (err) {
             helpers.assertFile([

@@ -22,7 +22,8 @@ var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
     krakenutil = require('../util'),
-    prompts = require('./prompts');
+    prompts = require('./prompts'),
+    pkg = require('../package');
 
 
 
@@ -31,6 +32,7 @@ var Generator = module.exports = function Generator(args, options, config) {
 
     krakenutil.update();
 
+    this.hasTemplates = (args[1]) ? true : false;
     // Create the corresponding model and template as well
     this.hookFor('kraken:model', {
         args: args,
@@ -39,12 +41,16 @@ var Generator = module.exports = function Generator(args, options, config) {
         }
     });
 
-    this.hookFor('kraken:template', {
-        args: args,
-        options: {
-            options: options
-        }
-    });
+    //if there is a templateModule selected
+    if(args[1]) {
+        args.pop();
+        this.hookFor('kraken:template', {
+            args: args,
+            options: {
+                options: options
+            }
+        });
+    }
 
     // Handle errors politely
     this.on('error', function (err) {
@@ -52,6 +58,7 @@ var Generator = module.exports = function Generator(args, options, config) {
         console.log(this.help());
         process.exit(1);
     });
+
 };
 
 

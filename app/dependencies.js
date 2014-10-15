@@ -46,6 +46,8 @@ module.exports = {
 
     specialization: {},
 
+    bower: {},
+
     grunt: {
         npmDev: [
             'grunt@^0.4.1',

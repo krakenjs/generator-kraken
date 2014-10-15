@@ -50,7 +50,7 @@ describe('kraken:app', function () {
         var base = testutil.makeBase('app');
 
         base.options['skip-install'] = false;
-        base.prompt.templateModule = 'dust';
+        base.prompt.templateModule = 'dustjs';
 
         testutil.run(base, function (err) {
 
