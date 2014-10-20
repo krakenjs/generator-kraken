@@ -35,7 +35,11 @@ describe('<%= fullroute %>', function () {
             .get('<%= fullroute %>')
             .expect(200)
             .expect('Content-Type', /html/)
-            .expect(/Hello, /)
+            <% if (hasTemplates) { %>
+                .expect(/Hello, /)
+            <% } else { %>
+                .expect(/"name": "index"/)
+            <% } %>
             .end(function (err, res) {
                 done(err);
             });
