@@ -19,9 +19,9 @@ Already familiar with the generator? [Skip right to the new stuff](#warning-new-
 ### Installation
 
 ```shell
-$ [sudo] npm install -g yo generator-kraken
+$ [sudo] npm install -g yo generator-kraken bower
 ```
-
+ 
 ### Usage
 
 ```shell
