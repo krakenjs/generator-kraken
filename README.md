@@ -1,11 +1,16 @@
-# generator-kraken
+generator-kraken
+================
+
+Lead Maintainer: [Poornima Venkat](https://github.com/pvenkatakrishnan/)  
+
+[![Build Status](https://travis-ci.org/krakenjs/generator-kraken.svg?branch=v1.1.2)](https://travis-ci.org/krakenjs/generator-kraken)  
+[![NPM version](https://badge.fury.io/js/generator-kraken.png)](http://badge.fury.io/js/generator-kraken)  
+[![Dependencies Status](https://david-dm.org/krakenjs/generator-kraken.png)](https://david-dm.org/krakenjs/generator-kraken)  
+[![DevDependencies Status](https://david-dm.org/krakenjs/generator-kraken/dev-status.png)](https://david-dm.org/krakenjs/generator-kraken#info=devDependencies)  
 
 Generator for scaffolding out Kraken applications.
 
-[![Build Status](https://travis-ci.org/krakenjs/generator-kraken.png)](https://travis-ci.org/krakenjs/generator-kraken)
-[![NPM version](https://badge.fury.io/js/generator-kraken.png)](http://badge.fury.io/js/generator-kraken)
-[![Dependencies Status](https://david-dm.org/krakenjs/generator-kraken.png)](https://david-dm.org/krakenjs/generator-kraken)
-[![DevDependencies Status](https://david-dm.org/krakenjs/generator-kraken/dev-status.png)](https://david-dm.org/krakenjs/generator-kraken#info=devDependencies)
+
 
 
 ## Getting Started
