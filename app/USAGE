@@ -7,15 +7,17 @@ Example:
     This will create:
         config/: Application and middleware configuration
         controllers/: Controllers
-        lib/: Custom developer libraries and other code
         locales/: Locale-based content
         models/: Models
         public/: Web resources that are publicly available
         public/templates: Server and browser-side templates
+        tasks/: Grunt tasks and corresponding configuration.
         tests/: Unit and functional test cases.
 
         bower.json: Front-end packages installed by bower.
         Gruntfile.js: Configuration for the task runner.
-        index.js: Application start-up file.
+        index.js: Express application configured by Kraken.
         package.json: Development packages installed by npm.
         README.md: Your application's README
+        server.js: Application start-up file.
+
