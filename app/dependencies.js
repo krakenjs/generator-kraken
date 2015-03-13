@@ -22,25 +22,25 @@ module.exports = {
 
     dustjs: {
         bower: [
-            'dustjs-linkedin#~2.6.0',
-            'dustjs-linkedin-helpers#~1.6.0'
+            'dustjs-linkedin#~2.6.1',
+            'dustjs-linkedin-helpers#~1.6.1'
         ],
         npm: [
-            'dustjs-linkedin@~2.6.0',
-            'dustjs-helpers@~1.6.0',
+            'dustjs-linkedin@~2.6.1',
+            'dustjs-helpers@~1.6.1',
             'adaro@^0.1.5'
         ],
         npmDev: [
-            'grunt-dustjs@^1.2.0'
+            'grunt-dustjs@^1.2.1'
         ]
     },
 
     i18n: {
         npm: [
-            'localizr@^0.1.0'
+            'localizr@^0.1.2'
         ],
         npmDev: [
-            'grunt-localizr@^0.1.0'
+            'grunt-localizr@^0.2.1'
         ]
     },
 
@@ -50,8 +50,8 @@ module.exports = {
 
     grunt: {
         npmDev: [
-            'grunt@^0.4.1',
-            'grunt-contrib-clean@^0.5.0',
+            'grunt@^0.4.5',
+            'grunt-contrib-clean@^0.6.0',
             'grunt-contrib-jshint@^0.10.0',
             'grunt-mocha-cli@^1.5.0',
             'grunt-copy-to@^0.0.10',
@@ -73,7 +73,7 @@ module.exports = {
             'node-sass@^3.0.0'
         ],
         npmDev: [
-            'grunt-sass@^0.12.1'
+            'grunt-sass@^0.18.1'
         ]
     },
 
@@ -88,20 +88,20 @@ module.exports = {
 
     requirejs: {
         bower: [
-            'requirejs#^2.1.11'
+            'requirejs#^2.1.16'
         ],
         npm: [
-            'requirejs@^2.1.11'
+            'requirejs@^2.1.16'
         ],
         npmDev: [
-            'grunt-contrib-requirejs@^0.4.3'
+            'grunt-contrib-requirejs@^0.4.4'
         ]
     },
 
 
     browserify: {
         npmDev: [
-            'grunt-browserify@^2.0.1'
+            'grunt-browserify@^3.5.1'
         ]
     }
 

@@ -28,10 +28,24 @@ var util = require('util'),
 
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
+    var cwd = this.env.cwd,
+        filePath = path.join(cwd, 'package.json'),
+        packageTemplate = null;
 
     krakenutil.update();
 
-    this.hasTemplates = (args[1]) ? true : false;
+    this.hasTemplates = (args[1]) ? true : (
+        fs.existsSync(filePath) ? (
+            function() {
+                packageTemplate = require(filePath.replace('.json', ''))['generator-kraken'].template;
+                return true;
+            })() : false
+    );
+
+    if (packageTemplate) {
+        args[1] = packageTemplate;
+    }
+
     // Create the corresponding model and template as well
     this.hookFor('kraken:model', {
         args: args,
@@ -84,13 +98,17 @@ Generator.prototype.askFor = function askFor() {
     var userPrompts = prompts(this),
         next = this.async();
 
-    this.prompt(userPrompts, function (props) {
-        for (var key in props) {
-            this[key] = props[key];
-        }
+    if (userPrompts[0].when()) {
+        this.prompt(userPrompts, function(props) {
+            for (var key in props) {
+                this[key] = props[key];
+            }
 
+            next();
+        }.bind(this));
+    } else {
         next();
-    }.bind(this));
+    }
 };
 
 
