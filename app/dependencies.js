@@ -22,12 +22,12 @@ module.exports = {
 
     dustjs: {
         bower: [
-            'dustjs-linkedin#~2.3.0',
-            'dustjs-linkedin-helpers#~1.2.0'
+            'dustjs-linkedin#~2.6.0',
+            'dustjs-linkedin-helpers#~1.6.0'
         ],
         npm: [
-            'dustjs-linkedin@~2.3.0',
-            'dustjs-helpers@~1.2.0',
+            'dustjs-linkedin@~2.6.0',
+            'dustjs-helpers@~1.6.0',
             'adaro@^0.1.5'
         ],
         npmDev: [
