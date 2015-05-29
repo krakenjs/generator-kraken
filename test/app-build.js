@@ -21,7 +21,6 @@
 
 
 var assert = require('assert'),
-    helpers = require('yeoman-generator').test,
     testutil = require('./util'),
     resolve = require('resolve'),
     path = require('path');

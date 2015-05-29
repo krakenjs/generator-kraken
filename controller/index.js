@@ -22,8 +22,7 @@ var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
     krakenutil = require('../util'),
-    prompts = require('./prompts'),
-    pkg = require('../package');
+    prompts = require('./prompts');
 
 
 
