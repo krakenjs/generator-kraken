@@ -22,8 +22,8 @@ var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
     krakenutil = require('../util'),
-    prompts = require('./prompts');
-
+    prompts = require('./prompts'),
+    fs = require('fs');
 
 
 var Generator = module.exports = function Generator(args, options, config) {
