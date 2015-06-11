@@ -29,22 +29,11 @@ var util = require('util'),
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
     var cwd = this.env.cwd,
-        filePath = path.join(cwd, 'package.json'),
-        packageTemplate = null;
+        filePath = path.join(cwd, 'package.json');
 
     krakenutil.update();
 
-    this.hasTemplates = (args[1]) ? true : (
-        fs.existsSync(filePath) ? (
-            function() {
-                packageTemplate = require(filePath.replace('.json', ''))['generator-kraken'].template;
-                return true;
-            })() : false
-    );
-
-    if (packageTemplate) {
-        args[1] = packageTemplate;
-    }
+    this.hasTemplates = args[1] || hasTemplates(filePath);
 
     // Create the corresponding model and template as well
     this.hookFor('kraken:model', {
@@ -55,7 +44,8 @@ var Generator = module.exports = function Generator(args, options, config) {
     });
 
     //if there is a templateModule selected
-    if(args[1]) {
+    if(this.hasTemplates) {
+        args[1] = this.hasTemplates;
         args.pop();
         this.hookFor('kraken:template', {
             args: args,
@@ -116,3 +106,11 @@ Generator.prototype.files = function files() {
     this.template('controller.js', path.join('controllers', this.fullpath + '.js'));
     this.template('test.js', path.join('test', this.fullpath + '.js'));
 };
+
+function hasTemplates(filePath) {
+    try {
+        return JSON.parse(fs.readFileSync(filePath, 'utf-8'))['generator-kraken'].template;
+    } catch (e) {
+        return null;
+    }
+}
