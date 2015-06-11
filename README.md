@@ -1,7 +1,7 @@
 generator-kraken
 ================
 
-Lead Maintainer: [Poornima Venkat](https://github.com/pvenkatakrishnan/)  
+Lead Maintainer: [Matt Edelmann](https://github.com/grawk)  
 
 [![Build Status](https://travis-ci.org/krakenjs/generator-kraken.svg?branch=v1.1.2)](https://travis-ci.org/krakenjs/generator-kraken)  
 [![NPM version](https://badge.fury.io/js/generator-kraken.png)](http://badge.fury.io/js/generator-kraken)  
