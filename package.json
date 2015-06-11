@@ -25,9 +25,10 @@
     "coverage": "istanbul cover _mocha -- test/*.js"
   },
   "dependencies": {
-    "yeoman-generator": "^0.16.0",
     "chalk": "^1.0.0",
-    "update-notifier": "^0.3.1"
+    "mkdirp": "^0.5.1",
+    "update-notifier": "^0.3.1",
+    "yeoman-generator": "^0.16.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

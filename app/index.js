@@ -24,6 +24,7 @@ var util = require('util'),
     prompts = require('./prompts'),
     dependencies = require('./dependencies'),
     krakenutil = require('../util'),
+    mkdirp = require('mkdirp'),
     pkg = require('../package'),
     proto;
 
@@ -117,7 +118,7 @@ proto.askFor = function askFor() {
 proto.root = function root() {
     var appRoot = this.appRoot = path.join(this.destinationRoot(), this.appName);
 
-    this.mkdir(appRoot);
+    mkdirp.sync(appRoot);
     process.chdir(appRoot);
     this.invoke('kraken:controller', { args: [ 'index', this.templateModule ] });
 };
