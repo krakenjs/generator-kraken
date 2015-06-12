@@ -22,16 +22,19 @@ var util = require('util'),
     path = require('path'),
     yeoman = require('yeoman-generator'),
     krakenutil = require('../util'),
-    prompts = require('./prompts');
-
+    prompts = require('./prompts'),
+    fs = require('fs');
 
 
 var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
+    var cwd = this.env.cwd,
+        filePath = path.join(cwd, 'package.json');
 
     krakenutil.update();
 
-    this.hasTemplates = (args[1]) ? true : false;
+    this.hasTemplates = args[1] || hasTemplates(filePath);
+
     // Create the corresponding model and template as well
     this.hookFor('kraken:model', {
         args: args,
@@ -41,7 +44,8 @@ var Generator = module.exports = function Generator(args, options, config) {
     });
 
     //if there is a templateModule selected
-    if(args[1]) {
+    if(this.hasTemplates) {
+        args[1] = this.hasTemplates;
         args.pop();
         this.hookFor('kraken:template', {
             args: args,
@@ -84,13 +88,17 @@ Generator.prototype.askFor = function askFor() {
     var userPrompts = prompts(this),
         next = this.async();
 
-    this.prompt(userPrompts, function (props) {
-        for (var key in props) {
-            this[key] = props[key];
-        }
+    if (userPrompts[0].when()) {
+        this.prompt(userPrompts, function(props) {
+            for (var key in props) {
+                this[key] = props[key];
+            }
 
+            next();
+        }.bind(this));
+    } else {
         next();
-    }.bind(this));
+    }
 };
 
 
@@ -98,3 +106,11 @@ Generator.prototype.files = function files() {
     this.template('controller.js', path.join('controllers', this.fullpath + '.js'));
     this.template('test.js', path.join('test', this.fullpath + '.js'));
 };
+
+function hasTemplates(filePath) {
+    try {
+        return JSON.parse(fs.readFileSync(filePath, 'utf-8'))['generator-kraken'].template;
+    } catch (e) {
+        return null;
+    }
+}

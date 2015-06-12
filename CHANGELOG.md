@@ -1,6 +1,28 @@
 # CHANGELOG
 
 
+## v1.2.0
+
+-- Upgrading to kraken-js v1.0.3
+-- Upgrading to kraken-devtools 1.2.1
+-- Upgrading to engine-munger 0.2.5
+-- Upgrading to express 4.12.2
+-- Upgrading to grunt 0.4.5
+-- Upgrading to grunt-contrib-clean 0.6.0.
+-- Upgrading to requirejs 2.1.16
+-- Upgrading to grunt-browserify 3.5.1
+-- Upgrading to node-sass 2.0.1
+-- Upgrading to grunt-sass 0.18.1
+-- Upgrading to dustjs-linkedin to 2.6.1
+-- Upgrading to dustjs-linkedin-helpers 1.6.1.
+-- Upgrading to grunt-dustjs 1.2.1.
+-- Upgrading to update-notifier 0.3.1
+-- Updated update.js to work with new version of update-notifier
+-- Upgarding to chalk 1.0.0
+-- Fix generator to work correctly with node 0.12.0 
+-- Fix contoller to create json files correctly
+
+
 ## v1.0.0
 
 - Upgrading to kraken-js v1.0.0

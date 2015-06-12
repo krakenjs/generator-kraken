@@ -8,10 +8,10 @@
         "test": "grunt test"
     },
     "dependencies": {
-        "kraken-js": "^1.0.1",
-        "kraken-devtools": "^1.0.0",
-        "engine-munger": "^0.2.0",
-        "express": "^4.3.0"
+        "kraken-js": "^1.0.3",
+        "kraken-devtools": "^1.2.1",
+        "engine-munger": "^0.2.5",
+        "express": "^4.12.2"
     },
     "devDependencies": {
         "mocha": "^1.18.0",
