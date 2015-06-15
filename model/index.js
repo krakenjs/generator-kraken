@@ -18,37 +18,30 @@
 'use strict';
 
 
-var util = require('util'),
-    path = require('path'),
+var path = require('path'),
     yeoman = require('yeoman-generator'),
+    us = require('underscore.string'),
     krakenutil = require('../util');
 
 
-var Generator = module.exports = function Generator(args, options, config) {
-    yeoman.generators.Base.apply(this, arguments);
+module.exports = yeoman.generators.Base.extend({
+    init: function () {
+        krakenutil.update();
+    },
+    defaults: function defaults() {
+        this.argument('name', { type: String, required: true });
 
-    krakenutil.update();
-
-    // Handle errors politely
-    this.on('error', function (err) {
-        console.error(err.message);
-        console.log(this.help());
-        process.exit(1);
-    });
-};
-
-
-util.inherits(Generator, yeoman.generators.NamedBase);
-
-
-Generator.prototype.defaults = function defaults() {
-    this.argument('name', { type: String, required: true });
-
-    var parts = krakenutil.parsePath(this.name);
-    krakenutil.extend(this, parts);
-};
-
-
-Generator.prototype.files = function files() {
-    this.template('model.js', path.join('models', this.model + '.js'));
-};
+        var parts = krakenutil.parsePath(this.name);
+        krakenutil.extend(this, parts);
+    },
+    files: function files() {
+        this.fs.copyTpl(
+            this.templatePath('model.js'),
+            this.destinationPath(path.join('models', this.model + '.js')),
+            {
+                us: us,
+                model: this.model
+            }
+        );
+    }
+});
