@@ -20,7 +20,7 @@
 'use strict';
 
 
-var helpers = require('yeoman-generator').test,
+var assert = require('yeoman-generator').assert,
     testutil = require('./util');
 
 
@@ -30,11 +30,12 @@ describe('kraken:controller', function () {
     it('creates new controller', function (done) {
         var base = testutil.makeBase('controller');
 
-        base.args = [ 'Foo', 'dustjs' ];
+        base.args = [ 'Foo' ];
+        base.options.templateModule = 'dustjs';
         base.prompt = { useJson: false };
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'controllers/Foo/index.js',
                 'test/Foo/index.js',
                 'models/Foo.js',
@@ -50,10 +51,11 @@ describe('kraken:controller', function () {
     it('routes are case-sensitive', function (done) {
         var base = testutil.makeBase('controller');
 
-        base.args = [ 'cAsEsEnSiTiVe', 'dustjs' ];
+        base.args = [ 'cAsEsEnSiTiVe' ];
+        base.options.templateModule = 'dustjs';
 
         testutil.run(base, function (err) {
-            helpers.assertFile('controllers/cAsEsEnSiTiVe/index.js');
+            assert.file('controllers/cAsEsEnSiTiVe/index.js');
 
             done(err);
         });
@@ -63,15 +65,12 @@ describe('kraken:controller', function () {
     it('supports JSON content negotiation', function (done) {
         var base = testutil.makeBase('controller');
 
-        base.args = [ 'JSONTest', 'dustjs' ];
+        base.args = [ 'JSONTest' ];
+        base.options.templateModule = 'dustjs';
         base.prompt = { useJson: true };
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
-                'controllers/JSONTest/index.js'
-            ]);
-
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['controllers/JSONTest/index.js', new RegExp(/res.format/)]
             ]);
 
@@ -83,10 +82,11 @@ describe('kraken:controller', function () {
     it('creates a test for each controller', function (done) {
         var base = testutil.makeBase('controller');
 
-        base.args = [ 'Testy', 'dustjs' ];
+        base.args = [ 'Testy' ];
+        base.options.templateModule = 'dustjs';
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'test/Testy/index.js'
             ]);
 
@@ -101,7 +101,7 @@ describe('kraken:controller', function () {
         base.args = [ 'ModelTest' ];
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'models/ModelTest.js'
             ]);
 
@@ -113,10 +113,11 @@ describe('kraken:controller', function () {
     it('creates a template for each controller', function (done) {
         var base = testutil.makeBase('controller');
 
-        base.args = [ 'TemplateTest', 'dustjs' ];
+        base.args = [ 'TemplateTest' ];
+        base.options.templateModule = 'dustjs';
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'public/templates/TemplateTest/index.dust'
             ]);
 
@@ -128,10 +129,11 @@ describe('kraken:controller', function () {
     it('creates a content bundle for each controller', function (done) {
         var base = testutil.makeBase('controller');
 
-        base.args = [ 'ContentTest', 'dustjs' ];
+        base.args = [ 'ContentTest' ];
+        base.options.templateModule = 'dustjs';
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'public/templates/ContentTest/index.dust'
             ]);
 
@@ -143,10 +145,11 @@ describe('kraken:controller', function () {
     it('should support deep linking of paths', function (done) {
         var base = testutil.makeBase('controller');
 
-        base.args = [ 'a/deep/link', 'dustjs' ];
+        base.args = [ 'a/deep/link' ];
+        base.options.templateModule = 'dustjs';
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'controllers/a/deep/link/index.js',
                 'models/link.js',
                 'test/a/deep/link/index.js',
@@ -154,7 +157,7 @@ describe('kraken:controller', function () {
                 'locales/US/en/a/deep/link/index.properties'
             ]);
 
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['controllers/a/deep/link/index.js', new RegExp(/require\('\.\.\/\.\.\/\.\.\/\.\.\/models\/link\'\)/)],
                 ['controllers/a/deep/link/index.js', new RegExp(/router.get\(\'\/\'/)],
                 ['controllers/a/deep/link/index.js', new RegExp(/res.render\(\'a\/deep\/link\/index\'/)]
@@ -169,13 +172,13 @@ describe('kraken:controller', function () {
         base.args = ['index'];
 
         testutil.run(base, function(err) {
-            helpers.assertFile([
+            assert.file([
                 'controllers/index.js',
                 'models/index.js',
                 'test/index.js'
             ]);
 
-            helpers.assertNoFile([
+            assert.noFile([
                 'public/templates/a/deep/link/index.dust',
                 'locales/US/en/a/deep/link/index.properties'
             ]);

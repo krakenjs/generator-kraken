@@ -20,10 +20,11 @@
 'use strict';
 
 
-var path = require('path'),
-    assert = require('yeoman-generator').assert,
-    helpers = require('yeoman-generator').test,
-    testutil = require('./util');
+var path = require('path');
+var assert = require('yeoman-generator').assert;
+var testutil = require('./util');
+var fs = require('fs');
+var pkg = require('../package');
 
 
 describe('kraken:app', function () {
@@ -37,7 +38,7 @@ describe('kraken:app', function () {
         base.prompt['dependency:UIPackageManager'] = 'bower';
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 '.bowerrc',
                 '.editorconfig',
                 '.gitignore',
@@ -58,7 +59,7 @@ describe('kraken:app', function () {
         base.options['skip-install-npm'] = true;
 
          testutil.run(base, function (err) {
-             helpers.assertFile([
+             assert.file([
                  'Gruntfile.js',
                  'README.md',
                  'index.js',
@@ -83,7 +84,7 @@ describe('kraken:app', function () {
         delete base.prompt.appName;
 
         testutil.run(base, function (err) {
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['package.json', new RegExp(/\"name\"\: \"myapp\"/)]
             ]);
 
@@ -99,24 +100,29 @@ describe('kraken:app', function () {
         base.options['skip-install-npm'] = true;
 
         base.prompt['appName'] = 'MetaTest';
-        base.prompt['templateModule'] = 'a';
-        base.prompt['cssModule'] = 'b';
-        base.prompt['jsModule'] = false;
-        base.prompt['taskModule'] = 'd';
+        base.prompt['dependency:templateModule'] = 'dustjs';
+        base.prompt['dependency:cssModule'] = 'less';
+        base.prompt['dependency:jsModule'] = false;
+        base.prompt['dependency:taskModule'] = 'grunt';
 
-        testutil.run(base, function (err) {
-            var pkg = require('../package'),
-                appRoot = path.join(__dirname, '..', 'tmp', base.prompt['appName']),
-                appPkg = require(path.join(appRoot, 'package')),
-                meta = appPkg[pkg.name];
+        testutil.run(base, function () {
+            fs.readFile(path.resolve(__dirname, '..', 'tmp', 'package.json'), 'utf-8', function (err, contents) {
+                if (err) {
+                    return done(err);
+                }
 
-            assert(meta.version === pkg.version);
-            assert(meta.template === base.prompt['templateModule']);
-            assert(meta.css === base.prompt['cssModule']);
-            assert(meta.js === base.prompt['jsModule']);
-            assert(meta.task === base.prompt['taskModule']);
+                var appPkg = JSON.parse(contents);
 
-            done(err);
+                var meta = appPkg[pkg.name];
+
+                assert(meta.version === pkg.version);
+                assert(meta.template === base.prompt['dependency:templateModule']);
+                assert(meta.css === base.prompt['dependency:cssModule']);
+                assert(meta.js === base.prompt['dependency:jsModule']);
+                assert(meta.task === base.prompt['dependency:taskModule']);
+
+                done(err);
+            });
         });
 
     });
@@ -127,7 +133,7 @@ describe('kraken:app', function () {
         base.options['skip-install-bower'] = true;
         base.options['skip-install-npm'] = true;
 
-        base.prompt['cssModule'] = 'b';
+        base.prompt['dependency:cssModule'] = 'less';
 
         testutil.run(base, function (err) {
             assert.fileContent('public/templates/layouts/master.dust', /href\="\/css\/app\.css"/);

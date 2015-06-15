@@ -20,7 +20,7 @@
 'use strict';
 
 
-var helpers = require('yeoman-generator').test,
+var assert = require('yeoman-generator').assert,
     testutil = require('./util');
 
 
@@ -33,7 +33,7 @@ describe('kraken:template', function () {
         base.prompt.templateModule = 'dustjs';
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'public/templates/Foo/index.dust'
             ]);
 
@@ -49,7 +49,7 @@ describe('kraken:template', function () {
         base.prompt.templateModule = 'dustjs';
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'locales/US/en/Bar/index.properties'
             ]);
 
