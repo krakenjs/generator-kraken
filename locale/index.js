@@ -28,13 +28,6 @@ var Generator = module.exports = function Generator(args, options, config) {
     yeoman.generators.Base.apply(this, arguments);
 
     krakenutil.update();
-
-    // Handle errors politely
-    this.on('error', function (err) {
-        console.error(err.message);
-        console.log(this.help());
-        process.exit(1);
-    });
 };
 
 
