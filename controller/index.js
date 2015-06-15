@@ -18,94 +18,90 @@
 'use strict';
 
 
-var util = require('util'),
-    path = require('path'),
+var path = require('path'),
     yeoman = require('yeoman-generator'),
     krakenutil = require('../util'),
     prompts = require('./prompts'),
+    us = require('underscore.string'),
     fs = require('fs');
 
 
-var Generator = module.exports = function Generator(args, options, config) {
-    yeoman.generators.Base.apply(this, arguments);
-    var cwd = this.env.cwd,
-        filePath = path.join(cwd, 'package.json');
+module.exports = yeoman.generators.Base.extend({
+    init: function () {
+        var filePath = this.destinationPath('package.json');
 
-    krakenutil.update();
+        krakenutil.update();
 
-    this.hasTemplates = args[1] || hasTemplates(filePath);
+        this.hasTemplates = this.options.templateModule || hasTemplates(filePath);
 
-    // Create the corresponding model and template as well
-    this.hookFor('kraken:model', {
-        args: args,
-        options: {
-            options: options
+        // Create the corresponding model and template as well
+        this.composeWith('kraken:model', { args: this.args }, { link: 'strong' });
+
+        //if there is a templateModule selected
+        if(this.hasTemplates) {
+            this.composeWith('kraken:template', { args: this.args }, { link: 'strong' });
         }
-    });
 
-    //if there is a templateModule selected
-    if(this.hasTemplates) {
-        args[1] = this.hasTemplates;
-        args.pop();
-        this.hookFor('kraken:template', {
-            args: args,
-            options: {
-                options: options
+        this.argument('name', { type: String, required: true });
+
+        this.useJson = null;
+
+        var parts = krakenutil.parsePath(this.name);
+        parts.modelPath = path.join(parts.root, 'models', parts.model);
+        parts.specPath = path.join(parts.root, 'lib', 'spec');
+        if (path.sep === '\\') {
+            parts.modelPath = parts.modelPath.replace(/\\/g, '/');
+            parts.specPath = parts.specPath.replace(/\\/g, '/');
+        }
+        krakenutil.extend(this, parts);
+    },
+
+    prompting: {
+        askFor: function () {
+            var userPrompts = prompts(this),
+                next = this.async();
+
+            if (userPrompts[0].when()) {
+                this.prompt(userPrompts, function(props) {
+                    for (var key in props) {
+                        this[key] = props[key];
+                    }
+
+                    next();
+                }.bind(this));
+            } else {
+                next();
             }
-        });
+        }
+    },
+
+    writing: {
+        files: function files() {
+            this.fs.copyTpl(
+                this.templatePath('controller.js'),
+                this.destinationPath(path.join('controllers', this.fullpath + '.js')),
+                {
+                    model: this.model,
+                    us: us,
+                    hasTemplates: this.hasTemplates,
+                    useJson: this.useJson,
+                    fullname: this.fullname,
+                    modelPath: this.modelPath,
+                    route: this.route
+                }
+            );
+            this.fs.copyTpl(
+                this.templatePath('test.js'),
+                this.destinationPath(path.join('test', this.fullpath + '.js')),
+                {
+                    hasTemplates: this.hasTemplates,
+                    fullroute: this.fullroute
+                }
+            );
+        }
     }
+});
 
-    // Handle errors politely
-    this.on('error', function (err) {
-        console.error(err.message);
-        console.log(this.help());
-        process.exit(1);
-    });
-
-};
-
-
-util.inherits(Generator, yeoman.generators.NamedBase);
-
-
-Generator.prototype.defaults = function defaults() {
-    this.argument('name', { type: String, required: true });
-
-    this.useJson = null;
-
-    var parts = krakenutil.parsePath(this.name);
-    parts.modelPath = path.join(parts.root, 'models', parts.model);
-    parts.specPath = path.join(parts.root, 'lib', 'spec');
-    if (path.sep === '\\') {
-        parts.modelPath = parts.modelPath.replace(/\\/g, '/');
-        parts.specPath = parts.specPath.replace(/\\/g, '/');
-    }
-    krakenutil.extend(this, parts);
-};
-
-
-Generator.prototype.askFor = function askFor() {
-    var userPrompts = prompts(this),
-        next = this.async();
-
-    if (userPrompts[0].when()) {
-        this.prompt(userPrompts, function(props) {
-            for (var key in props) {
-                this[key] = props[key];
-            }
-
-            next();
-        }.bind(this));
-    } else {
-        next();
-    }
-};
-
-
-Generator.prototype.files = function files() {
-    this.template('controller.js', path.join('controllers', this.fullpath + '.js'));
-    this.template('test.js', path.join('test', this.fullpath + '.js'));
-};
 
 function hasTemplates(filePath) {
     try {
