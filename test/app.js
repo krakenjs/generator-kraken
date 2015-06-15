@@ -28,7 +28,7 @@ var pkg = require('../package');
 
 
 describe('kraken:app', function () {
-
+    this.timeout(Infinity);
 
     it('scaffolds dot files', function (done) {
         var base = testutil.makeBase('app');
