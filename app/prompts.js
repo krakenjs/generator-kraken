@@ -19,7 +19,7 @@
 
 
 module.exports = function (generator) {
-    
+
     return [
         {
             message: 'Name',
@@ -45,6 +45,25 @@ module.exports = function (generator) {
             name: 'appAuthor',
             validate: function (str) {
                 return !!str;
+            }
+        },
+
+        {
+            message: 'Include i18n support?',
+            type: 'list',
+            name: 'i18n',
+            choices: [
+                {
+                    name: 'Yes',
+                    value: 'i18n'
+                },
+                {
+                    name: 'No',
+                    value: false
+                }
+            ],
+            when: function () {
+                return generator.options.i18n == null;
             }
         },
 

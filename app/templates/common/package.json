@@ -1,5 +1,5 @@
 {
-    "name": "<%= _.slugify(appName) %>",
+    "name": "<%= us.slugify(appName) %>",
     "version": "0.1.0",
     "description": "<%= appDescription.replace(/"/g, '\\"') %>",
     "author": "<%= appAuthor.replace(/"/g, '\\"') %>",
