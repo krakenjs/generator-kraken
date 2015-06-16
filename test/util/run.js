@@ -18,6 +18,8 @@ module.exports = function run(config, done) {
         var app = helpers.createGenerator(config.type, config.dependencies, config.args, config.options);
         helpers.mockPrompt(app, config.prompt);
 
-        app.run(done);
+        app.run(function () {
+            done(null, app);
+        });
     });
 };

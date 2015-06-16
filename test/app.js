@@ -105,8 +105,11 @@ describe('kraken:app', function () {
         base.prompt['dependency:jsModule'] = false;
         base.prompt['dependency:taskModule'] = 'grunt';
 
-        testutil.run(base, function () {
-            fs.readFile(path.resolve(__dirname, '..', 'tmp', 'package.json'), 'utf-8', function (err, contents) {
+        testutil.run(base, function (err, app) {
+            if (err) {
+                return done(err);
+            }
+            fs.readFile(path.resolve(app.destinationRoot(), 'package.json'), 'utf-8', function (err, contents) {
                 if (err) {
                     return done(err);
                 }
