@@ -76,6 +76,13 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     writing: {
+        setRoot: function () {
+            var oldRoot = this.destinationRoot();
+            if (path.basename(oldRoot) !== this.appName) {
+                this.destinationRoot(path.join(oldRoot, this.appName));
+            }
+        },
+
         subGenerators: function subGenerators() {
             this.composeWith('kraken:controller', { args: [ 'index' ], options: { templateModule: this.templateModule } }, { link: 'strong' });
         },
