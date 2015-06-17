@@ -34,6 +34,7 @@ describe('kraken:app', function () {
         var base = testutil.makeBase('app');
 
         base.options['skip-install'] = false;
+        base.prompt.i18n = 'i18n';
 
         testutil.run(base, function (err) {
             if (err) { return done(err); }

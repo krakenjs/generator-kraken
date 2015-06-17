@@ -35,7 +35,7 @@ describe('kraken:app', function () {
 
         base.options['skip-install-bower'] = true;
         base.options['skip-install-npm'] = true;
-        base.prompt['dependency:UIPackageManager'] = 'bower';
+        base.prompt['componentPackager'] = 'bower';
 
         testutil.run(base, function (err) {
             assert.file([
@@ -100,10 +100,10 @@ describe('kraken:app', function () {
         base.options['skip-install-npm'] = true;
 
         base.prompt['appName'] = 'MetaTest';
-        base.prompt['dependency:templateModule'] = 'dustjs';
-        base.prompt['dependency:cssModule'] = 'less';
-        base.prompt['dependency:jsModule'] = false;
-        base.prompt['dependency:taskModule'] = 'grunt';
+        base.prompt['templateModule'] = 'dustjs';
+        base.prompt['cssModule'] = 'less';
+        base.prompt['jsModule'] = false;
+        base.prompt['taskModule'] = 'grunt';
 
         testutil.run(base, function (err, app) {
             if (err) {
@@ -119,10 +119,10 @@ describe('kraken:app', function () {
                 var meta = appPkg[pkg.name];
 
                 assert(meta.version === pkg.version);
-                assert(meta.template === base.prompt['dependency:templateModule']);
-                assert(meta.css === base.prompt['dependency:cssModule']);
-                assert(meta.js === base.prompt['dependency:jsModule']);
-                assert(meta.task === base.prompt['dependency:taskModule']);
+                assert(meta.template === base.prompt['templateModule']);
+                assert(meta.css === base.prompt['cssModule']);
+                assert(meta.js === base.prompt['jsModule']);
+                assert(meta.task === base.prompt['taskModule']);
 
                 done(err);
             });
@@ -136,7 +136,7 @@ describe('kraken:app', function () {
         base.options['skip-install-bower'] = true;
         base.options['skip-install-npm'] = true;
 
-        base.prompt['dependency:cssModule'] = 'less';
+        base.prompt['cssModule'] = 'less';
 
         testutil.run(base, function (err) {
             assert.fileContent('public/templates/layouts/master.dust', /href\="\/css\/app\.css"/);

@@ -38,11 +38,11 @@ module.exports = yeoman.generators.Base.extend({
         var options = this.options || {};
 
         this._addDependency('templateModule', options.templateModule);
-        this._addDependency('bower', options.UIPackageManager);
+        this._addDependency('componentPackager', options.componentPackager);
         this._addDependency('cssModule', options.cssModule);
         this._addDependency('jsModule', options.jsModule);
-        this._addDependency('taskModule', 'grunt');
-        this._addDependency('i18n', (options.i18n == null) ? 'i18n' : options.i18n);
+        this._addDependency('taskModule', options.taskModule || 'grunt');
+        this._addDependency('i18n', options.i18n);
 
         // CLI args
         this.argument('appName', { type: String, required: false });
@@ -50,23 +50,13 @@ module.exports = yeoman.generators.Base.extend({
 
     prompting: {
         askFor: function askFor() {
-            var userPrompts = prompts(this),
-                next = this.async();
+            var userPrompts = prompts(this);
+            var next = this.async();
 
             this.prompt(userPrompts, function (props) {
-                var dependency, prop;
 
                 for (var key in props) {
-                    prop = props[key];
-                    dependency = key.split('dependency:')[1];
-
-                    if (dependency) {
-                        this._addDependency(dependency, prop);
-                    } else {
-                        if (prop != null) {
-                            this[key] = prop;
-                        }
-                    }
+                    this._addDependency(key, props[key]);
                 }
 
                 next();
@@ -211,12 +201,8 @@ module.exports = yeoman.generators.Base.extend({
 
         this[key] = value;
 
-        if (value) {
-            if (dependencies[value]) {
-                this.dependencies.push(value);
-            } else {
-                throw new Error('Unable to resolve dependency: ' + key + ':' + value);
-            }
+        if (value && dependencies[value]) {
+            this.dependencies.push(value);
         }
     },
 

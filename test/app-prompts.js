@@ -32,11 +32,11 @@ describe('kraken:app', function () {
     it('creates an app which uses dust', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = 'dustjs';
-        base.prompt['dependency:UIPackageManager'] = 'bower';
-        base.prompt['dependency:cssModule'] = 'less';
+        base.prompt['templateModule'] = 'dustjs';
+        base.prompt['componentPackager'] = 'bower';
+        base.prompt['cssModule'] = 'less';
         base.prompt['i18n'] = false;
-        base.prompt['dependency:jsModule'] = false;
+        base.prompt['jsModule'] = false;
 
         testutil.run(base, function (err) {
             assert.file([
@@ -66,10 +66,10 @@ describe('kraken:app', function () {
     it('creates an app which does not have any view engine', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['dependency:cssModule'] = false;
+        base.prompt['templateModule'] = false;
+        base.prompt['cssModule'] = false;
         base.prompt['i18n'] = false;
-        base.prompt['dependency:jsModule'] = false;
+        base.prompt['jsModule'] = false;
 
         testutil.run(base, function (err) {
 
@@ -96,9 +96,9 @@ describe('kraken:app', function () {
     it('creates an app which uses i18n', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['i18n'] = true;
-        base.prompt['dependency:jsModule'] = false;
+        base.prompt['templateModule'] = false;
+        base.prompt['i18n'] = 'i18n';
+        base.prompt['jsModule'] = false;
 
         testutil.run(base, function (err) {
             assert.file([
@@ -120,9 +120,9 @@ describe('kraken:app', function () {
     it('creates an app which uses less', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['dependency:cssModule'] = 'less';
-        base.prompt['dependency:jsModule'] = false;
+        base.prompt['templateModule'] = false;
+        base.prompt['cssModule'] = 'less';
+        base.prompt['jsModule'] = false;
 
         testutil.run(base, function (err) {
             assert.file([
@@ -143,9 +143,9 @@ describe('kraken:app', function () {
     it('creates an app which uses sass', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['dependency:cssModule'] = 'sass';
-        base.prompt['dependency:jsModule'] = false;
+        base.prompt['templateModule'] = false;
+        base.prompt['cssModule'] = 'sass';
+        base.prompt['jsModule'] = false;
 
         testutil.run(base, function (err) {
             assert.file([
@@ -166,9 +166,9 @@ describe('kraken:app', function () {
     it('creates an app which uses stylus', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['dependency:cssModule'] = 'stylus';
-        base.prompt['dependency:jsModule'] = false;
+        base.prompt['templateModule'] = false;
+        base.prompt['cssModule'] = 'stylus';
+        base.prompt['jsModule'] = false;
 
         testutil.run(base, function (err) {
             assert.file([
@@ -189,9 +189,9 @@ describe('kraken:app', function () {
     it('creates an app which uses requirejs', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['dependency:cssModule'] = false;
-        base.prompt['dependency:jsModule'] = 'requirejs';
+        base.prompt['templateModule'] = false;
+        base.prompt['cssModule'] = false;
+        base.prompt['jsModule'] = 'requirejs';
 
         testutil.run(base, function (err) {
             assert.file([
@@ -212,9 +212,9 @@ describe('kraken:app', function () {
     it('creates an app which uses browserify', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['dependency:cssModule'] = false;
-        base.prompt['dependency:jsModule'] = 'browserify';
+        base.prompt['templateModule'] = false;
+        base.prompt['cssModule'] = false;
+        base.prompt['jsModule'] = 'browserify';
 
         testutil.run(base, function (err) {
             assert.file([

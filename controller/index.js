@@ -38,7 +38,7 @@ module.exports = yeoman.generators.Base.extend({
         this.composeWith('kraken:model', { args: this.args }, { link: 'strong' });
 
         //if there is a templateModule selected
-        if(this.hasTemplates) {
+        if (this.hasTemplates) {
             this.composeWith('kraken:template', { args: this.args }, { link: 'strong' });
         }
 
