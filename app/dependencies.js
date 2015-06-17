@@ -32,7 +32,8 @@ module.exports = {
         ],
         npmDev: [
             'grunt-dustjs@^1.2.1'
-        ]
+        ],
+        templates: "dustjs"
     },
 
     i18n: {
@@ -41,12 +42,15 @@ module.exports = {
         ],
         npmDev: [
             'grunt-localizr@^0.2.1'
-        ]
+        ],
+        templates: "i18n"
     },
 
     specialization: {},
 
-    bower: {},
+    bower: {
+        templates: "bower"
+    },
 
     grunt: {
         npmDev: [
@@ -65,7 +69,8 @@ module.exports = {
         ],
         npmDev: [
             'grunt-contrib-less@^0.9.0'
-        ]
+        ],
+        templates: "less"
     },
 
     sass: {
@@ -74,7 +79,8 @@ module.exports = {
         ],
         npmDev: [
             'grunt-sass@^0.18.1'
-        ]
+        ],
+        templates: "sass"
     },
 
     stylus: {
@@ -83,7 +89,8 @@ module.exports = {
         ],
         npmDev: [
             'grunt-contrib-stylus@^0.13.2'
-        ]
+        ],
+        templates: "stylus"
     },
 
     requirejs: {
@@ -95,14 +102,16 @@ module.exports = {
         ],
         npmDev: [
             'grunt-contrib-requirejs@^0.4.4'
-        ]
+        ],
+        templates: "requirejs"
     },
 
 
     browserify: {
         npmDev: [
             'grunt-browserify@^3.5.1'
-        ]
+        ],
+        templates: "browserify"
     }
 
 };

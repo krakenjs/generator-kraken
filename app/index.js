@@ -26,6 +26,8 @@ var path = require('path'),
     pkg = require('../package.json'),
     us = require('underscore.string');
 
+var debug = require('debuglog')('generator-kraken');
+
 module.exports = yeoman.generators.Base.extend({
     init: function () {
         krakenutil.banner();
@@ -94,10 +96,21 @@ module.exports = yeoman.generators.Base.extend({
                 this._getModel()
             );
 
-            // Copy over dependency tasks
-            this.dependencies.forEach(function (dependency) {
-                this._dependencyCopier(dependency);
-            }.bind(this));
+            var deps = this._dependencyResolver('templates');
+
+            var gen = this;
+
+            deps.forEach(function (name) {
+                gen.fs.copyTpl(
+                    gen.templatePath(path.join('dependencies', name, '**')),
+                    gen.destinationPath(),
+                    gen._getModel()
+                );
+                gen.fs.copyTpl(
+                    gen.templatePath(path.join('dependencies', name, '.*')),
+                    gen.destinationPath()
+                );
+            });
 
         }
     },
@@ -148,23 +161,7 @@ module.exports = yeoman.generators.Base.extend({
         }
     },
 
-    /**
-     * Copies dependency files
-     */
-    _dependencyCopier: function dependencyCopier(name) {
-        this.fs.copyTpl(
-            this.templatePath(path.join('dependencies', name, '**')),
-            this.destinationPath(),
-            this._getModel()
-        );
-        this.fs.copyTpl(
-            this.templatePath(path.join('dependencies', name, '.*')),
-            this.destinationPath()
-        );
-    },
-
     _getModel: function getModel() {
-
         var tasks = ['jshint'];
         if (this.cssModule) {
             tasks.push(this.cssModule);
@@ -199,6 +196,8 @@ module.exports = yeoman.generators.Base.extend({
      */
     _addDependency: function addDependency(key, value) {
 
+        debug("setting '%s' to %j", key, value);
+
         this[key] = value;
 
         if (value && dependencies[value]) {
@@ -211,17 +210,19 @@ module.exports = yeoman.generators.Base.extend({
      * Resolves named dependencies from the prompt options
      */
     _dependencyResolver: function dependencyResolver(type) {
+        debug("resolving dependencies of type '%s'", type);
         var result = [];
 
         this.dependencies.forEach(function (x) {
             var value = x && dependencies[x] && dependencies[x][type];
 
             if (value) {
-                result.push(value.join(' '));
+                debug("resolving got %j for dependency '%s'", value, x);
+                result = result.concat(value);
             }
         });
 
-        return result.length ? result.join(' ') : false;
+        return result.length ? result : false;
     }
 
 });
