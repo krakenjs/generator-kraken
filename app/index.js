@@ -100,18 +100,21 @@ module.exports = yeoman.generators.Base.extend({
 
             var gen = this;
 
-            deps.forEach(function (name) {
+            deps.forEach(function (glob) {
+                var parts = glob.split('/');
+                var firstWildcard = parts.map(function (e) {
+                    return /[*]/.test(e);
+                }).indexOf(true);
+
+                debug("copying '%s' to '%s'", path.join('dependencies', glob), parts.slice(1, firstWildcard).join('/') || '.');
+                // We assume that each glob given to us includes one path
+                // element to strip off.
                 gen.fs.copyTpl(
-                    gen.templatePath(path.join('dependencies', name, '**')),
-                    gen.destinationPath(),
+                    gen.templatePath(path.join('dependencies', glob)),
+                    gen.destinationPath(parts.slice(1, firstWildcard).join('/') || '.'),
                     gen._getModel()
                 );
-                gen.fs.copyTpl(
-                    gen.templatePath(path.join('dependencies', name, '.*')),
-                    gen.destinationPath()
-                );
             });
-
         }
     },
 
@@ -161,21 +164,17 @@ module.exports = yeoman.generators.Base.extend({
         }
     },
 
-    _getModel: function getModel() {
-        var tasks = ['jshint'];
-        if (this.cssModule) {
-            tasks.push(this.cssModule);
-        }
-        if (this.jsModule) {
-            tasks.push(this.jsModule);
-        }
-        if (this.i18n) {
-            tasks.push('i18n');
-        } else if (this.templateModule) {
-            tasks.push(this.templateModule);
-        }
-        tasks.push('copyto');
+    _getTasks: function getTasks() {
+        if (!this.tasks) {
+            this.tasks = ['jshint'];
+            this.tasks = this.tasks.concat(this._dependencyResolver('tasks'));
 
+            this.tasks.push('copyto');
+        }
+        return this.tasks;
+    },
+
+    _getModel: function getModel() {
         return {
             us: us,
             i18n: this.i18n,
@@ -187,7 +186,7 @@ module.exports = yeoman.generators.Base.extend({
             jsModule: this.jsModule,
             cssModule: this.cssModule,
             taskModule: this.taskModule,
-            tasks: tasks
+            tasks: this._getTasks()
         };
     },
 
@@ -212,15 +211,23 @@ module.exports = yeoman.generators.Base.extend({
     _dependencyResolver: function dependencyResolver(type) {
         debug("resolving dependencies of type '%s'", type);
         var result = [];
+        var gen = this;
 
         this.dependencies.forEach(function (x) {
             var value = x && dependencies[x] && dependencies[x][type];
 
+            if (typeof value === 'function') {
+                debug("function, looking up");
+                value = value(gen);
+            }
+
+            debug("resolving got %j for dependency '%s'", value, x);
             if (value) {
-                debug("resolving got %j for dependency '%s'", value, x);
                 result = result.concat(value);
             }
         });
+
+        debug("resolved dependencies of type '%s' to %j", type, result);
 
         return result.length ? result : false;
     }

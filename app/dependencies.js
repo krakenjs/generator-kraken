@@ -33,23 +33,57 @@ module.exports = {
         npmDev: [
             'grunt-dustjs@^1.2.1'
         ],
-        templates: "dustjs"
+        tasks: function (gen) {
+            if (!gen.i18n) {
+                return "dustjs";
+            }
+        },
+        templates: "dustjs/**"
     },
 
     i18n: {
-        npm: [
-            'localizr@^0.1.2'
-        ],
-        npmDev: [
-            'grunt-localizr@^0.2.1'
-        ],
-        templates: "i18n"
+        npm: function (gen) {
+            if (gen.templateModule === 'dustjs') {
+                return 'localizr@^0.1.2';
+            } else if (gen.templateModule === 'makara') {
+                return 'dust-makara-helpers@^4.0.0-8';
+            }
+        },
+        npmDev: function (gen) {
+            if (gen.templateModule === 'dustjs') {
+                return 'grunt-localizr@^0.2.1';
+            } else if (gen.templateModule === 'makara') {
+                if (gen.jsModule === 'browserify') {
+                    return 'grunt-makara-browserify@^1.0.1';
+                } else if (gen.jsModule === 'requirejs') {
+                    return 'grunt-makara-amdify@^1.0.1';
+                }
+            }
+        },
+        tasks: function (gen) {
+            if (gen.templateModule === 'dustjs') {
+                return 'i18n';
+            } else if (gen.templateModule === 'makara') {
+                if (gen.jsModule === 'browserify') {
+                    return 'makara-browserify';
+                } else if (gen.jsModule === 'requirejs') {
+                    return 'makara-amdify';
+                }
+            }
+        },
+        templates: function (gen) {
+            var globs = ["i18n/locales/**"];
+            if (gen.templateModule === 'dustjs') {
+                globs.push("i18n/tasks/**");
+            }
+            return globs;
+        }
     },
 
     specialization: {},
 
     bower: {
-        templates: "bower"
+        templates: ["bower/**", "bower/.*"]
     },
 
     grunt: {
@@ -70,7 +104,8 @@ module.exports = {
         npmDev: [
             'grunt-contrib-less@^0.9.0'
         ],
-        templates: "less"
+        tasks: "less",
+        templates: "less/**"
     },
 
     sass: {
@@ -80,7 +115,8 @@ module.exports = {
         npmDev: [
             'grunt-sass@^0.18.1'
         ],
-        templates: "sass"
+        tasks: "sass",
+        templates: "sass/**"
     },
 
     stylus: {
@@ -90,7 +126,8 @@ module.exports = {
         npmDev: [
             'grunt-contrib-stylus@^0.13.2'
         ],
-        templates: "stylus"
+        tasks: "stylus",
+        templates: "stylus/**"
     },
 
     requirejs: {
@@ -103,7 +140,8 @@ module.exports = {
         npmDev: [
             'grunt-contrib-requirejs@^0.4.4'
         ],
-        templates: "requirejs"
+        tasks: "requirejs",
+        templates: "requirejs/**"
     },
 
 
@@ -111,7 +149,8 @@ module.exports = {
         npmDev: [
             'grunt-browserify@^3.5.1'
         ],
-        templates: "browserify"
+        tasks: "browserify",
+        templates: "browserify/**"
     }
 
 };
