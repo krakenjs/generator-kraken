@@ -80,6 +80,17 @@ module.exports = {
         }
     },
 
+    "makara": {
+        npm: [
+            'makara@^2.0.0-5'
+        ],
+        npmDev: [
+            'grunt-dustjs@^1.2.1'
+        ],
+        tasks: "dustjs",
+        templates: "dustjs/**"
+    },
+
     specialization: {},
 
     bower: {

@@ -10,7 +10,9 @@
     "dependencies": {
         "kraken-js": "^1.0.3",
         "kraken-devtools": "^1.2.1",
+<% if (templateModule == 'dustjs') { %>
         "engine-munger": "^0.2.5",
+<% } %>
         "express": "^4.12.2"
     },
     "devDependencies": {

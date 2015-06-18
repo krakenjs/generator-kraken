@@ -49,6 +49,29 @@ module.exports = function (generator) {
         },
 
         {
+            message: 'Template library?',
+            type: 'list',
+            name: 'templateModule',
+            choices: [
+                {
+                    name: 'Dust (via Makara 2)',
+                    value: 'makara'
+                },
+                {
+                    name: 'Dust',
+                    value: 'dustjs'
+                },
+                {
+                    name: 'None',
+                    value: false
+                }
+            ],
+            when: function () {
+                return generator.templateModule == null;
+            }
+        },
+
+        {
             message: 'Include i18n support?',
             type: 'list',
             name: 'i18n',
@@ -63,26 +86,26 @@ module.exports = function (generator) {
                 }
             ],
             when: function () {
-                return generator.i18n == null;
+                return generator.i18n == null && generator.templateModule !== 'makara';
             }
         },
 
         {
-            message: 'Template library?',
+            message: 'Include i18n support?',
             type: 'list',
-            name: 'templateModule',
+            name: 'i18nMakara',
             choices: [
                 {
-                    name: 'Dust',
-                    value: 'dustjs'
+                    name: 'Yes',
+                    value: true
                 },
                 {
-                    name: 'None',
+                    name: 'No',
                     value: false
                 }
             ],
             when: function () {
-                return generator.templateModule == null;
+                return generator.i18nMakara == null && generator.templateModule === 'makara';
             }
         },
 

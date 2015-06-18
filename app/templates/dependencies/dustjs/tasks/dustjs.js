@@ -1,5 +1,6 @@
 'use strict';
 
+var path = require('path');
 
 module.exports = function dustjs(grunt) {
 	// Load task
@@ -11,13 +12,18 @@ module.exports = function dustjs(grunt) {
 	        files: [
 	            {
 	                expand: true,
+            <% if (i18n === 'i18n') { %>
 	                cwd: 'tmp/',
+            <% } else { %>
+                    cwd: 'public/templates/',
+            <% } %>
 	                src: '**/*.dust',
 	                dest: '.build/templates',
 	                ext: '.js'
 	            }
 	        ],
 	        options: {
+            <% if (i18n === 'i18n') { %>
 	            fullname: function (filepath) {
 	                var path = require('path'),
 	                    name = path.basename(filepath, '.dust'),
@@ -30,6 +36,11 @@ module.exports = function dustjs(grunt) {
 	                // Hardcoded to forwards slash on purpose. Keeps compatibility on win_32
 	                return fullname.join('/');
 	            }
+            <% } else { %>
+                fullname: function (filepath) {
+                    return path.relative('public/templates/', filepath).replace(/[.]dust$/, '');
+                }
+            <% } %>
 	        }
 	    }
 	};

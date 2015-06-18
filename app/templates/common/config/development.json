@@ -6,6 +6,7 @@
         "views": "path:./public/templates"
     },
 
+    <% if (templateModule === 'dustjs') { %>
     "view engines": {
         "dust": {
             "module": "engine-munger",
@@ -22,7 +23,21 @@
                 ]
             }
         }
-    },<% } %>
+    },
+    <% } else if (templateModule === 'makara') { %>
+    "view engines": {
+        "dust": {
+            "module": "makara",
+            "renderer": {
+                "method": "dust",
+                "arguments": [
+                    { "cache": true, "helpers": "config:dust.helpers" }
+                ]
+            }
+        }
+    },
+    <% } %>
+    <% } %>
 
     "middleware": {
 
@@ -34,17 +49,21 @@
                 "arguments": [
                     "path:./public",
                     "path:./.build",
-                    {   <% if (templateModule) { %>
+                    {
+                        <% if (templateModule === 'dustjs') { %>
                         "template": {
-                            "module": "kraken-devtools/plugins/<%= templateModule %>",
+                            "module": "kraken-devtools/plugins/dustjs",
                             "files": "/templates/**/*.js",
                             "base": "templates",
                             "i18n": "config:i18n"
-                        },<% } %><% if (cssModule) { %>
+                        },
+                        <% } %>
+                        <% if (cssModule) { %>
                         "css": {
                             "module": "kraken-devtools/plugins/<%= cssModule %>",
                             "files": "/css/**/*.css"
-                        },<% } %>
+                        },
+                        <% } %>
                         "copier": {
                             "module": "kraken-devtools/plugins/copier",
                             "files": "**/*"

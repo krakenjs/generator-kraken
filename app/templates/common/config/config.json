@@ -1,11 +1,14 @@
 {
 
-    <% if (templateModule) { %>"express": {
+    <% if (templateModule) { %>
+    "express": {
         "view cache": false,
         "view engine": "js",
         "views": "path:./.build/templates"
     },
+    <% } %>
 
+    <% if (templateModule === 'dustjs') { %>
     "view engines": {
         "js": {
             "module": "engine-munger",
@@ -23,38 +26,75 @@
             }
         }
     },
-    <% if (i18n) { %>
+    <% } else if (templateModule === 'makara') { %>
+    "view engines": {
+        "js": {
+            "module": "makara",
+            "renderer": {
+                "method": "js",
+                "arguments": [
+                    { "cache": true, "helpers": "config:dust.helpers" }
+                ]
+            }
+        }
+    },
 
+    "dust": {
+        "helpers": [
+    <% if (i18n) { %>
+            "dust-makara-helpers"
+    <% } %>
+        ]
+    },
+
+    <% if (i18n) { %>
     "i18n": {
         "contentPath": "path:./locales",
         "fallback": "en-US"
     },
     <% } %>
+
+    "specialization": {
+    },
     <% } %>
 
     "middleware": {
 
-        "static": {
-            "module": {
-                "arguments": [ "path:./.build" ]
-            }
-        }
-
-        ,"router": {
-            "module": {
-                "arguments": [{ "directory": "path:./controllers" }]
-            }
-        }
-
-        <% if (i18n) { %>
-        ,"expressView": {
+        <% if (templateModule == 'dustjs' && i18n) { %>
+        "expressView": {
             "priority": 100,
             "enabled": true,
             "module": {
                 "name": "engine-munger/lib/expressView"
             }
-        }
+        },
+        <% } else if (templateModule == 'makara') { %>
+        "makara": {
+            "priority": 100,
+            "enabled": true,
+            "module": {
+                "name": "makara",
+                "arguments": [
+                    {
+                        "i18n": "config:i18n",
+                        "specialization": "config:specialization"
+                    }
+                ]
+            }
+        },
         <% } %>
+
+        "static": {
+            "module": {
+                "arguments": [ "path:./.build" ]
+            }
+        },
+
+        "router": {
+            "module": {
+                "arguments": [{ "directory": "path:./controllers" }]
+            }
+        }
 
     }
 }
