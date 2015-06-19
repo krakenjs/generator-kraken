@@ -9,7 +9,7 @@ var kraken = require('kraken-js'),
     request = require('supertest');
 
 
-describe('<%= fullroute %>', function () {
+describe('<%= name %>', function () {
 
     var app, mock;
 
@@ -33,10 +33,10 @@ describe('<%= fullroute %>', function () {
 
     it('should say "hello"', function (done) {
         request(mock)
-            .get('<%= fullroute %>')
+            .get('<%= route %>')
             .expect(200)
             .expect('Content-Type', /html/)
-            <% if (hasTemplates) { %>
+            <% if (templateModule) { %>
                 .expect(/Hello, /)
             <% } else { %>
                 .expect(/"name": "index"/)

@@ -20,11 +20,8 @@
 'use strict';
 
 
-var path = require('path');
 var assert = require('yeoman-generator').assert;
 var testutil = require('./util');
-var fs = require('fs');
-var pkg = require('../package');
 
 
 describe('kraken:app', function () {
@@ -81,7 +78,7 @@ describe('kraken:app', function () {
         base.options['skip-install-bower'] = true;
         base.options['skip-install-npm'] = true;
 
-        delete base.prompt.appName;
+        delete base.prompt.name;
 
         testutil.run(base, function (err) {
             assert.fileContent([
@@ -90,44 +87,6 @@ describe('kraken:app', function () {
 
             done(err);
         });
-    });
-
-
-    it('writes meta data to package.json', function (done) {
-        var base = testutil.makeBase('app');
-
-        base.options['skip-install-bower'] = true;
-        base.options['skip-install-npm'] = true;
-
-        base.prompt['appName'] = 'MetaTest';
-        base.prompt['templateModule'] = 'dustjs';
-        base.prompt['cssModule'] = 'less';
-        base.prompt['jsModule'] = false;
-        base.prompt['taskModule'] = 'grunt';
-
-        testutil.run(base, function (err, app) {
-            if (err) {
-                return done(err);
-            }
-            fs.readFile(path.resolve(app.destinationRoot(), 'package.json'), 'utf-8', function (err, contents) {
-                if (err) {
-                    return done(err);
-                }
-
-                var appPkg = JSON.parse(contents);
-
-                var meta = appPkg[pkg.name];
-
-                assert(meta.version === pkg.version);
-                assert(meta.template === base.prompt['templateModule']);
-                assert(meta.css === base.prompt['cssModule']);
-                assert(meta.js === base.prompt['jsModule']);
-                assert(meta.task === base.prompt['taskModule']);
-
-                done(err);
-            });
-        });
-
     });
 
     it('should have an app.css file if cssModule is not false', function (done) {

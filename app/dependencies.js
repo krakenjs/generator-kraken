@@ -28,13 +28,14 @@ module.exports = {
         npm: [
             'dustjs-linkedin@~2.6.1',
             'dustjs-helpers@~1.6.1',
+            "engine-munger@^0.2.5",
             'adaro@^0.1.5'
         ],
         npmDev: [
             'grunt-dustjs@^1.2.1'
         ],
-        tasks: function (gen) {
-            if (!gen.i18n) {
+        tasks: function (options) {
+            if (!options.i18n) {
                 return "dustjs";
             }
         },
@@ -42,38 +43,38 @@ module.exports = {
     },
 
     i18n: {
-        npm: function (gen) {
-            if (gen.templateModule === 'dustjs') {
+        npm: function (options) {
+            if (options.templateModule === 'dustjs') {
                 return 'localizr@^0.1.2';
-            } else if (gen.templateModule === 'makara') {
+            } else if (options.templateModule === 'makara') {
                 return 'dust-makara-helpers@^4.0.0-8';
             }
         },
-        npmDev: function (gen) {
-            if (gen.templateModule === 'dustjs') {
+        npmDev: function (options) {
+            if (options.templateModule === 'dustjs') {
                 return 'grunt-localizr@^0.2.1';
-            } else if (gen.templateModule === 'makara') {
-                if (gen.jsModule === 'browserify') {
+            } else if (options.templateModule === 'makara') {
+                if (options.jsModule === 'browserify') {
                     return 'grunt-makara-browserify@^1.0.1';
-                } else if (gen.jsModule === 'requirejs') {
+                } else if (options.jsModule === 'requirejs') {
                     return 'grunt-makara-amdify@^1.0.1';
                 }
             }
         },
-        tasks: function (gen) {
-            if (gen.templateModule === 'dustjs') {
+        tasks: function (options) {
+            if (options.templateModule === 'dustjs') {
                 return 'i18n';
-            } else if (gen.templateModule === 'makara') {
-                if (gen.jsModule === 'browserify') {
+            } else if (options.templateModule === 'makara') {
+                if (options.jsModule === 'browserify') {
                     return 'makara-browserify';
-                } else if (gen.jsModule === 'requirejs') {
+                } else if (options.jsModule === 'requirejs') {
                     return 'makara-amdify';
                 }
             }
         },
-        templates: function (gen) {
+        templates: function (options) {
             var globs = ["i18n/locales/**"];
-            if (gen.templateModule === 'dustjs') {
+            if (options.templateModule === 'dustjs') {
                 globs.push("i18n/tasks/**");
             }
             return globs;

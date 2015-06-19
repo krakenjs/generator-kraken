@@ -21,13 +21,11 @@
 var path = require('path');
 var yeoman = require('yeoman-generator');
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = yeoman.generators.NamedBase.extend({
     defaults: function defaults() {
-        this.argument('name', { type: String, required: true });
         this.argument('country', { type: String, required: false, defaults: 'US' });
         this.argument('language', { type: String, required: false, defaults: 'en' });
     },
-
 
     files: function files() {
         var filepath = path.join('locales', this.country.toUpperCase(), this.language.toLowerCase(), this.name + '.properties');

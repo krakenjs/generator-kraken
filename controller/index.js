@@ -22,38 +22,30 @@ var path = require('path'),
     yeoman = require('yeoman-generator'),
     krakenutil = require('../util'),
     prompts = require('./prompts'),
-    us = require('underscore.string'),
-    fs = require('fs');
+    us = require('underscore.string');
 
+krakenutil.update();
 
-module.exports = yeoman.generators.Base.extend({
+module.exports = yeoman.generators.NamedBase.extend({
+    defaults: function () {
+        this.config.defaults({
+            templateModule: this.options.templateModule || null,
+            i18n: this.options.i18n || null,
+            useJson: this.options.useJson || null
+        });
+    },
+
     init: function () {
-        var filePath = this.destinationPath('package.json');
-
-        krakenutil.update();
-
-        this.hasTemplates = this.options.templateModule || hasTemplates(filePath);
+        this.modelName = path.basename(this.name);
+        this.controllerPath = path.join('controllers', this.name + '.js');
+        this.testPath = path.join('test', this.name + '.js');
 
         // Create the corresponding model and template as well
-        this.composeWith('kraken:model', { args: this.args }, { link: 'strong' });
+        this.composeWith('kraken:model', { args: [ this.modelName ] }, { local: require.resolve('../model') } );
 
-        //if there is a templateModule selected
-        if (this.hasTemplates) {
-            this.composeWith('kraken:template', { args: this.args }, { link: 'strong' });
+        if (this.config.get('templateModule')) {
+            this.composeWith('kraken:template', { args: this.args }, { local: require.resolve('../template') } );
         }
-
-        this.argument('name', { type: String, required: true });
-
-        this.useJson = null;
-
-        var parts = krakenutil.parsePath(this.name);
-        parts.modelPath = path.join(parts.root, 'models', parts.model);
-        parts.specPath = path.join(parts.root, 'lib', 'spec');
-        if (path.sep === '\\') {
-            parts.modelPath = parts.modelPath.replace(/\\/g, '/');
-            parts.specPath = parts.specPath.replace(/\\/g, '/');
-        }
-        krakenutil.extend(this, parts);
     },
 
     prompting: {
@@ -77,36 +69,43 @@ module.exports = yeoman.generators.Base.extend({
 
     writing: {
         files: function files() {
+            var model = this._getModel();
             this.fs.copyTpl(
                 this.templatePath('controller.js'),
-                this.destinationPath(path.join('controllers', this.fullpath + '.js')),
-                {
-                    model: this.model,
-                    us: us,
-                    hasTemplates: this.hasTemplates,
-                    useJson: this.useJson,
-                    fullname: this.fullname,
-                    modelPath: this.modelPath,
-                    route: this.route
-                }
+                this.destinationPath(this.controllerPath),
+                model
             );
             this.fs.copyTpl(
                 this.templatePath('test.js'),
-                this.destinationPath(path.join('test', this.fullpath + '.js')),
-                {
-                    hasTemplates: this.hasTemplates,
-                    fullroute: this.fullroute
-                }
+                this.destinationPath(this.testPath),
+                model
             );
         }
+    },
+
+    _getModel: function () {
+        var model = {
+            name: this.name,
+            route: routify(this.name),
+            model: this.modelName.replace(/\\/g, '/'),
+            modelName: us.capitalize(us.classify(this.modelName)) + 'Model',
+            modelPath: path.relative(path.dirname(this.controllerPath), path.join('models', this.modelName)).replace(/\\/g, '/')
+        };
+
+        var conf = this.config.getAll();
+        for (var k in conf) {
+            model[k] = conf[k];
+        }
+
+        return model;
     }
 });
 
-
-function hasTemplates(filePath) {
-    try {
-        return JSON.parse(fs.readFileSync(filePath, 'utf-8'))['generator-kraken'].template;
-    } catch (e) {
-        return null;
+function routify(name) {
+    name = '/' + name;
+    if (path.basename(name) === 'index') {
+        return path.dirname(name);
+    } else {
+        return name;
     }
 }

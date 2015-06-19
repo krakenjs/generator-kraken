@@ -107,11 +107,6 @@ describe('kraken:app', function () {
                 'locales/US/en/errors/503.properties'
             ]);
 
-            assert.fileContent([
-                ['package.json', new RegExp(/\"localizr\"\:/)],
-                ['Gruntfile.js', new RegExp(/registerTask.*build.*i18n/)]
-            ]);
-
             done(err);
         });
     });
@@ -128,7 +123,9 @@ describe('kraken:app', function () {
             assert.file([
                 'locales/US/en/errors/404.properties',
                 'locales/US/en/errors/500.properties',
-                'locales/US/en/errors/503.properties'
+                'locales/US/en/errors/503.properties',
+                'public/templates/layouts/master.dust',
+                'public/templates/index.dust'
             ]);
 
             assert.fileContent([

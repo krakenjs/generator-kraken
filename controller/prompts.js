@@ -18,7 +18,7 @@
 'use strict';
 
 
-module.exports = function (generator) {
+module.exports = function (config) {
 
     return [
         {
@@ -26,7 +26,7 @@ module.exports = function (generator) {
             name: 'useJson',
             type: 'confirm',
             when: function () {
-                return generator.useJson === null && generator.name !== 'index';
+                return config.useJson === null && config.name !== 'index';
             }
         }
     ];

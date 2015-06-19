@@ -23,9 +23,9 @@ module.exports = function makeBase(generator) {
         },
 
         prompt: {
-            'appName': 'Foo',
-            'appDescription': 'This is an app, foo!',
-            'appAuthor': 'Jeff',
+            'name': 'Foo',
+            'description': 'This is an app, foo!',
+            'author': 'Jeff',
             'templateModule': 'dustjs',
             'cssModule': false,
             'jsModule': false,
