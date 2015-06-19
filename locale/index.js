@@ -20,21 +20,17 @@
 
 var path = require('path');
 var yeoman = require('yeoman-generator');
-var krakenutil = require('../util');
 
 module.exports = yeoman.generators.Base.extend({
     defaults: function defaults() {
         this.argument('name', { type: String, required: true });
         this.argument('country', { type: String, required: false, defaults: 'US' });
         this.argument('language', { type: String, required: false, defaults: 'en' });
-
-        var parts = krakenutil.parsePath(this.name);
-        krakenutil.extend(this, parts);
     },
 
 
     files: function files() {
-        var filepath = path.join('locales', this.country.toUpperCase(), this.language.toLowerCase(), this.fullpath + '.properties');
+        var filepath = path.join('locales', this.country.toUpperCase(), this.language.toLowerCase(), this.name + '.properties');
 
         this.fs.copyTpl(this.templatePath('index.properties'), this.destinationPath(filepath));
     }

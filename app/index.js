@@ -77,6 +77,11 @@ module.exports = yeoman.generators.Base.extend({
 
         subGenerators: function subGenerators() {
             this.composeWith('kraken:controller', { args: [ 'index' ], options: { templateModule: this.templateModule } }, { link: 'strong' });
+            if (this.templateModule) {
+                this.composeWith('kraken:template', { args: [ 'layouts/master' ], options: { type: 'layout' } });
+            } else {
+                debug("not generating layout");
+            }
         },
 
         /**

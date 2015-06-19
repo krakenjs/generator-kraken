@@ -21,6 +21,7 @@
 var path = require('path');
 var yeoman = require('yeoman-generator');
 var krakenutil = require('../util');
+var debug = require('debuglog')('generator-kraken');
 
 module.exports = yeoman.generators.Base.extend({
     init: function () {
@@ -33,16 +34,14 @@ module.exports = yeoman.generators.Base.extend({
 
     defaults: function defaults() {
         this.argument('name', { type: String, required: true });
-
-        var parts = krakenutil.parsePath(this.name);
-        krakenutil.extend(this, parts);
     },
 
 
     files: function files() {
+        debug("creating template '%s'", this.name);
         this.fs.copyTpl(
-            this.templatePath('template.dust'),
-            this.destinationPath(path.join('public', 'templates', this.fullpath + '.dust'))
+            this.templatePath(this.options.type === 'layout' ? 'layout.dust' : 'template.dust'),
+            this.destinationPath(path.join('public', 'templates', this.name + '.dust'))
         );
     }
 });
