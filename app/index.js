@@ -134,6 +134,10 @@ module.exports = yeoman.generators.Base.extend({
 
             var deps = this._dependencyResolver('templates');
 
+            if (!deps) {
+                return;
+            }
+
             var gen = this;
 
             deps.forEach(function (glob) {
