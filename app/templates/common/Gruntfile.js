@@ -17,7 +17,9 @@ module.exports = function (grunt) {
     <% } -%>
 
     // Register group tasks
-    grunt.registerTask('build', <%- JSON.stringify(tasks) %>);
+    grunt.registerTask('build', <%- tasks.map(function (task) {
+        return "'" + task + "'";
+    }).join(', '); %>);
     grunt.registerTask('test', [ 'jshint', 'mochacli' ]);
 
 };
