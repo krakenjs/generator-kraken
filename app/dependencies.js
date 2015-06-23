@@ -105,7 +105,8 @@ module.exports = {
             'grunt-contrib-jshint@^0.10.0',
             'grunt-mocha-cli@^1.5.0',
             'grunt-copy-to@^0.0.10',
-            'grunt-config-dir@^0.3.2'
+            'grunt-config-dir@^0.3.2',
+            'grunt-cli@^0.1.13'
         ]
     },
 
