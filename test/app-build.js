@@ -64,6 +64,32 @@ describe('kraken:app', function () {
             });
         });
     });
+
+    it('scaffolded application with makara 2 can run the build task and test in production mode', function (done) {
+        var base = testutil.makeBase('app');
+
+        base.options['skip-install'] = false;
+        base.prompt.templateModule = 'makara';
+        base.prompt.i18n = 'i18n';
+
+        var env = {};
+        for (var v in process.env) {
+            env[v] = process.env[v];
+        }
+
+        env.NODE_ENV = 'production';
+
+        testutil.run(base, function (err) {
+            if (err) { return done(err); }
+            var build = require('child_process').spawn('npm', ['run', 'all'], { stdio: 'inherit', env: env });
+
+            build.on('close', function (code) {
+                assert.strictEqual(code, 0);
+                done(err);
+            });
+        });
+    });
+
     it('scaffolded application does not suffer from dll hell with dust-helpers', function (done) {
         var base = testutil.makeBase('app');
 
