@@ -38,7 +38,7 @@ describe('kraken:app', function () {
 
         testutil.run(base, function (err) {
             if (err) { return done(err); }
-            var build = require('child_process').spawn('grunt', ['build', 'test'], { stdio: 'inherit' });
+            var build = require('child_process').spawn('npm', ['run', 'all'], { stdio: 'inherit' });
 
             build.on('close', function (code) {
                 assert.strictEqual(code, 0);
@@ -56,7 +56,7 @@ describe('kraken:app', function () {
 
         testutil.run(base, function (err) {
             if (err) { return done(err); }
-            var build = require('child_process').spawn('grunt', ['build', 'test'], { stdio: 'inherit' });
+            var build = require('child_process').spawn('npm', ['run', 'all'], { stdio: 'inherit' });
 
             build.on('close', function (code) {
                 assert.strictEqual(code, 0);

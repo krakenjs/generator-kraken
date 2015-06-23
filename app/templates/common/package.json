@@ -5,7 +5,9 @@
     "author": "<%= author.replace(/"/g, '\\"') %>",
     "main": "index.js",
     "scripts": {
-        "test": "grunt test"
+        "test": "grunt test",
+        "build": "grunt build",
+        "all": "npm run build && npm run test"
     },
     "dependencies": {
         "kraken-js": "^1.0.3",
