@@ -12,7 +12,7 @@ module.exports = function dustjs(grunt) {
 	        files: [
 	            {
 	                expand: true,
-            <% if (i18n === 'i18n') { %>
+            <% if (i18n === 'i18n' && templateModule === 'dustjs') { %>
 	                cwd: 'tmp/',
             <% } else { %>
                     cwd: 'public/templates/',
@@ -23,7 +23,7 @@ module.exports = function dustjs(grunt) {
 	            }
 	        ],
 	        options: {
-            <% if (i18n === 'i18n') { %>
+            <% if (i18n === 'i18n' && templateModule === 'dustjs') { %>
 	            fullname: function (filepath) {
 	                var path = require('path'),
 	                    name = path.basename(filepath, '.dust'),

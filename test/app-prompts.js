@@ -130,6 +130,7 @@ describe('kraken:app', function () {
 
             assert.fileContent([
                 ['package.json', new RegExp(/\"makara\"\:/)],
+                ['tasks/dustjs.js', /public\/templates\//],
                 ['Gruntfile.js', new RegExp(/registerTask.*build.*dustjs/)]
             ]);
 
