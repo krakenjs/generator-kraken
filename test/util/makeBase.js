@@ -5,7 +5,7 @@
  * Returns a base options object
  */
 module.exports = function makeBase(generator) {
-    return Object.create({
+    return {
         type: 'kraken:' + generator,
 
         args: [],
@@ -26,10 +26,10 @@ module.exports = function makeBase(generator) {
             'appName': 'Foo',
             'appDescription': 'This is an app, foo!',
             'appAuthor': 'Jeff',
-            'dependency:templateModule': 'dustjs',
-            'dependency:cssModule': false,
-            'dependency:jsModule': false,
-            'dependency:taskModule': 'grunt'
+            'templateModule': 'dustjs',
+            'cssModule': false,
+            'jsModule': false,
+            'taskModule': 'grunt'
         }
-    });
+    };
 };

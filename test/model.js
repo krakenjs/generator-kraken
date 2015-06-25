@@ -20,7 +20,7 @@
 'use strict';
 
 
-var helpers = require('yeoman-generator').test,
+var assert = require('yeoman-generator').assert,
     testutil = require('./util');
 
 
@@ -33,7 +33,7 @@ describe('kraken:model', function () {
         base.args = ['Foo'];
 
         testutil.run(base, function (err) {
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['models/Foo.js', new RegExp(/FooModel\(\)/)]
             ]);
 
@@ -48,7 +48,7 @@ describe('kraken:model', function () {
         base.args = ['foo-bar'];
 
         testutil.run(base, function (err) {
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['models/foo-bar.js', new RegExp(/FooBarModel\(\)/)]
             ]);
 

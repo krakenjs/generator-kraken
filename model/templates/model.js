@@ -1,7 +1,7 @@
 'use strict';
 <%
 
-var modelName = _.capitalize(_.classify(model)) + 'Model';
+var modelName = us.capitalize(us.classify(model)) + 'Model';
 
 %>
 

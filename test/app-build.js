@@ -34,9 +34,11 @@ describe('kraken:app', function () {
         var base = testutil.makeBase('app');
 
         base.options['skip-install'] = false;
+        base.prompt.i18n = 'i18n';
 
         testutil.run(base, function (err) {
-            var build = require('child_process').exec('grunt build test');
+            if (err) { return done(err); }
+            var build = require('child_process').spawn('grunt', ['build', 'test'], { stdio: 'inherit' });
 
             build.on('close', function (code) {
                 assert.strictEqual(code, 0);

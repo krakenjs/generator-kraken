@@ -25,27 +25,24 @@
     "coverage": "istanbul cover _mocha -- test/*.js"
   },
   "dependencies": {
-    "yeoman-generator": "^0.16.0",
     "chalk": "^1.0.0",
-    "update-notifier": "^0.3.1"
+    "mkdirp": "^0.5.1",
+    "underscore.string": "^3.1.1",
+    "update-notifier": "^0.3.1",
+    "yeoman-generator": "^0.20.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
     "istanbul": "^0.3.7",
     "mocha": "^2.2.1",
-    "resolve": "^1.1.5"
+    "resolve": "^1.1.5",
+    "yo": "^1.4.7"
   },
   "peerDependencies": {
-    "yo": ">=1.1.0"
+    "yo": "^1.4.7"
   },
   "engines": {
-    "node": ">=0.8.0",
-    "npm": ">=1.2.10"
+    "npm": "^2.0.0"
   },
-  "licenses": [
-    {
-      "type": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-    }
-  ]
+  "license": "Apache-2.0"
 }

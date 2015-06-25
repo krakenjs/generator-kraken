@@ -18,207 +18,215 @@
 'use strict';
 
 
-var util = require('util'),
-    path = require('path'),
+var path = require('path'),
     yeoman = require('yeoman-generator'),
     prompts = require('./prompts'),
     dependencies = require('./dependencies'),
     krakenutil = require('../util'),
-    pkg = require('../package'),
-    proto;
+    pkg = require('../package.json'),
+    us = require('underscore.string');
 
+module.exports = yeoman.generators.Base.extend({
+    init: function () {
+        krakenutil.banner();
+        krakenutil.update();
 
-var Generator = module.exports = function Generator(args, options) {
-    yeoman.generators.Base.apply(this, arguments);
+        this.dependencies = [];
+        this.pkg = pkg;
 
-    krakenutil.banner();
-    krakenutil.validate(options);
-    krakenutil.update();
+        // CLI option defaults
+        var options = this.options || {};
 
-    // Install all dependencies when completed
-    // Emit an event when installed
-    this.on('end', function () {
-        this.installDependencies({
-            skipMessage: true,
-            skipInstall: options['skip-install'],
-            callback: function () {
-                this.emit(this.options.namespace + ':installDependencies');
-            }.bind(this)
-        });
-    });
+        this._addDependency('templateModule', options.templateModule);
+        this._addDependency('componentPackager', options.componentPackager);
+        this._addDependency('cssModule', options.cssModule);
+        this._addDependency('jsModule', options.jsModule);
+        this._addDependency('taskModule', options.taskModule || 'grunt');
+        this._addDependency('i18n', options.i18n);
 
-    // Handle errors politely
-    this.on('error', function (err) {
-        console.error(err.message);
-        console.log(this.help());
-        process.exit(1);
-    });
+        // CLI args
+        this.argument('appName', { type: String, required: false });
+    },
 
-};
+    prompting: {
+        askFor: function askFor() {
+            var userPrompts = prompts(this);
+            var next = this.async();
 
+            this.prompt(userPrompts, function (props) {
 
-util.inherits(Generator, yeoman.generators.Base);
-proto = Generator.prototype;
+                for (var key in props) {
+                    this._addDependency(key, props[key]);
+                }
 
+                next();
 
-/**
- * Sets up defaults before the other methods run
- */
-proto.defaults = function defaults() {
-    var options;
+            }.bind(this));
+        }
+    },
 
-    this.dependencies = [];
-    this.pkg = pkg;
+    writing: {
+        setRoot: function () {
+            var oldRoot = this.destinationRoot();
+            if (path.basename(oldRoot) !== this.appName) {
+                this.destinationRoot(path.join(oldRoot, this.appName));
+            }
+        },
 
-    // CLI args
-    this.argument('appName', { type: String, required: false });
+        subGenerators: function subGenerators() {
+            this.composeWith('kraken:controller', { args: [ 'index' ], options: { templateModule: this.templateModule } }, { link: 'strong' });
+        },
 
-    // CLI option defaults
-    options = this.options || {};
+        /**
+         * Scaffold out the files
+         */
+        files: function app() {
+            // Boom!!1! Copy over common files
+            this.fs.copyTpl(
+                this.templatePath('common/**'),
+                this.destinationPath(),
+                this._getModel()
+            );
 
-    this._addDependency('templateModule', options.templateModule);
-    this._addDependency('bower', options.UIPackageManager);
-    this._addDependency('cssModule', options.cssModule);
-    this._addDependency('jsModule', options.jsModule);
-    this._addDependency('taskModule', 'grunt');
-    this._addDependency('i18n', 'i18n');
-};
+            this.fs.copyTpl(
+                this.templatePath('common/.*'),
+                this.destinationPath(),
+                this._getModel()
+            );
 
+            // Copy over dependency tasks
+            this.dependencies.forEach(function (dependency) {
+                this._dependencyCopier(dependency);
+            }.bind(this));
 
-/**
- * Prompt the user for how to setup their project
- */
-proto.askFor = function askFor() {
-    var userPrompts = prompts(this),
-        next = this.async();
+        }
+    },
 
-    this.prompt(userPrompts, function (props) {
-        var dependency, prop;
+    install: {
+        deps: function() {
+            if (this.options['skip-install']) {
+                return;
+            }
+            this.installDependencies({
+                skipMessage: true
+            });
+        },
 
-        for (var key in props) {
-            prop = props[key];
-            dependency = key.split('dependency:')[1];
+        installNpm: function installNpm() {
+            if (this.options['skip-install-npm']) {
+                return;
+            }
 
-            if (dependency) {
-                this._addDependency(dependency, prop);
-            } else {
-                this[key] = prop;
+            var dependencies = this._dependencyResolver('npm');
+            if (dependencies) {
+                this.npmInstall(dependencies, { save: true });
+            }
+        },
+
+        installNpmDev: function installNpmDev() {
+            if (this.options['skip-install-npm']) {
+                return;
+            }
+
+            var dependencies = this._dependencyResolver('npmDev');
+
+            if (dependencies) {
+                this.npmInstall(dependencies, { saveDev: true });
+            }
+        },
+
+        installBower: function installBower() {
+            if (this.options['skip-install-bower']) {
+                return;
+            }
+
+            var dependencies = this._dependencyResolver('bower');
+
+            if (dependencies) {
+                this.bowerInstall(dependencies, { save: true });
             }
         }
+    },
 
-        next();
-    }.bind(this));
-};
+    /**
+     * Copies dependency files
+     */
+    _dependencyCopier: function dependencyCopier(name) {
+        this.fs.copyTpl(
+            this.templatePath(path.join('dependencies', name, '**')),
+            this.destinationPath(),
+            this._getModel()
+        );
+        this.fs.copyTpl(
+            this.templatePath(path.join('dependencies', name, '.*')),
+            this.destinationPath()
+        );
+    },
 
+    _getModel: function getModel() {
 
-/**
- * Make the root directory for the app
- */
-proto.root = function root() {
-    var appRoot = this.appRoot = path.join(this.destinationRoot(), this.appName);
-
-    this.mkdir(appRoot);
-    process.chdir(appRoot);
-    this.invoke('kraken:controller', { args: [ 'index', this.templateModule ] });
-};
-
-
-/**
- * Scaffold out the files
- */
-proto.files = function app() {
-    // Boom!!1! Copy over common files
-    this.directory('./common', this.appRoot, function (body) {
-        return this.engine(body, this);
-    }.bind(this));
-
-    // Copy over dependency tasks
-    this.dependencies.forEach(function (dependency) {
-        this._dependencyCopier(dependency);
-    }.bind(this));
-
-};
-
-
-/**
- * Install bower components from prompts
- */
-proto.installBower = function installBower() {
-    if (!this.options['skip-install-bower']) {
-        var dependencies = this._dependencyResolver('bower');
-
-        if (dependencies) {
-            this.bowerInstall(dependencies, { save: true }, this.async());
+        var tasks = ['jshint'];
+        if (this.cssModule) {
+            tasks.push(this.cssModule);
         }
-    }
-};
-
-
-/**
- * Install npm modules from prompts
- */
-proto.installNpm = function installNpm() {
-    if (!this.options['skip-install-npm']) {
-        var dependencies = this._dependencyResolver('npm');
-        if (dependencies) {
-            this.npmInstall(dependencies, { save: true }, this.async());
+        if (this.jsModule) {
+            tasks.push(this.jsModule);
         }
-    }
-};
-
-
-/**
- * Install npm dev modules from prompts
- */
-proto.installNpmDev = function installNpmDev() {
-    if (!this.options['skip-install-npm']) {
-        var dependencies = this._dependencyResolver('npmDev');
-
-        if (dependencies) {
-            this.npmInstall(dependencies, { saveDev: true }, this.async());
+        if (this.i18n) {
+            tasks.push('i18n');
+        } else if (this.templateModule) {
+            tasks.push(this.templateModule);
         }
-    }
-};
+        tasks.push('copyto');
 
-/**
- * Adds a dependency
- */
-proto._addDependency = function addDependency(key, value) {
-    this[key] = value;
+        return {
+            us: us,
+            i18n: this.i18n,
+            appName: this.appName,
+            appDescription: this.appDescription,
+            templateModule: this.templateModule,
+            appAuthor: this.appAuthor,
+            pkg: this.pkg,
+            jsModule: this.jsModule,
+            cssModule: this.cssModule,
+            taskModule: this.taskModule,
+            tasks: tasks
+        };
+    },
 
-    if (value) {
-        if (dependencies[value]) {
+    /**
+     * Adds a dependency
+     */
+    _addDependency: function addDependency(key, value) {
+
+        this[key] = value;
+
+        if (value && dependencies[value]) {
             this.dependencies.push(value);
-        } else {
-            throw new Error('Unable to resolve dependency: ' + key + ':' + value);
         }
+    },
+
+
+    /**
+     * Resolves named dependencies from the prompt options
+     */
+    _dependencyResolver: function dependencyResolver(type) {
+        var result = [];
+
+        this.dependencies.forEach(function (x) {
+            var value = x && dependencies[x] && dependencies[x][type];
+
+            if (value) {
+                result.push(value.join(' '));
+            }
+        });
+
+        return result.length ? result.join(' ') : false;
     }
-};
+
+});
 
 
-/**
- * Resolves named dependencies from the prompt options
- */
-proto._dependencyResolver = function dependencyResolver(type) {
-    var result = [];
-
-    this.dependencies.forEach(function (x) {
-        var value = x && dependencies[x] && dependencies[x][type];
-
-        if (value) {
-            result.push(value.join(' '));
-        }
-    });
-
-    return result.length ? result.join(' ') : false;
-};
 
 
-/**
- * Copies dependency files
- */
-proto._dependencyCopier = function dependencyCopier(name) {
-    this.directory(path.join('.', 'dependencies', name), this.appRoot, function (body) {
-        return this.engine(body, this);
-    }.bind(this));
-};
+

@@ -20,7 +20,7 @@
 'use strict';
 
 
-var helpers = require('yeoman-generator').test,
+var assert = require('yeoman-generator').assert,
     testutil = require('./util');
 
 
@@ -32,7 +32,7 @@ describe('kraken:locale', function () {
         base.args = ['Foo', 'DE', 'de'];
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'locales/DE/de/Foo/index.properties'
             ]);
 
@@ -47,7 +47,7 @@ describe('kraken:locale', function () {
         base.args = ['Bar'];
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'locales/US/en/Bar/index.properties'
             ]);
 

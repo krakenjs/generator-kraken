@@ -19,7 +19,7 @@
 
 
 module.exports = function (generator) {
-    
+
     return [
         {
             message: 'Name',
@@ -28,7 +28,7 @@ module.exports = function (generator) {
                 return !!str;
             },
             when: function () {
-                return !generator.appName;
+                return generator.appName == null;
             }
         },
 
@@ -49,9 +49,28 @@ module.exports = function (generator) {
         },
 
         {
+            message: 'Include i18n support?',
+            type: 'list',
+            name: 'i18n',
+            choices: [
+                {
+                    name: 'Yes',
+                    value: 'i18n'
+                },
+                {
+                    name: 'No',
+                    value: false
+                }
+            ],
+            when: function () {
+                return generator.i18n == null;
+            }
+        },
+
+        {
             message: 'Template library?',
             type: 'list',
-            name: 'dependency:templateModule',
+            name: 'templateModule',
             choices: [
                 {
                     name: 'Dust',
@@ -63,14 +82,14 @@ module.exports = function (generator) {
                 }
             ],
             when: function () {
-                return !generator.options.templateModule;
+                return generator.templateModule == null;
             }
         },
 
         {
             message: 'Front end package manager ?',
             type: 'list',
-            name: 'dependency:UIPackageManager',
+            name: 'componentPackager',
             choices: [
                 {
                     name: 'Bower',
@@ -82,14 +101,14 @@ module.exports = function (generator) {
                 }
             ],
             when: function () {
-                return !generator.options.templateModule;
+                return generator.templateModule == null;
             }
         },
 
         {
             message: 'CSS preprocessor library?',
             type: 'list',
-            name: 'dependency:cssModule',
+            name: 'cssModule',
             choices: [
                 {
                     name: 'LESS',
@@ -109,14 +128,14 @@ module.exports = function (generator) {
                 }
             ],
             when: function () {
-                return !generator.options.cssModule;
+                return generator.cssModule == null;
             }
         },
 
         {
             message: 'JavaScript library?',
             type: 'list',
-            name: 'dependency:jsModule',
+            name: 'jsModule',
             choices: [
                 {
                     name: 'RequireJS',
@@ -132,7 +151,7 @@ module.exports = function (generator) {
                 }
             ],
             when: function () {
-                return !generator.options.jsModule;
+                return generator.jsModule == null;
             }
         }
 

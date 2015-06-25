@@ -20,7 +20,7 @@
 'use strict';
 
 
-var helpers = require('yeoman-generator').test,
+var assert = require('yeoman-generator').assert,
     testutil = require('./util');
 
 
@@ -32,14 +32,14 @@ describe('kraken:app', function () {
     it('creates an app which uses dust', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = 'dustjs';
-        base.prompt['dependency:UIPackageManager'] = 'bower';
-        base.prompt['dependency:cssModule'] = 'less';
+        base.prompt['templateModule'] = 'dustjs';
+        base.prompt['componentPackager'] = 'bower';
+        base.prompt['cssModule'] = 'less';
         base.prompt['i18n'] = false;
-        base.prompt['dependency:jsModule'] = false;
+        base.prompt['jsModule'] = false;
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'public/templates/index.dust',
                 'public/templates/layouts/master.dust',
                 'public/templates/errors/404.dust',
@@ -50,12 +50,12 @@ describe('kraken:app', function () {
                 'tasks/dustjs.js'
             ]);
 
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['package.json', new RegExp(/\"dustjs-linkedin\"\:/)],
                 ['package.json', new RegExp(/\"dustjs-helpers\"\:/)],
                 ['package.json', new RegExp(/\"engine-munger\"\:/)],
                 ['package.json', new RegExp(/\"grunt-dustjs\"\:/)],
-                ['Gruntfile.js', new RegExp(/'dustjs'/)],
+                ['Gruntfile.js', new RegExp(/registerTask.*build.*dustjs/)],
                 ['public/templates/layouts/master.dust', new RegExp(/(app\.css)/) ]
             ]);
 
@@ -66,24 +66,24 @@ describe('kraken:app', function () {
     it('creates an app which does not have any view engine', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['dependency:cssModule'] = false;
+        base.prompt['templateModule'] = false;
+        base.prompt['cssModule'] = false;
         base.prompt['i18n'] = false;
-        base.prompt['dependency:jsModule'] = false;
+        base.prompt['jsModule'] = false;
 
         testutil.run(base, function (err) {
 
-            helpers.assertFile([
+            assert.file([
                 'config/config.json',
                 'controllers/index.js'
             ]);
-            helpers.assertNoFile([
+            assert.noFile([
                 '.bowerrc'
             ]);
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['config/config.json', new RegExp(/^((?!fileNotFound)[\s\S])*$/)],
                 ['config/config.json', new RegExp(/^((?!serverError)[\s\S])*$/)],
-                ['controllers/index.js',new RegExp(/res.send/)],
+                ['controllers/index.js', new RegExp(/res.send/)],
                 ['controllers/index.js', new RegExp(/^((?!res.render)[\s\S])*$/)]
             ]);
 
@@ -96,20 +96,20 @@ describe('kraken:app', function () {
     it('creates an app which uses i18n', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['i18n'] = true;
-        base.prompt['dependency:jsModule'] = false;
+        base.prompt['templateModule'] = false;
+        base.prompt['i18n'] = 'i18n';
+        base.prompt['jsModule'] = false;
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'locales/US/en/errors/404.properties',
                 'locales/US/en/errors/500.properties',
                 'locales/US/en/errors/503.properties'
             ]);
 
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['package.json', new RegExp(/\"localizr\"\:/)],
-                ['Gruntfile.js', new RegExp(/'i18n'/)]
+                ['Gruntfile.js', new RegExp(/registerTask.*build.*i18n/)]
             ]);
 
             done(err);
@@ -120,17 +120,17 @@ describe('kraken:app', function () {
     it('creates an app which uses less', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['dependency:cssModule'] = 'less';
-        base.prompt['dependency:jsModule'] = false;
+        base.prompt['templateModule'] = false;
+        base.prompt['cssModule'] = 'less';
+        base.prompt['jsModule'] = false;
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'public/css/app.less',
                 'tasks/less.js'
             ]);
 
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['package.json', new RegExp(/\"less\"\:/)],
                 ['package.json', new RegExp(/\"grunt-contrib-less\"\:/)]
             ]);
@@ -143,17 +143,17 @@ describe('kraken:app', function () {
     it('creates an app which uses sass', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['dependency:cssModule'] = 'sass';
-        base.prompt['dependency:jsModule'] = false;
+        base.prompt['templateModule'] = false;
+        base.prompt['cssModule'] = 'sass';
+        base.prompt['jsModule'] = false;
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'public/css/app.scss',
                 'tasks/sass.js'
             ]);
 
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['package.json', new RegExp(/\"node-sass\"\:/)],
                 ['package.json', new RegExp(/\"grunt-sass\"\:/)]
             ]);
@@ -166,17 +166,17 @@ describe('kraken:app', function () {
     it('creates an app which uses stylus', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['dependency:cssModule'] = 'stylus';
-        base.prompt['dependency:jsModule'] = false;
+        base.prompt['templateModule'] = false;
+        base.prompt['cssModule'] = 'stylus';
+        base.prompt['jsModule'] = false;
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'public/css/app.styl',
                 'tasks/stylus.js'
             ]);
 
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['package.json', new RegExp(/\"stylus\"\:/)],
                 ['package.json', new RegExp(/\"grunt-contrib-stylus\"\:/)]
             ]);
@@ -189,16 +189,16 @@ describe('kraken:app', function () {
     it('creates an app which uses requirejs', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['dependency:cssModule'] = false;
-        base.prompt['dependency:jsModule'] = 'requirejs';
+        base.prompt['templateModule'] = false;
+        base.prompt['cssModule'] = false;
+        base.prompt['jsModule'] = 'requirejs';
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'tasks/requirejs.js'
             ]);
 
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['package.json', new RegExp(/\"requirejs\"\:/)],
                 ['package.json', new RegExp(/\"grunt-contrib-requirejs\"\:/)],
                 ['public/js/app.js', new RegExp(/require\(/)]
@@ -212,17 +212,17 @@ describe('kraken:app', function () {
     it('creates an app which uses browserify', function (done) {
         var base = testutil.makeBase('app');
 
-        base.prompt['dependency:templateModule'] = false;
-        base.prompt['dependency:cssModule'] = false;
-        base.prompt['dependency:jsModule'] = 'browserify';
+        base.prompt['templateModule'] = false;
+        base.prompt['cssModule'] = false;
+        base.prompt['jsModule'] = 'browserify';
 
         testutil.run(base, function (err) {
-            helpers.assertFile([
+            assert.file([
                 'tasks/browserify.js',
                 'public/js/app.js'
             ]);
 
-            helpers.assertFileContent([
+            assert.fileContent([
                 ['package.json', new RegExp(/\"grunt-browserify\"\:/)]
             ]);
 

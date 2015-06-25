@@ -9,7 +9,4 @@ before_script:
   - npm install -g bower
   - npm install -g grunt-cli
 
-env:
-  - CI=true
-
 sudo: false

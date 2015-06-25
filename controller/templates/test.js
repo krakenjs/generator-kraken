@@ -5,6 +5,7 @@
 
 var kraken = require('kraken-js'),
     express = require('express'),
+    path = require('path'),
     request = require('supertest');
 
 
@@ -17,7 +18,7 @@ describe('<%= fullroute %>', function () {
         app = express();
         app.on('start', done);
         app.use(kraken({
-            basedir: process.cwd()
+            basedir: path.resolve(__dirname, '..')
         }));
 
         mock = app.listen(1337);

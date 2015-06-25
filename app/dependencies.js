@@ -70,7 +70,7 @@ module.exports = {
 
     sass: {
         npm: [
-            'node-sass@^3.0.0'
+            'node-sass@^2.0.0'
         ],
         npmDev: [
             'grunt-sass@^0.18.1'
