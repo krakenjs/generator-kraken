@@ -47,7 +47,7 @@ module.exports = {
             if (options.templateModule === 'dustjs') {
                 return 'localizr@^0.1.2';
             } else if (options.templateModule === 'makara') {
-                return 'dust-makara-helpers@^4.0.0-8';
+                return 'dust-makara-helpers@^4.0.0';
             }
         },
         npmDev: function (options) {
@@ -83,7 +83,7 @@ module.exports = {
 
     "makara": {
         npm: [
-            'makara@^2.0.0-5'
+            'makara@^2.0.1'
         ],
         npmDev: [
             'grunt-dustjs@^1.2.1'
