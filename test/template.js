@@ -30,11 +30,15 @@ describe('kraken:template', function () {
         var base = testutil.makeBase('template');
 
         base.args = ['Foo'];
-        base.prompt.templateModule = 'dustjs';
+        base.options.templateModule = 'dustjs';
 
         testutil.run(base, function (err) {
             assert.file([
-                'public/templates/Foo/index.dust'
+                'public/templates/Foo.dust'
+            ]);
+
+            assert.noFile([
+                'locales/US/en/Foo.properties'
             ]);
 
             done(err);
@@ -46,11 +50,13 @@ describe('kraken:template', function () {
         var base = testutil.makeBase('template');
 
         base.args = ['Bar'];
-        base.prompt.templateModule = 'dustjs';
+        base.options.templateModule = 'dustjs';
+        base.options.i18n = 'i18n';
 
         testutil.run(base, function (err) {
             assert.file([
-                'locales/US/en/Bar/index.properties'
+                'public/templates/Bar.dust',
+                'locales/US/en/Bar.properties'
             ]);
 
             done(err);

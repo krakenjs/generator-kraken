@@ -18,142 +18,118 @@
 'use strict';
 
 
-module.exports = function (generator) {
+module.exports = [
 
-    return [
-        {
-            message: 'Name',
-            name: 'appName',
-            validate: function (str) {
-                return !!str;
-            },
-            when: function () {
-                return generator.appName == null;
-            }
-        },
-
-        {
-            message: 'Description',
-            name: 'appDescription',
-            validate: function (str) {
-                return !!str;
-            }
-        },
-
-        {
-            message: 'Author',
-            name: 'appAuthor',
-            validate: function (str) {
-                return !!str;
-            }
-        },
-
-        {
-            message: 'Include i18n support?',
-            type: 'list',
-            name: 'i18n',
-            choices: [
-                {
-                    name: 'Yes',
-                    value: 'i18n'
-                },
-                {
-                    name: 'No',
-                    value: false
-                }
-            ],
-            when: function () {
-                return generator.i18n == null;
-            }
-        },
-
-        {
-            message: 'Template library?',
-            type: 'list',
-            name: 'templateModule',
-            choices: [
-                {
-                    name: 'Dust',
-                    value: 'dustjs'
-                },
-                {
-                    name: 'None',
-                    value: false
-                }
-            ],
-            when: function () {
-                return generator.templateModule == null;
-            }
-        },
-
-        {
-            message: 'Front end package manager ?',
-            type: 'list',
-            name: 'componentPackager',
-            choices: [
-                {
-                    name: 'Bower',
-                    value: 'bower'
-                },
-                {
-                    name: 'No',
-                    value: false
-                }
-            ],
-            when: function () {
-                return generator.templateModule == null;
-            }
-        },
-
-        {
-            message: 'CSS preprocessor library?',
-            type: 'list',
-            name: 'cssModule',
-            choices: [
-                {
-                    name: 'LESS',
-                    value: 'less'
-                },
-                {
-                    name: 'SASS',
-                    value: 'sass'
-                },
-                {
-                    name: 'Stylus',
-                    value: 'stylus'
-                },
-                {
-                    name: 'None',
-                    value: false
-                }
-            ],
-            when: function () {
-                return generator.cssModule == null;
-            }
-        },
-
-        {
-            message: 'JavaScript library?',
-            type: 'list',
-            name: 'jsModule',
-            choices: [
-                {
-                    name: 'RequireJS',
-                    value: 'requirejs'
-                },
-                {
-                    name: 'Browserify',
-                    value: 'browserify'
-                },
-                {
-                    name: 'None',
-                    value: false
-                }
-            ],
-            when: function () {
-                return generator.jsModule == null;
-            }
+    {
+        message: 'Description',
+        name: 'description',
+        validate: function (str) {
+            return !!str;
         }
+    },
 
-    ];
-};
+    {
+        message: 'Author',
+        name: 'author',
+        validate: function (str) {
+            return !!str;
+        }
+    },
+
+    {
+        message: 'Template library?',
+        type: 'list',
+        name: 'templateModule',
+        choices: [
+            {
+                name: 'Dust (via Makara 2)',
+                value: 'makara'
+            },
+            {
+                name: 'Dust',
+                value: 'dustjs'
+            },
+            {
+                name: 'None',
+                value: false
+            }
+        ]
+    },
+
+    {
+        message: 'Include i18n support?',
+        type: 'list',
+        name: 'i18n',
+        choices: [
+            {
+                name: 'Yes',
+                value: 'i18n'
+            },
+            {
+                name: 'No',
+                value: false
+            }
+        ]
+    },
+
+    {
+        message: 'Front end package manager ?',
+        type: 'list',
+        name: 'componentPackager',
+        choices: [
+            {
+                name: 'Bower',
+                value: 'bower'
+            },
+            {
+                name: 'No',
+                value: false
+            }
+        ]
+    },
+
+    {
+        message: 'CSS preprocessor library?',
+        type: 'list',
+        name: 'cssModule',
+        choices: [
+            {
+                name: 'LESS',
+                value: 'less'
+            },
+            {
+                name: 'SASS',
+                value: 'sass'
+            },
+            {
+                name: 'Stylus',
+                value: 'stylus'
+            },
+            {
+                name: 'None',
+                value: false
+            }
+        ]
+    },
+
+    {
+        message: 'JavaScript library?',
+        type: 'list',
+        name: 'jsModule',
+        choices: [
+            {
+                name: 'RequireJS',
+                value: 'requirejs'
+            },
+            {
+                name: 'Browserify',
+                value: 'browserify'
+            },
+            {
+                name: 'None',
+                value: false
+            }
+        ]
+    }
+
+];

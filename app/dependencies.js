@@ -28,25 +28,75 @@ module.exports = {
         npm: [
             'dustjs-linkedin@~2.6.1',
             'dustjs-helpers@~1.6.1',
+            "engine-munger@^0.2.5",
             'adaro@^0.1.5'
         ],
         npmDev: [
             'grunt-dustjs@^1.2.1'
-        ]
+        ],
+        tasks: function (options) {
+            if (!options.i18n) {
+                return "dustjs";
+            }
+        },
+        templates: "dustjs/**"
     },
 
     i18n: {
+        npm: function (options) {
+            if (options.templateModule === 'dustjs') {
+                return 'localizr@^0.1.2';
+            } else if (options.templateModule === 'makara') {
+                return 'dust-makara-helpers@^4.0.0';
+            }
+        },
+        npmDev: function (options) {
+            if (options.templateModule === 'dustjs') {
+                return 'grunt-localizr@^0.2.1';
+            } else if (options.templateModule === 'makara') {
+                if (options.jsModule === 'browserify') {
+                    return 'grunt-makara-browserify@^1.0.1';
+                } else if (options.jsModule === 'requirejs') {
+                    return 'grunt-makara-amdify@^1.0.1';
+                }
+            }
+        },
+        tasks: function (options) {
+            if (options.templateModule === 'dustjs') {
+                return 'i18n';
+            } else if (options.templateModule === 'makara') {
+                if (options.jsModule === 'browserify') {
+                    return 'makara-browserify';
+                } else if (options.jsModule === 'requirejs') {
+                    return 'makara-amdify';
+                }
+            }
+        },
+        templates: function (options) {
+            var globs = ["i18n/locales/**"];
+            if (options.templateModule === 'dustjs') {
+                globs.push("i18n/tasks/**");
+            }
+            return globs;
+        }
+    },
+
+    "makara": {
         npm: [
-            'localizr@^0.1.2'
+            'makara@^2.0.1'
         ],
         npmDev: [
-            'grunt-localizr@^0.2.1'
-        ]
+            'grunt-dustjs@^1.2.1'
+        ],
+        tasks: "dustjs",
+        templates: "dustjs/**"
     },
 
     specialization: {},
 
-    bower: {},
+    bower: {
+        templates: ["bower/**", "bower/.*"]
+    },
 
     grunt: {
         npmDev: [
@@ -55,7 +105,8 @@ module.exports = {
             'grunt-contrib-jshint@^0.10.0',
             'grunt-mocha-cli@^1.5.0',
             'grunt-copy-to@^0.0.10',
-            'grunt-config-dir@^0.3.2'
+            'grunt-config-dir@^0.3.2',
+            'grunt-cli@^0.1.13'
         ]
     },
 
@@ -65,7 +116,9 @@ module.exports = {
         ],
         npmDev: [
             'grunt-contrib-less@^0.9.0'
-        ]
+        ],
+        tasks: "less",
+        templates: "less/**"
     },
 
     sass: {
@@ -74,7 +127,9 @@ module.exports = {
         ],
         npmDev: [
             'grunt-sass@^0.18.1'
-        ]
+        ],
+        tasks: "sass",
+        templates: "sass/**"
     },
 
     stylus: {
@@ -83,7 +138,9 @@ module.exports = {
         ],
         npmDev: [
             'grunt-contrib-stylus@^0.13.2'
-        ]
+        ],
+        tasks: "stylus",
+        templates: "stylus/**"
     },
 
     requirejs: {
@@ -95,14 +152,18 @@ module.exports = {
         ],
         npmDev: [
             'grunt-contrib-requirejs@^0.4.4'
-        ]
+        ],
+        tasks: "requirejs",
+        templates: "requirejs/**"
     },
 
 
     browserify: {
         npmDev: [
             'grunt-browserify@^3.5.1'
-        ]
+        ],
+        tasks: "browserify",
+        templates: "browserify/**"
     }
 
 };

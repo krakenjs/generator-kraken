@@ -33,7 +33,7 @@ describe('kraken:locale', function () {
 
         testutil.run(base, function (err) {
             assert.file([
-                'locales/DE/de/Foo/index.properties'
+                'locales/DE/de/Foo.properties'
             ]);
 
             done(err);
@@ -48,7 +48,7 @@ describe('kraken:locale', function () {
 
         testutil.run(base, function (err) {
             assert.file([
-                'locales/US/en/Bar/index.properties'
+                'locales/US/en/Bar.properties'
             ]);
 
             done(err);

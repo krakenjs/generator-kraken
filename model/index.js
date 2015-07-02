@@ -30,17 +30,15 @@ module.exports = yeoman.generators.Base.extend({
     },
     defaults: function defaults() {
         this.argument('name', { type: String, required: true });
-
-        var parts = krakenutil.parsePath(this.name);
-        krakenutil.extend(this, parts);
     },
     files: function files() {
         this.fs.copyTpl(
             this.templatePath('model.js'),
-            this.destinationPath(path.join('models', this.model + '.js')),
+            this.destinationPath(path.join('models', this.name + '.js')),
             {
                 us: us,
-                model: this.model
+                model: this.name,
+                modelName: us.capitalize(us.classify(this.name)) + 'Model'
             }
         );
     }

@@ -93,7 +93,7 @@ describe('kraken:app', function () {
 
 
 
-    it('creates an app which uses i18n', function (done) {
+    it('creates an app which uses split packages for i18n', function (done) {
         var base = testutil.makeBase('app');
 
         base.prompt['templateModule'] = false;
@@ -107,15 +107,36 @@ describe('kraken:app', function () {
                 'locales/US/en/errors/503.properties'
             ]);
 
+            done(err);
+        });
+    });
+
+
+    it('creates an app which uses makara 2 for i18n', function (done) {
+        var base = testutil.makeBase('app');
+
+        base.prompt['templateModule'] = 'makara';
+        base.prompt['i18n'] = 'i18n';
+        base.prompt['jsModule'] = 'browserify';
+
+        testutil.run(base, function (err) {
+            assert.file([
+                'locales/US/en/errors/404.properties',
+                'locales/US/en/errors/500.properties',
+                'locales/US/en/errors/503.properties',
+                'public/templates/layouts/master.dust',
+                'public/templates/index.dust'
+            ]);
+
             assert.fileContent([
-                ['package.json', new RegExp(/\"localizr\"\:/)],
-                ['Gruntfile.js', new RegExp(/registerTask.*build.*i18n/)]
+                ['package.json', new RegExp(/\"makara\"\:/)],
+                ['tasks/dustjs.js', /public\/templates\//],
+                ['Gruntfile.js', new RegExp(/registerTask.*build.*dustjs/)]
             ]);
 
             done(err);
         });
     });
-
 
     it('creates an app which uses less', function (done) {
         var base = testutil.makeBase('app');

@@ -17,41 +17,24 @@
 \*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
 
+
 var path = require('path');
+var yeoman = require('yeoman-generator');
+var debug = require('debuglog')('generator-kraken');
 
-function parsePath(name) {
+module.exports = yeoman.generators.NamedBase.extend({
+    init: function () {
+        debug("layout");
+        // Create the corresponding locale as well
+        this.composeWith('kraken:locale', { args: this.args }, { local: require.resolve('../locale') });
+    },
 
-  var DEFAULT_IDX = 'index';
-
-  name = name.replace(/\//g, path.sep);
-
-  var parts = {
-    ext: path.extname(name),
-    dir: path.dirname(name),
-    model: 'index',
-    route: '/'
-  };
-
-  parts.base = path.basename(name, parts.ext) || DEFAULT_IDX;
-
-  if (parts.base.toLowerCase() !== DEFAULT_IDX) {
-    parts.model = parts.base;
-    parts.dir = path.join(parts.dir, parts.base);
-    parts.base = DEFAULT_IDX;
-  } else {
-    var newBase = path.basename(parts.dir);
-    if (newBase !== '.') {
-      parts.model = newBase;
+    files: function files() {
+        debug("creating layout '%s'", this.name);
+        this.fs.copyTpl(
+            this.templatePath('layout.dust'),
+            this.destinationPath(path.join('public', 'templates', this.name + '.dust')),
+            this.config.getAll()
+        );
     }
-  }
-
-  var slashes = parts.dir.split(path.sep).join('/');
-  parts.fullroute = '/' + (parts.dir !== '.' ? slashes : '' );
-  parts.fullname = parts.dir !== '.' ? slashes + '/' + parts.base : parts.base;
-  parts.fullpath = path.join(parts.dir, parts.base);
-  parts.root = path.relative(parts.fullname, './');
-
-  return parts;
-}
-
-module.exports = parsePath;
+});

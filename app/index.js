@@ -23,65 +23,103 @@ var path = require('path'),
     prompts = require('./prompts'),
     dependencies = require('./dependencies'),
     krakenutil = require('../util'),
-    pkg = require('../package.json'),
     us = require('underscore.string');
+
+krakenutil.update();
+
+var debug = require('debuglog')('generator-kraken');
 
 module.exports = yeoman.generators.Base.extend({
     init: function () {
         krakenutil.banner();
-        krakenutil.update();
 
-        this.dependencies = [];
-        this.pkg = pkg;
-
-        // CLI option defaults
-        var options = this.options || {};
-
-        this._addDependency('templateModule', options.templateModule);
-        this._addDependency('componentPackager', options.componentPackager);
-        this._addDependency('cssModule', options.cssModule);
-        this._addDependency('jsModule', options.jsModule);
-        this._addDependency('taskModule', options.taskModule || 'grunt');
-        this._addDependency('i18n', options.i18n);
-
-        // CLI args
-        this.argument('appName', { type: String, required: false });
+        this.argument('name', { type: String, required: false });
     },
 
     prompting: {
-        askFor: function askFor() {
-            var userPrompts = prompts(this);
+        askAppNameEarly: function () {
+            if (this.name) {
+                return;
+            }
+
             var next = this.async();
 
-            this.prompt(userPrompts, function (props) {
+            // Handle setting the root early, so .yo-rc.json ends up the right place.
+            this.prompt([{
+                message: 'Name',
+                name: 'name',
+                validate: function (str) {
+                    return !!str;
+                }
+            }], function (props) {
+                this.name = props.name;
+                next();
+            }.bind(this));
+        },
 
+        setAppName: function () {
+            var oldRoot = this.destinationRoot();
+            if (path.basename(oldRoot) !== this.name) {
+                this.destinationRoot(path.join(oldRoot, this.name));
+            }
+        },
+
+        setDefaults: function () {
+            // CLI option defaults
+            var options = this.options || {};
+
+            // This cannot be done at init time because we have to set our app name and root first.
+            this.config.defaults({
+                templateModule: options.templateModule,
+                componentPackager: options.componentPackager,
+                cssModule: options.cssModule,
+                jsModule: options.jsModule,
+                taskModule: options.taskModule,
+                i18n: options.i18n
+            });
+
+            this.config.set('taskModule', 'grunt'); // There is no other option yet.
+        },
+
+        askFor: function askFor() {
+            var next = this.async();
+
+            this.prompt(prompts, function (props) {
                 for (var key in props) {
-                    this._addDependency(key, props[key]);
+                    if (props[key] != null) {
+                        this.config.set(key, props[key]);
+                    }
                 }
 
                 next();
-
             }.bind(this));
+        },
+
+        addDependencies: function () {
+            this.dependencies = [];
+            var conf = this.config.getAll();
+            for (var k in conf) {
+                var value = conf[k];
+                debug("adding dependency %j for '%s'", conf[k], k);
+                if (value && dependencies[value]) {
+                    this.dependencies.push(value);
+                }
+            }
+            this.config.save();
         }
     },
 
     writing: {
-        setRoot: function () {
-            var oldRoot = this.destinationRoot();
-            if (path.basename(oldRoot) !== this.appName) {
-                this.destinationRoot(path.join(oldRoot, this.appName));
+        subGenerators: function subGenerators() {
+            this.composeWith('kraken:controller', { args: [ 'index' ] }, { local: require.resolve('../controller') } );
+            if (this.config.get('templateModule')) {
+                this.composeWith('kraken:layout', { args: [ 'layouts/master' ] }, { local: require.resolve('../layout') });
+            } else {
+                debug("not generating layout");
             }
         },
 
-        subGenerators: function subGenerators() {
-            this.composeWith('kraken:controller', { args: [ 'index' ], options: { templateModule: this.templateModule } }, { link: 'strong' });
-        },
-
-        /**
-         * Scaffold out the files
-         */
         files: function app() {
-            // Boom!!1! Copy over common files
             this.fs.copyTpl(
                 this.templatePath('common/**'),
                 this.destinationPath(),
@@ -94,11 +132,29 @@ module.exports = yeoman.generators.Base.extend({
                 this._getModel()
             );
 
-            // Copy over dependency tasks
-            this.dependencies.forEach(function (dependency) {
-                this._dependencyCopier(dependency);
-            }.bind(this));
+            var deps = this._dependencyResolver('templates');
 
+            if (!deps) {
+                return;
+            }
+
+            var gen = this;
+
+            deps.forEach(function (glob) {
+                var parts = glob.split('/');
+                var firstWildcard = parts.map(function (e) {
+                    return /[*]/.test(e);
+                }).indexOf(true);
+
+                debug("copying '%s' to '%s'", path.join('dependencies', glob), parts.slice(1, firstWildcard).join('/') || '.');
+                // We assume that each glob given to us includes one path
+                // element to strip off.
+                gen.fs.copyTpl(
+                    gen.templatePath(path.join('dependencies', glob)),
+                    gen.destinationPath(parts.slice(1, firstWildcard).join('/') || '.'),
+                    gen._getModel()
+                );
+            });
         }
     },
 
@@ -148,85 +204,59 @@ module.exports = yeoman.generators.Base.extend({
         }
     },
 
-    /**
-     * Copies dependency files
-     */
-    _dependencyCopier: function dependencyCopier(name) {
-        this.fs.copyTpl(
-            this.templatePath(path.join('dependencies', name, '**')),
-            this.destinationPath(),
-            this._getModel()
-        );
-        this.fs.copyTpl(
-            this.templatePath(path.join('dependencies', name, '.*')),
-            this.destinationPath()
-        );
+    _getTasks: function getTasks() {
+        if (!this.tasks) {
+            this.tasks = ['jshint'];
+            var add = this._dependencyResolver('tasks');
+            if (add) {
+                this.tasks = this.tasks.concat(add);
+            }
+
+            this.tasks.push('copyto');
+        }
+        return this.tasks;
     },
 
     _getModel: function getModel() {
-
-        var tasks = ['jshint'];
-        if (this.cssModule) {
-            tasks.push(this.cssModule);
-        }
-        if (this.jsModule) {
-            tasks.push(this.jsModule);
-        }
-        if (this.i18n) {
-            tasks.push('i18n');
-        } else if (this.templateModule) {
-            tasks.push(this.templateModule);
-        }
-        tasks.push('copyto');
-
-        return {
-            us: us,
-            i18n: this.i18n,
-            appName: this.appName,
-            appDescription: this.appDescription,
-            templateModule: this.templateModule,
-            appAuthor: this.appAuthor,
-            pkg: this.pkg,
-            jsModule: this.jsModule,
-            cssModule: this.cssModule,
-            taskModule: this.taskModule,
-            tasks: tasks
+        var model = {
+            slugName: us.slugify(this.name),
+            name: this.name,
+            tasks: this._getTasks()
         };
-    },
 
-    /**
-     * Adds a dependency
-     */
-    _addDependency: function addDependency(key, value) {
-
-        this[key] = value;
-
-        if (value && dependencies[value]) {
-            this.dependencies.push(value);
+        var conf = this.config.getAll();
+        for (var k in conf) {
+            model[k] = conf[k];
         }
-    },
 
+        return model;
+    },
 
     /**
      * Resolves named dependencies from the prompt options
      */
     _dependencyResolver: function dependencyResolver(type) {
+        debug("resolving dependencies of type '%s'", type);
         var result = [];
+        var options = this.config.getAll();
 
         this.dependencies.forEach(function (x) {
             var value = x && dependencies[x] && dependencies[x][type];
 
+            if (typeof value === 'function') {
+                debug("function, looking up");
+                value = value(options);
+            }
+
+            debug("resolving got %j for dependency '%s'", value, x);
             if (value) {
-                result.push(value.join(' '));
+                result = result.concat(value);
             }
         });
 
-        return result.length ? result.join(' ') : false;
+        debug("resolved dependencies of type '%s' to %j", type, result);
+
+        return result.length ? result : null;
     }
 
 });
-
-
-
-
-

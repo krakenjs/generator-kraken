@@ -1,27 +1,21 @@
 {
-    "name": "<%= us.slugify(appName) %>",
+    "name": "<%= slugName %>",
     "version": "0.1.0",
-    "description": "<%= appDescription.replace(/"/g, '\\"') %>",
-    "author": "<%= appAuthor.replace(/"/g, '\\"') %>",
+    "description": "<%= description.replace(/"/g, '\\"') %>",
+    "author": "<%= author.replace(/"/g, '\\"') %>",
     "main": "index.js",
     "scripts": {
-        "test": "grunt test"
+        "test": "grunt test",
+        "build": "grunt build",
+        "all": "npm run build && npm run test"
     },
     "dependencies": {
         "kraken-js": "^1.0.3",
         "kraken-devtools": "^1.2.1",
-        "engine-munger": "^0.2.5",
         "express": "^4.12.2"
     },
     "devDependencies": {
         "mocha": "^1.18.0",
         "supertest": "^0.9.0"
-    },
-    "generator-kraken": {
-        "version": "<%= pkg.version %>",
-        "template": <% if (templateModule) { %>"<%= templateModule %>"<% } else { %>false<% } %>,
-        "css": <% if (cssModule) { %>"<%= cssModule %>"<% } else { %>false<% } %>,
-        "js": <% if (jsModule) { %>"<%= jsModule %>"<% } else { %>false<% } %>,
-        "task": <% if (taskModule) { %>"<%= taskModule %>"<% } else { %>false<% } %>
     }
 }

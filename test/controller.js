@@ -32,15 +32,16 @@ describe('kraken:controller', function () {
 
         base.args = [ 'Foo' ];
         base.options.templateModule = 'dustjs';
+        base.options.i18n = 'i18n';
         base.prompt = { useJson: false };
 
         testutil.run(base, function (err) {
             assert.file([
-                'controllers/Foo/index.js',
-                'test/Foo/index.js',
+                'controllers/Foo.js',
+                'test/Foo.js',
                 'models/Foo.js',
-                'public/templates/Foo/index.dust',
-                'locales/US/en/Foo/index.properties'
+                'public/templates/Foo.dust',
+                'locales/US/en/Foo.properties'
             ]);
 
             done(err);
@@ -55,7 +56,7 @@ describe('kraken:controller', function () {
         base.options.templateModule = 'dustjs';
 
         testutil.run(base, function (err) {
-            assert.file('controllers/cAsEsEnSiTiVe/index.js');
+            assert.file('controllers/cAsEsEnSiTiVe.js');
 
             done(err);
         });
@@ -67,11 +68,11 @@ describe('kraken:controller', function () {
 
         base.args = [ 'JSONTest' ];
         base.options.templateModule = 'dustjs';
-        base.prompt = { useJson: true };
+        base.options.useJson = true;
 
         testutil.run(base, function (err) {
             assert.fileContent([
-                ['controllers/JSONTest/index.js', new RegExp(/res.format/)]
+                ['controllers/JSONTest.js', new RegExp(/res.format/)]
             ]);
 
             done(err);
@@ -87,7 +88,7 @@ describe('kraken:controller', function () {
 
         testutil.run(base, function (err) {
             assert.file([
-                'test/Testy/index.js'
+                'test/Testy.js'
             ]);
 
             done(err);
@@ -118,7 +119,7 @@ describe('kraken:controller', function () {
 
         testutil.run(base, function (err) {
             assert.file([
-                'public/templates/TemplateTest/index.dust'
+                'public/templates/TemplateTest.dust'
             ]);
 
             done(err);
@@ -134,7 +135,7 @@ describe('kraken:controller', function () {
 
         testutil.run(base, function (err) {
             assert.file([
-                'public/templates/ContentTest/index.dust'
+                'public/templates/ContentTest.dust'
             ]);
 
             done(err);
@@ -147,20 +148,21 @@ describe('kraken:controller', function () {
 
         base.args = [ 'a/deep/link' ];
         base.options.templateModule = 'dustjs';
+        base.options.i18n = 'i18n';
 
         testutil.run(base, function (err) {
             assert.file([
-                'controllers/a/deep/link/index.js',
+                'controllers/a/deep/link.js',
                 'models/link.js',
-                'test/a/deep/link/index.js',
-                'public/templates/a/deep/link/index.dust',
-                'locales/US/en/a/deep/link/index.properties'
+                'test/a/deep/link.js',
+                'public/templates/a/deep/link.dust',
+                'locales/US/en/a/deep/link.properties'
             ]);
 
             assert.fileContent([
-                ['controllers/a/deep/link/index.js', new RegExp(/require\('\.\.\/\.\.\/\.\.\/\.\.\/models\/link\'\)/)],
-                ['controllers/a/deep/link/index.js', new RegExp(/router.get\(\'\/\'/)],
-                ['controllers/a/deep/link/index.js', new RegExp(/res.render\(\'a\/deep\/link\/index\'/)]
+                ['controllers/a/deep/link.js', new RegExp(/require\('\.\.\/\.\.\/\.\.\/models\/link\'\)/)],
+                ['controllers/a/deep/link.js', new RegExp(/router.get\(\'\/\'/)],
+                ['controllers/a/deep/link.js', new RegExp(/res.render\(\'a\/deep\/link\'/)]
             ]);
 
             done(err);
