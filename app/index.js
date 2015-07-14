@@ -175,7 +175,9 @@ module.exports = yeoman.generators.Base.extend({
 
             var dependencies = this._dependencyResolver('npm');
             if (dependencies) {
-                this.npmInstall(dependencies, { save: true });
+                forEachDepPrefix.call(this, dependencies, function (deps, type) {
+                    this.npmInstall(deps, { save: true, savePrefix: type });
+                });
             }
         },
 
@@ -187,7 +189,9 @@ module.exports = yeoman.generators.Base.extend({
             var dependencies = this._dependencyResolver('npmDev');
 
             if (dependencies) {
-                this.npmInstall(dependencies, { saveDev: true });
+                forEachDepPrefix.call(this, dependencies, function (deps, type) {
+                    this.npmInstall(deps, { saveDev: true, savePrefix: type });
+                });
             }
         },
 
@@ -260,3 +264,20 @@ module.exports = yeoman.generators.Base.extend({
     }
 
 });
+
+function forEachDepPrefix(dependencies, cb) {
+    var work = {};
+    dependencies.forEach(function (dep) {
+        var char = dep.split('@')[1][0];
+        if (char !== '^' && char !== '~') {
+            char = '^';
+        }
+
+        work[char] = work[char] || [];
+        work[char].push(dep);
+    });
+
+    for (var type in work) {
+        cb.call(this, work[type], type);
+    }
+}
