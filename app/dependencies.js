@@ -136,11 +136,10 @@ module.exports = {
 
     stylus: {
         npm: [
-            'stylus@^0.42.3',
             'construx-stylus@^1.0.0'
         ],
         npmDev: [
-            'grunt-contrib-stylus@^0.13.2'
+            'grunt-contrib-stylus@^0.21.0'
         ],
         tasks: "stylus",
         templates: "stylus/**"
