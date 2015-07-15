@@ -29,7 +29,8 @@ module.exports = {
             'dustjs-linkedin@~2.6.1',
             'dustjs-helpers@~1.6.1',
             "engine-munger@^0.2.5",
-            'adaro@^0.1.5'
+            'adaro@^0.1.5',
+            'construx-dustjs-i18n@^1.0.0'
         ],
         npmDev: [
             'grunt-dustjs@^1.2.1'
@@ -44,11 +45,14 @@ module.exports = {
 
     i18n: {
         npm: function (options) {
+            var deps = [];
             if (options.templateModule === 'dustjs') {
-                return 'localizr@^0.1.2';
+                deps.push('localizr@^0.1.2');
             } else if (options.templateModule === 'makara') {
-                return 'dust-makara-helpers@^4.0.0';
+                deps.push('dust-makara-helpers@^4.0.0');
+                deps.push('construx-dustjs@^1.0.0');
             }
+            return deps;
         },
         npmDev: function (options) {
             if (options.templateModule === 'dustjs') {
@@ -112,7 +116,8 @@ module.exports = {
 
     less: {
         npm: [
-            'less@^1.6.1'
+            'less@^1.6.1',
+            'construx-less@^1.0.0'
         ],
         npmDev: [
             'grunt-contrib-less@^0.9.0'
@@ -123,7 +128,8 @@ module.exports = {
 
     sass: {
         npm: [
-            'node-sass@^2.0.0'
+            'node-sass@^2.0.0',
+            'construx-sass@^1.0.0'
         ],
         npmDev: [
             'grunt-sass@^0.18.1'
@@ -134,7 +140,8 @@ module.exports = {
 
     stylus: {
         npm: [
-            'stylus@^0.42.3'
+            'stylus@^0.42.3',
+            'construx-stylus@^1.0.0'
         ],
         npmDev: [
             'grunt-contrib-stylus@^0.13.2'
