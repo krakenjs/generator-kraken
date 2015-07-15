@@ -152,7 +152,7 @@ describe('kraken:app', function () {
             ]);
 
             assert.fileContent([
-                ['package.json', new RegExp(/\"less\"\:/)],
+                ['package.json', new RegExp(/\"construx-less\"\:/)],
                 ['package.json', new RegExp(/\"grunt-contrib-less\"\:/)]
             ]);
 
@@ -175,7 +175,7 @@ describe('kraken:app', function () {
             ]);
 
             assert.fileContent([
-                ['package.json', new RegExp(/\"node-sass\"\:/)],
+                ['package.json', new RegExp(/\"construx-sass\"\:/)],
                 ['package.json', new RegExp(/\"grunt-sass\"\:/)]
             ]);
 
@@ -198,7 +198,7 @@ describe('kraken:app', function () {
             ]);
 
             assert.fileContent([
-                ['package.json', new RegExp(/\"stylus\"\:/)],
+                ['package.json', new RegExp(/\"construx-stylus\"\:/)],
                 ['package.json', new RegExp(/\"grunt-contrib-stylus\"\:/)]
             ]);
 
