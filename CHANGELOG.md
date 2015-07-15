@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v2.0.1
+
+-- fix #176
+
+## v2.0.0
+
+-- Add new makara/internationalization support
 
 ## v1.2.0
 
