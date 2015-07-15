@@ -2,11 +2,15 @@
 
 ## v2.0.1
 
--- fix #176
+-- fixes #176 by surrounding comma-separated task list with `[]` in the Gruntfile `build` task definition
 
 ## v2.0.0
 
--- Add new makara/internationalization support
+-- new makara/internationalization support
+-- refactor for maintainability
+-- move config values from package.json to .yo-rc.json
+-- modernize and use new yeoman infrastructure
+-- Several bug fixes
 
 ## v1.2.0
 
