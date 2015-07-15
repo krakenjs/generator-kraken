@@ -114,11 +114,10 @@ module.exports = {
 
     less: {
         npm: [
-            'less@^1.6.1',
             'construx-less@^1.0.0'
         ],
         npmDev: [
-            'grunt-contrib-less@^0.9.0'
+            'grunt-contrib-less@^1.0.0'
         ],
         tasks: "less",
         templates: "less/**"
@@ -126,11 +125,10 @@ module.exports = {
 
     sass: {
         npm: [
-            'node-sass@^2.0.0',
             'construx-sass@^1.0.0'
         ],
         npmDev: [
-            'grunt-sass@^0.18.1'
+            'grunt-sass@^1.0.0'
         ],
         tasks: "sass",
         templates: "sass/**"
