@@ -45,14 +45,11 @@ module.exports = {
 
     i18n: {
         npm: function (options) {
-            var deps = [];
             if (options.templateModule === 'dustjs') {
-                deps.push('localizr@^0.1.2');
+                return 'localizr@^0.1.2';
             } else if (options.templateModule === 'makara') {
-                deps.push('dust-makara-helpers@^4.0.0');
-                deps.push('construx-dustjs@^1.0.0');
+                return 'dust-makara-helpers@^4.0.0';
             }
-            return deps;
         },
         npmDev: function (options) {
             if (options.templateModule === 'dustjs') {
@@ -87,7 +84,8 @@ module.exports = {
 
     "makara": {
         npm: [
-            'makara@^2.0.1'
+            'makara@^2.0.1',
+            'construx-dustjs@^1.0.0'
         ],
         npmDev: [
             'grunt-dustjs@^1.2.1'

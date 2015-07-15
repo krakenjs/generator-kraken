@@ -25,8 +25,14 @@ var debug = require('debuglog')('generator-kraken');
 module.exports = yeoman.generators.NamedBase.extend({
     init: function () {
         debug("layout");
+        this.config.defaults({
+            i18n: this.options.i18n
+        });
+
         // Create the corresponding locale as well
-        this.composeWith('kraken:locale', { args: this.args }, { local: require.resolve('../locale') });
+        if (this.config.get('i18n')) {
+            this.composeWith('kraken:locale', { args: this.args }, { local: require.resolve('../locale') } );
+        }
     },
 
     files: function files() {
