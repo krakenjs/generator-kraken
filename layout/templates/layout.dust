@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <title>{+title /}</title>
-    <% if (i18n) { %>
+    <% if (cssModule) { %>
         <link rel="stylesheet" href="/css/app.css">
     <% } %>
     </head>
