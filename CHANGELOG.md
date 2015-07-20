@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v2.1.0
+
+* replaces `kraken-devtools` with `construx` and its suite of separate plugin modules
+* fixes #174 by replacing properties file based dust templates with inline content based dust templates
+* fixes #164 by using `construx-sass` for development mode, and upgrades `grunt-sass` to the `node-sass@3.0` compatible version
+* upgrades stylus support to `^0.50.0`
+
 ## v2.0.1
 
 * fixes #176 by surrounding comma-separated task list with `[]` in the Gruntfile `build` task definition
