@@ -34,14 +34,12 @@ module.exports = yeoman.generators.NamedBase.extend({
         }
     },
 
-    writing: function files() {
+    files: function files() {
         debug("creating template '%s'", this.name);
         this.fs.copyTpl(
             this.templatePath('template.dust'),
             this.destinationPath(path.join('public', 'templates', this.name + '.dust')),
-            {
-                jsModule: this.options.jsModule
-            }
+            this.config.getAll()
         );
     }
 });

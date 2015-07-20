@@ -31,6 +31,7 @@ describe('kraken:template', function () {
 
         base.args = ['Foo'];
         base.options.templateModule = 'dustjs';
+        base.options.i18n = false;
 
         testutil.run(base, function (err) {
             assert.file([

@@ -1,5 +1,5 @@
 {>"layouts/master" /}
 
 {<body}
-    <h1>{@pre type="content" key="greeting"/}</h1>
+    <h1><% if (i18n) { %>{@pre type="content" key="greeting"/}<% } else { %>Hello, {name}<% } %></h1>
 {/body}

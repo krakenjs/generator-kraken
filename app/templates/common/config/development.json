@@ -45,27 +45,35 @@
             "enabled": true,
             "priority": 35,
             "module": {
-                "name": "kraken-devtools",
+                "name": "construx",
                 "arguments": [
                     "path:./public",
                     "path:./.build",
                     {
                         <% if (templateModule === 'dustjs') { %>
                         "template": {
-                            "module": "kraken-devtools/plugins/dustjs",
+                            "module": "construx-dustjs-i18n",
                             "files": "/templates/**/*.js",
-                            "base": "templates",
-                            "i18n": "config:i18n"
+                            "base": "templates"
+                            <% if (i18n) { %>
+                            ,"i18n": "config:i18n"
+                            <% } %>
+                        },
+                        <% } else if (templateModule === 'makara') { %>
+                        "template": {
+                            "module": "construx-dustjs",
+                            "files": "/templates/**/*.js",
+                            "base": "templates"
                         },
                         <% } %>
                         <% if (cssModule) { %>
                         "css": {
-                            "module": "kraken-devtools/plugins/<%= cssModule %>",
+                            "module": "construx-<%= cssModule %>",
                             "files": "/css/**/*.css"
                         },
                         <% } %>
                         "copier": {
-                            "module": "kraken-devtools/plugins/copier",
+                            "module": "construx-copier",
                             "files": "**/*"
                         }
                     }

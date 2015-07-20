@@ -2,22 +2,20 @@
 
 
 module.exports = function sass(grunt) {
-	// Load task
-	grunt.loadNpmTasks('grunt-sass');
+    // Load task
+    grunt.loadNpmTasks('grunt-sass');
 
-	// Options
-	return {
+    // Options
+    return {
         build: {
             options: {
                 outputStyle: 'compressed'
             },
-            files: [{
-                expand: true,
-                cwd: 'public/css',
-                src: ['**/*.scss'],
-                dest: '.build/css/',
-                ext: '.css'
-            }]
+            cwd: 'public/css',
+            src: '**/*.scss',
+            dest: '.build/css/',
+            expand: true,
+            ext: '.css'
         }
-	};
+    };
 };
