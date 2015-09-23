@@ -46,7 +46,7 @@ describe('kraken:app', function () {
                 'public/templates/errors/500.dust',
                 'public/templates/errors/503.dust',
                 'public/components/dustjs-linkedin/',
-                'public/components/dustjs-linkedin-helpers/',
+                'public/components/dustjs-helpers/',
                 'tasks/dustjs.js'
             ]);
 
