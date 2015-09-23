@@ -164,7 +164,23 @@ module.exports = yeoman.generators.Base.extend({
                 return;
             }
             this.installDependencies({
-                skipMessage: true
+                skipMessage: true,
+                callback: function (err) {
+                    var errString;
+                    if (err) {
+                        if (err.code === 'ENOENT') {
+                            errString = err.code + ': ' + err.path;
+                            if (err.path === 'bower') {
+                                errString += ' - cannot locate ' + err.path + '.' +
+                                    ' Have you installed it (' +
+                                    'npm install --global ' + err.path + ')?';
+                            }
+                        } else {
+                            errString = err.message || err;
+                        }
+                        this.log.error(errString);
+                    }
+                }.bind(this)
             });
         },
 
