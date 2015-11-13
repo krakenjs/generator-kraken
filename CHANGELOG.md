@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.1.1
+
+* add an error when bower is requested but not installed on the end user's system
+
 ## v2.1.0
 
 * replaces `kraken-devtools` with `construx` and its suite of separate plugin modules
