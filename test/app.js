@@ -39,6 +39,27 @@ describe('kraken:app', function () {
                 '.bowerrc',
                 '.editorconfig',
                 '.gitignore',
+                '.eslintrc',
+                '.nodemonignore'
+            ]);
+
+            done(err);
+        });
+    });
+
+    it('scaffolds dot files with jshint', function (done) {
+        var base = testutil.makeBase('app');
+
+        base.options['skip-install-bower'] = true;
+        base.options['skip-install-npm'] = true;
+        base.prompt['componentPackager'] = 'bower';
+        base.prompt.lintModule = 'jshint';
+
+        testutil.run(base, function (err) {
+            assert.file([
+                '.bowerrc',
+                '.editorconfig',
+                '.gitignore',
                 '.jshintignore',
                 '.jshintrc',
                 '.nodemonignore'

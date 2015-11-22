@@ -75,6 +75,7 @@ module.exports = yeoman.generators.Base.extend({
                 cssModule: options.cssModule,
                 jsModule: options.jsModule,
                 taskModule: options.taskModule,
+                lintModule: options.lintModule,
                 i18n: options.i18n
             });
 
@@ -225,7 +226,7 @@ module.exports = yeoman.generators.Base.extend({
 
     _getTasks: function getTasks() {
         if (!this.tasks) {
-            this.tasks = ['jshint'];
+            this.tasks = [];
             var add = this._dependencyResolver('tasks');
             if (add) {
                 this.tasks = this.tasks.concat(add);

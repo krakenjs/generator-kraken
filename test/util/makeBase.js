@@ -30,6 +30,7 @@ module.exports = function makeBase(generator) {
             'componentPackager': 'bower',
             'cssModule': false,
             'jsModule': false,
+            'lintModule': 'eslint',
             'taskModule': 'grunt'
         }
     };

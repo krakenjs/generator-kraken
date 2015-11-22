@@ -35,7 +35,7 @@ module.exports = {
         npmDev: [
             'grunt-dustjs@^1.2.1'
         ],
-        tasks: function (options) {
+        tasks: function(options) {
             if (!options.i18n) {
                 return "dustjs";
             }
@@ -44,14 +44,14 @@ module.exports = {
     },
 
     i18n: {
-        npm: function (options) {
+        npm: function(options) {
             if (options.templateModule === 'dustjs') {
                 return 'localizr@^0.1.2';
             } else if (options.templateModule === 'makara') {
                 return 'dust-makara-helpers@^4.0.0';
             }
         },
-        npmDev: function (options) {
+        npmDev: function(options) {
             if (options.templateModule === 'dustjs') {
                 return 'grunt-localizr@^0.2.1';
             } else if (options.templateModule === 'makara') {
@@ -62,7 +62,7 @@ module.exports = {
                 }
             }
         },
-        tasks: function (options) {
+        tasks: function(options) {
             if (options.templateModule === 'dustjs') {
                 return 'i18n';
             } else if (options.templateModule === 'makara') {
@@ -73,7 +73,7 @@ module.exports = {
                 }
             }
         },
-        templates: function (options) {
+        templates: function(options) {
             var globs = ["i18n/locales/**"];
             if (options.templateModule === 'dustjs') {
                 globs.push("i18n/tasks/**");
@@ -104,7 +104,6 @@ module.exports = {
         npmDev: [
             'grunt@^0.4.5',
             'grunt-contrib-clean@^0.6.0',
-            'grunt-contrib-jshint@^0.10.0',
             'grunt-mocha-cli@^1.5.0',
             'grunt-copy-to@^0.0.10',
             'grunt-config-dir@^0.3.2',
@@ -173,13 +172,31 @@ module.exports = {
         templates: "requirejs/**"
     },
 
-
     browserify: {
         npmDev: [
             'grunt-browserify@^3.5.1'
         ],
         tasks: "browserify",
         templates: "browserify/**"
+    },
+
+    eslint: {
+        npm: [
+            'eslint@^1.10.0'
+        ],
+        npmDev: [
+            'gruntify-eslint@^1.0.0'
+        ],
+        tasks: "eslint",
+        templates: ["eslint/**", "eslint/.*"]
+    },
+
+    jshint: {
+        npmDev: [
+            'grunt-contrib-jshint@^0.10.0'
+        ],
+        tasks: "jshint",
+        templates: ["jshint/**/.*", "jshint/.*", "jshint/**"]
     }
 
 };
