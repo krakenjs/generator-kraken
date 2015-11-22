@@ -11,7 +11,7 @@ module.exports = function eslint(grunt) {
             rulesdir: ['node_modules/eslint/lib/rules']
         },
         src: ['index.js',
-            'server.js'
+            'server.js',
             'controllers/**/*.js',
             'lib/**/*.js',
             'models/**/*.js'
