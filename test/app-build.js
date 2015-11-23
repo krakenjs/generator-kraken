@@ -26,11 +26,11 @@ var assert = require('assert'),
     path = require('path');
 
 
-describe('kraken:app', function() {
+describe('kraken:app', function () {
     // Disable timeout since we're doing a full install
     this.timeout(Infinity);
 
-    it('scaffolded application can run the build task', function(done) {
+    it('scaffolded application can run the build task', function (done) {
         var base = testutil.makeBase('app');
 
         base.options['skip-install'] = false;
@@ -48,7 +48,7 @@ describe('kraken:app', function() {
         });
     });
 
-    it('scaffolded application with makara 2 can run the build task', function(done) {
+    it('scaffolded application with makara 2 can run the build task', function (done) {
         var base = testutil.makeBase('app');
 
         base.options['skip-install'] = false;
@@ -67,7 +67,7 @@ describe('kraken:app', function() {
         });
     });
 
-    it('scaffolded application with makara 2 can run the build task and test in production mode', function(done) {
+    it('scaffolded application with makara 2 can run the build task and test in production mode', function (done) {
         var base = testutil.makeBase('app');
 
         base.options['skip-install'] = false;
@@ -136,44 +136,16 @@ describe('kraken:app', function() {
         base.options['skip-install'] = false;
         base.prompt.templateModule = 'dustjs';
 
-        testutil.run(base, function(err) {
+        testutil.run(base, function (err) {
 
             var basedir = process.cwd();
-            var dustPath = resolve.sync('dustjs-linkedin', {
-                basedir: basedir
-            });
-            var helpersPath = resolve.sync('dustjs-helpers', {
-                basedir: basedir
-            });
+            var dustPath = resolve.sync('dustjs-linkedin', {basedir: basedir});
+            var helpersPath = resolve.sync('dustjs-helpers', {basedir: basedir});
             var helpersDir = path.dirname(helpersPath);
-            var helpersDustPath = resolve.sync('dustjs-linkedin', {
-                basedir: helpersDir
-            });
+            var helpersDustPath = resolve.sync('dustjs-linkedin', {basedir: helpersDir});
 
             assert(dustPath === helpersDustPath);
             done(err);
-        });
-    });
-
-    it('scaffolded application with jshint lint', function(done) {
-        var base = testutil.makeBase('app');
-
-        base.options['skip-install'] = false;
-        base.prompt.i18n = 'i18n';
-        base.prompt.lintModule = 'jshint';
-
-        testutil.run(base, function(err) {
-            if (err) {
-                return done(err);
-            }
-            var build = require('child_process').spawn('npm', ['run', 'all'], {
-                stdio: 'inherit'
-            });
-
-            build.on('close', function(code) {
-                assert.strictEqual(code, 0);
-                done(err);
-            });
         });
     });
 

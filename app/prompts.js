@@ -130,22 +130,6 @@ module.exports = [
                 value: false
             }
         ]
-    },
-
-    {
-        message: 'JavaScript Linter?',
-        type: 'list',
-        name: 'lintModule',
-        choices: [
-            {
-                name: 'ESLint',
-                value: 'eslint'
-            },
-            {
-                name: 'JSHint',
-                value: 'jshint'
-            }
-        ]
     }
 
 ];

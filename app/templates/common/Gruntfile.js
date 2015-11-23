@@ -21,15 +21,12 @@ module.exports = function (grunt) {
         return "'" + task + "'";
     }).join(', '); %>]);
 
-    <% if (lintModule === 'jshint') { -%>
-    grunt.registerTask('test', [ 'jshint', 'mochacli' ]);
-    <% } -%>
-    <% if (lintModule === 'eslint') { -%>
     grunt.registerTask('test', [ 'eslint', 'mochacli' ]);
-    <% } -%>
+
     <% if (postInstallTasks.length > 0) { %>
         grunt.registerTask('postinstall', [<%- postInstallTasks.map(function (task) {
                 return "'" + task + "'";
             }).join(', '); %>]);
     <% } -%>
+
 };
