@@ -31,7 +31,11 @@
             "renderer": {
                 "method": "dust",
                 "arguments": [
-                    { "cache": false, "helpers": "config:dust.helpers" }
+                    {
+                        "cache": false,
+                        "helpers": "config:dust.helpers",
+                        "whitespace": true
+                    }
                 ]
             }
         }
