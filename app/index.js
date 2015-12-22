@@ -30,9 +30,9 @@ krakenutil.update();
 var debug = require('debuglog')('generator-kraken');
 
 module.exports = yeoman.generators.Base.extend({
-    init: function () {
+    initializing: function () {
         krakenutil.banner();
-
+        // Read app name from CLI
         this.argument('name', { type: String, required: false });
     },
 
