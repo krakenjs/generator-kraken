@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.1.2
+
+* Make Dust templates render without whitespace suppression in development environment
+* Fix minor bug that prevents the app name from being read directly from CLI
+* add contributors to package.json
+
 ## v2.1.1
 
 * add an error when bower is requested but not installed on the end user's system

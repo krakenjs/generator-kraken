@@ -15,6 +15,24 @@
     "email": "jeff@juxtadesign.com",
     "url": "https://github.com/jeffharrell"
   },
+  "contributors": [
+    {
+      "name": "Aria Stewart",
+      "email": "aredridel@dinhe.net"
+    },
+    {
+      "name": "Matt Edelman",
+      "email": "medelman@paypal.com"
+    },
+    {
+      "name": "Lenny Markus",
+      "email": "lmarkus@paypal.com"
+    },
+    {
+      "name": "Jean-Charles Sisk",
+      "email": "jsisk@paypal.com"
+    }
+  ],
   "main": "app/index.js",
   "repository": {
     "type": "git",
