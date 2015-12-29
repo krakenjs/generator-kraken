@@ -27,6 +27,7 @@ module.exports = function makeBase(generator) {
             'description': 'This is an app, foo!',
             'author': 'Jeff',
             'templateModule': 'dustjs',
+            'componentPackager': 'bower',
             'cssModule': false,
             'jsModule': false,
             'taskModule': 'grunt'

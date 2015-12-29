@@ -21,5 +21,9 @@ module.exports = function (grunt) {
         return "'" + task + "'";
     }).join(', '); %>]);
     grunt.registerTask('test', [ 'jshint', 'mochacli' ]);
-
+    <% if (postInstallTasks.length > 0) { %>
+    grunt.registerTask('postinstall', [<%- postInstallTasks.map(function (task) {
+          return "'" + task + "'";
+      }).join(', '); %>]);
+    <% } -%>
 };

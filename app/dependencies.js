@@ -146,16 +146,30 @@ module.exports = {
     },
 
     requirejs: {
-        bower: [
-            'requirejs#^2.1.16'
-        ],
+        bower: function (options) {
+            if (options.componentPackager === 'bower') {
+                return 'requirejs#^2.1.16';
+            }
+            return false;
+        },
         npm: [
             'requirejs@^2.1.16'
         ],
-        npmDev: [
-            'grunt-contrib-requirejs@^0.4.4'
-        ],
+        npmDev: function (options) {
+            var deps = ['grunt-contrib-requirejs@^0.4.4'];
+            if (options.componentPackager !== 'bower') {
+                deps.push('grunt-copy-browser-modules@^5.0.1');
+            }
+            return deps;
+        },
         tasks: "requirejs",
+        postInstallTasks: function (options) {
+            var tasks = [];
+            if (options.componentPackager !== 'bower') {
+                tasks.push('copy-browser-modules')
+            }
+            return tasks;
+        },
         templates: "requirejs/**"
     },
 

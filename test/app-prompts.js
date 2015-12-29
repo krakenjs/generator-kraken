@@ -70,6 +70,7 @@ describe('kraken:app', function () {
         base.prompt['cssModule'] = false;
         base.prompt['i18n'] = false;
         base.prompt['jsModule'] = false;
+        base.prompt['componentPackager'] = false;
 
         testutil.run(base, function (err) {
 
