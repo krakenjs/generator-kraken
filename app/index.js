@@ -216,10 +216,8 @@ module.exports = yeoman.generators.Base.extend({
             if (this.options['skip-install-bower']) {
                 return;
             }
-
             var dependencies = this._dependencyResolver('bower');
-            console.log('bower dependencies', dependencies);
-            if (dependencies !== null) {
+            if (dependencies) {
                 this.bowerInstall(dependencies, { save: true });
             }
         }
