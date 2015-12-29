@@ -159,30 +159,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     install: {
-        deps: function() {
-            if (this.options['skip-install']) {
-                return;
-            }
-            this.installDependencies({
-                skipMessage: true,
-                callback: function (err) {
-                    var errString;
-                    if (err) {
-                        if (err.code === 'ENOENT') {
-                            errString = err.code + ': ' + err.path;
-                            if (err.path === 'bower') {
-                                errString += ' - cannot locate ' + err.path + '.' +
-                                    ' Have you installed it (' +
-                                    'npm install --global ' + err.path + ')?';
-                            }
-                        } else {
-                            errString = err.message || err;
-                        }
-                        this.log.error(errString);
-                    }
-                }.bind(this)
-            });
-        },
+
 
         installNpm: function installNpm() {
             if (this.options['skip-install-npm']) {
@@ -210,15 +187,39 @@ module.exports = yeoman.generators.Base.extend({
                 });
             }
         },
-
+        deps: function() {
+            if (this.options['skip-install']) {
+                return;
+            }
+            this.installDependencies({
+                skipMessage: true,
+                bower: (this.config.get('componentPackager') !== 'bower') ? false : true,
+                callback: function (err) {
+                    var errString;
+                    if (err) {
+                        if (err.code === 'ENOENT') {
+                            errString = err.code + ': ' + err.path;
+                            if (err.path === 'bower') {
+                                errString += ' - cannot locate ' + err.path + '.' +
+                                    ' Have you installed it (' +
+                                    'npm install --global ' + err.path + ')?';
+                            }
+                        } else {
+                            errString = err.message || err;
+                        }
+                        this.log.error(errString);
+                    }
+                }.bind(this)
+            });
+        },
         installBower: function installBower() {
             if (this.options['skip-install-bower']) {
                 return;
             }
 
             var dependencies = this._dependencyResolver('bower');
-
-            if (dependencies) {
+            console.log('bower dependencies', dependencies);
+            if (dependencies !== null) {
                 this.bowerInstall(dependencies, { save: true });
             }
         }
@@ -236,12 +237,22 @@ module.exports = yeoman.generators.Base.extend({
         }
         return this.tasks;
     },
-
+    _getPostInstallTasks: function getPostInstallTasks() {
+        if (!this.postInstallTasks) {
+            this.postInstallTasks = [];
+            var add = this._dependencyResolver('postInstallTasks');
+            if (add) {
+                this.postInstallTasks = this.postInstallTasks.concat(add);
+            }
+        }
+        return this.postInstallTasks;
+    },
     _getModel: function getModel() {
         var model = {
             slugName: us.slugify(this.name),
             name: this.name,
-            tasks: this._getTasks()
+            tasks: this._getTasks(),
+            postInstallTasks: this._getPostInstallTasks()
         };
 
         var conf = this.config.getAll();
