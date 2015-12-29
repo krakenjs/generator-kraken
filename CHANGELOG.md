@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v2.2.0
+
+* Fix warning of missing bower.json file when bower is selected
+* Fix broken include of browser library when requirejs is chosen but bower is not chosen
+  * minor version bump because of the addition of a postinstall task, and new modules `copy-browser-modules` and `grunt-copy-browser-modules`
+  
 ## v2.1.2
 
 * Make Dust templates render without whitespace suppression in development environment
