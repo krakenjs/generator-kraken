@@ -37,8 +37,10 @@ describe('kraken:app', function () {
         base.prompt.i18n = 'i18n';
 
         testutil.run(base, function (err) {
-            if (err) { return done(err); }
-            var build = require('child_process').spawn('npm', ['run', 'all'], { stdio: 'inherit' });
+            if (err) {
+                return done(err);
+            }
+            var build = require('child_process').spawn('npm', ['run', 'all'], {stdio: 'inherit'});
 
             build.on('close', function (code) {
                 assert.strictEqual(code, 0);
@@ -55,8 +57,10 @@ describe('kraken:app', function () {
         base.prompt.i18n = 'i18n';
 
         testutil.run(base, function (err) {
-            if (err) { return done(err); }
-            var build = require('child_process').spawn('npm', ['run', 'all'], { stdio: 'inherit' });
+            if (err) {
+                return done(err);
+            }
+            var build = require('child_process').spawn('npm', ['run', 'all'], {stdio: 'inherit'});
 
             build.on('close', function (code) {
                 assert.strictEqual(code, 0);
@@ -80,8 +84,10 @@ describe('kraken:app', function () {
         env.NODE_ENV = 'production';
 
         testutil.run(base, function (err) {
-            if (err) { return done(err); }
-            var build = require('child_process').spawn('npm', ['run', 'all'], { stdio: 'inherit', env: env });
+            if (err) {
+                return done(err);
+            }
+            var build = require('child_process').spawn('npm', ['run', 'all'], {stdio: 'inherit', env: env});
 
             build.on('close', function (code) {
                 assert.strictEqual(code, 0);
@@ -89,7 +95,45 @@ describe('kraken:app', function () {
             });
         });
     });
+    it('scaffolded application with no bower using requirejs runs postinstall task', function (done) {
+        var base = testutil.makeBase('app');
 
+        base.options['skip-install'] = false;
+        base.prompt.templateModule = 'makara';
+        base.prompt.i18n = 'i18n';
+        base.prompt.componentPackager = false;
+        base.prompt.jsModule = 'requirejs';
+
+
+        var env = {};
+        for (var v in process.env) {
+            env[v] = process.env[v];
+        }
+
+        testutil.run(base, function (err) {
+            if (err) {
+                return done(err);
+            }
+            var build = require('child_process').spawn('npm', ['run', 'all'], {stdio: 'inherit', env: env});
+
+            build.on('close', function (code) {
+                assert.file([
+                    'public/components/requirejs/require.js',
+                    'tasks/copy-browser-modules.js'
+                ]);
+                assert.noFile([
+                    '.bowerrc'
+                ]);
+                assert.fileContent([
+                    ['package.json', new RegExp(/(browserPackage)/)],
+                    ['package.json', new RegExp(/(overrides)/)],
+                    ['Gruntfile.js', new RegExp(/(postinstall.+copy\-browser\-modules)/)]
+                ]);
+                assert.strictEqual(code, 0);
+                done(err);
+            });
+        });
+    });
     it('scaffolded application does not suffer from dll hell with dust-helpers', function (done) {
         var base = testutil.makeBase('app');
 
