@@ -31,7 +31,7 @@ describe('<%= name %>', function () {
     });
 
 
-    it('should say "hello"', function (done) {
+    it('<% if (templateModule) { %>should say "hello"<% } else { %>should have model name "<%= name %>"<% } %>', function (done) {
         request(mock)
             .get('<%= route %>')
             .expect(200)
@@ -39,7 +39,7 @@ describe('<%= name %>', function () {
             <% if (templateModule) { %>
                 .expect(/Hello, /)
             <% } else { %>
-                .expect(/"name": "index"/)
+                .expect(/"name": "<%= name %>"/)
             <% } %>
             .end(function (err, res) {
                 done(err);
