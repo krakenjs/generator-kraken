@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.2.1
+
+* Add EJS conditions and variables into generated controller unit tests. Fixes #161
+
 ## v2.2.0
 
 * Fix warning of missing bower.json file when bower is selected
