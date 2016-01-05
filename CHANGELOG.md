@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.2.2
+
+* Change default linter to ESLint via #205
+
 ## v2.2.1
 
 * Add EJS conditions and variables into generated controller unit tests. Fixes #161
