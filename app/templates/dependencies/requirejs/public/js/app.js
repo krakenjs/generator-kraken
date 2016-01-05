@@ -1,3 +1,4 @@
+/*global requirejs:true*/
 'use strict';
 
 

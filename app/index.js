@@ -80,6 +80,7 @@ module.exports = yeoman.generators.Base.extend({
             });
 
             this.config.set('taskModule', 'grunt'); // There is no other option yet.
+            this.config.set('lintModule', 'eslint'); // There is no other option.
         },
 
         askFor: function askFor() {

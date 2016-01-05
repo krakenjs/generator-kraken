@@ -188,7 +188,7 @@ module.exports = {
             'grunt-eslint@^17.0.0'
         ],
         tasks: "eslint",
-        templates: ["eslint/**", "eslint/.*"]
+        templates: ["eslint/**"]
     }
 
 };
