@@ -31,6 +31,10 @@
     {
       "name": "Jean-Charles Sisk",
       "email": "jsisk@paypal.com"
+    },
+    {
+      "name": "Aravind Srivatsan",
+      "email": "aravindsrivats@hotmail.com"
     }
   ],
   "main": "app/index.js",

@@ -104,7 +104,6 @@ module.exports = {
         npmDev: [
             'grunt@^0.4.5',
             'grunt-contrib-clean@^0.6.0',
-            'grunt-contrib-jshint@^0.10.0',
             'grunt-mocha-cli@^1.5.0',
             'grunt-copy-to@^0.0.10',
             'grunt-config-dir@^0.3.2',
@@ -173,13 +172,23 @@ module.exports = {
         templates: "requirejs/**"
     },
 
-
     browserify: {
         npmDev: [
             'grunt-browserify@^3.5.1'
         ],
         tasks: "browserify",
         templates: "browserify/**"
+    },
+
+    eslint: {
+        npm: [
+            'eslint@^1.10.0'
+        ],
+        npmDev: [
+            'grunt-eslint@^17.0.0'
+        ],
+        tasks: "eslint",
+        templates: ["eslint/**"]
     }
 
 };

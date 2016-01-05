@@ -39,8 +39,7 @@ describe('kraken:app', function () {
                 '.bowerrc',
                 '.editorconfig',
                 '.gitignore',
-                '.jshintignore',
-                '.jshintrc',
+                '.eslintrc',
                 '.nodemonignore'
             ]);
 

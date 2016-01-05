@@ -41,8 +41,7 @@ describe('kraken:app', function () {
                 return done(err);
             }
             var build = require('child_process').spawn('npm', ['run', 'all'], {stdio: 'inherit'});
-
-            build.on('close', function (code) {
+            build.on('close', function(code) {
                 assert.strictEqual(code, 0);
                 done(err);
             });
@@ -61,8 +60,7 @@ describe('kraken:app', function () {
                 return done(err);
             }
             var build = require('child_process').spawn('npm', ['run', 'all'], {stdio: 'inherit'});
-
-            build.on('close', function (code) {
+            build.on('close', function(code) {
                 assert.strictEqual(code, 0);
                 done(err);
             });
@@ -88,8 +86,7 @@ describe('kraken:app', function () {
                 return done(err);
             }
             var build = require('child_process').spawn('npm', ['run', 'all'], {stdio: 'inherit', env: env});
-
-            build.on('close', function (code) {
+            build.on('close', function(code) {
                 assert.strictEqual(code, 0);
                 done(err);
             });
@@ -103,8 +100,7 @@ describe('kraken:app', function () {
         base.prompt.i18n = 'i18n';
         base.prompt.componentPackager = false;
         base.prompt.jsModule = 'requirejs';
-
-
+        
         var env = {};
         for (var v in process.env) {
             env[v] = process.env[v];

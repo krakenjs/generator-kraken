@@ -1,29 +1,29 @@
- /*───────────────────────────────────────────────────────────────────────────*\
- │  Copyright (C) 2014 eBay Software Foundation                                │
- │                                                                             │
- │hh ,'""`.                                                                    │
- │  / _  _ \  Licensed under the Apache License, Version 2.0 (the "License");  │
- │  |(@)(@)|  you may not use this file except in compliance with the License. │
- │  )  __  (  You may obtain a copy of the License at                          │
- │ /,'))((`.\                                                                  │
- │(( ((  )) ))    http://www.apache.org/licenses/LICENSE-2.0                   │
- │ `\ `)(' /'                                                                  │
- │                                                                             │
- │   Unless required by applicable law or agreed to in writing, software       │
- │   distributed under the License is distributed on an "AS IS" BASIS,         │
- │   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  │
- │   See the License for the specific language governing permissions and       │
- │   limitations under the License.                                            │
- \*───────────────────────────────────────────────────────────────────────────*/
+/*───────────────────────────────────────────────────────────────────────────*\
+│  Copyright (C) 2014 eBay Software Foundation                                │
+│                                                                             │
+│hh ,'""`.                                                                    │
+│  / _  _ \  Licensed under the Apache License, Version 2.0 (the "License");  │
+│  |(@)(@)|  you may not use this file except in compliance with the License. │
+│  )  __  (  You may obtain a copy of the License at                          │
+│ /,'))((`.\                                                                  │
+│(( ((  )) ))    http://www.apache.org/licenses/LICENSE-2.0                   │
+│ `\ `)(' /'                                                                  │
+│                                                                             │
+│   Unless required by applicable law or agreed to in writing, software       │
+│   distributed under the License is distributed on an "AS IS" BASIS,         │
+│   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  │
+│   See the License for the specific language governing permissions and       │
+│   limitations under the License.                                            │
+\*───────────────────────────────────────────────────────────────────────────*/
 'use strict';
 
 
 var path = require('path'),
-    yeoman = require('yeoman-generator'),
-    prompts = require('./prompts'),
-    dependencies = require('./dependencies'),
-    krakenutil = require('../util'),
-    us = require('underscore.string');
+   yeoman = require('yeoman-generator'),
+   prompts = require('./prompts'),
+   dependencies = require('./dependencies'),
+   krakenutil = require('../util'),
+   us = require('underscore.string');
 
 krakenutil.update();
 
@@ -75,10 +75,12 @@ module.exports = yeoman.generators.Base.extend({
                 cssModule: options.cssModule,
                 jsModule: options.jsModule,
                 taskModule: options.taskModule,
+                lintModule: options.lintModule,
                 i18n: options.i18n
             });
 
             this.config.set('taskModule', 'grunt'); // There is no other option yet.
+            this.config.set('lintModule', 'eslint'); // There is no other option.
         },
 
         askFor: function askFor() {
@@ -225,7 +227,7 @@ module.exports = yeoman.generators.Base.extend({
 
     _getTasks: function getTasks() {
         if (!this.tasks) {
-            this.tasks = ['jshint'];
+            this.tasks = ['eslint'];
             var add = this._dependencyResolver('tasks');
             if (add) {
                 this.tasks = this.tasks.concat(add);
@@ -291,18 +293,18 @@ module.exports = yeoman.generators.Base.extend({
 });
 
 function forEachDepPrefix(dependencies, cb) {
-    var work = {};
-    dependencies.forEach(function (dep) {
-        var char = dep.split('@')[1][0];
-        if (char !== '^' && char !== '~') {
-            char = '^';
-        }
+   var work = {};
+   dependencies.forEach(function (dep) {
+       var char = dep.split('@')[1][0];
+       if (char !== '^' && char !== '~') {
+           char = '^';
+       }
 
-        work[char] = work[char] || [];
-        work[char].push(dep);
-    });
+       work[char] = work[char] || [];
+       work[char].push(dep);
+   });
 
-    for (var type in work) {
-        cb.call(this, work[type], type);
-    }
+   for (var type in work) {
+       cb.call(this, work[type], type);
+   }
 }
