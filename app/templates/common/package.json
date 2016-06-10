@@ -13,7 +13,7 @@
         <% } %>
     },
     "dependencies": {
-        "kraken-js": "^1.0.3",
+        "kraken-js": "^2.0.0",
         "construx": "^1.0.0",
         "construx-copier": "^1.0.0",
         "express": "^4.12.2"
