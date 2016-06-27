@@ -2,7 +2,7 @@
 
 
 var path = require('path'),
-    helpers = require('yeoman-generator').test;
+    helpers = require('yeoman-test');
 
 /**
  * Runs a generator
