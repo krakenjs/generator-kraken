@@ -27,7 +27,7 @@ var assert = require('yeoman-assert'),
 describe('kraken:app', function () {
 
     // Disable timeout since we're doing multiple installs
-    this.timeout(Infinity);
+    this.timeout(0);
 
     it('creates an app which uses dust', function (done) {
         var base = testutil.makeBase('app');
