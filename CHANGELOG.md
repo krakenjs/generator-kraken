@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v2.2.3
+
+* upgrade installed kraken-js version to ^2.0.0. Resolves https://github.com/krakenjs/generator-kraken/issues/206
+
 ## v2.2.2
 
 * Change default linter to ESLint via #205
