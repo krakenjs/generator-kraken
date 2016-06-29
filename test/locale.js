@@ -1,5 +1,5 @@
 /*───────────────────────────────────────────────────────────────────────────*\
-│  Copyright (C) 2014 eBay Software Foundation                                │
+│  Copyright (C) 2016 PayPal                                                  │
 │                                                                             │
 │hh ,'""`.                                                                    │
 │  / _  _ \  Licensed under the Apache License, Version 2.0 (the "License");  │
@@ -20,7 +20,7 @@
 'use strict';
 
 
-var assert = require('yeoman-generator').assert,
+var assert = require('yeoman-assert'),
     testutil = require('./util');
 
 
