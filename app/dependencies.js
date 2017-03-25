@@ -48,7 +48,18 @@ module.exports = {
             if (options.templateModule === 'dustjs') {
                 return 'localizr@^0.1.2';
             } else if (options.templateModule === 'makara') {
-                return 'dust-makara-helpers@^4.0.0';
+              if (options.jsModule === 'browserify') {
+                  return [
+                      'dust-makara-helpers@^4.0.0',
+                      'construx-makara-browserify@^0.0.1'
+                  ]
+              } else if (options.jsModule === 'requirejs') {
+                  return [
+                      'dust-makara-helpers@^4.0.0',
+                      'construx-makara-amdify@^1.0.0'
+                  ];
+              }
+                return '';
             }
         },
         npmDev: function (options) {

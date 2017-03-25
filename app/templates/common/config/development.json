@@ -76,10 +76,28 @@
                             "files": "/css/**/*.css"
                         },
                         <% } %>
+                        <% if (i18n && templateModule === 'makara') { %>
+                            <% if(jsModule === 'browserify') { %>
+                            "browserify_languagepack": {
+                                "module": "construx-makara-browserify",
+                                "files": "**/_languagepack.js",
+                                "i18n": "config:i18n",
+                                "ext": "js"
+                            },
+                            <% } else if(jsModule === 'requirejs') { %>
+                            "requirejs_languagepack": {
+                                "module": "construx-makara-amdify",
+                                "files": "**/_languagepack.js",
+                                "i18n": "config:i18n",
+                                "ext": "js"
+                            },
+                            <% } %>
+                        <% } %>
                         "copier": {
                             "module": "construx-copier",
                             "files": "**/*"
                         }
+
                     }
                 ]
             }
