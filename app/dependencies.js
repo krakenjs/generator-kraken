@@ -59,7 +59,7 @@ module.exports = {
                       'construx-makara-amdify@^1.0.0'
                   ];
               }
-                return '';
+              return 'dust-makara-helpers@^4.0.0';
             }
         },
         npmDev: function (options) {
