@@ -1,7 +1,4 @@
-generator-kraken
-================
-
-Lead Maintainer: [Matt Edelmann](https://github.com/grawk)  
+# generator-kraken
 
 [![Build Status](https://travis-ci.org/krakenjs/generator-kraken.svg?branch=v1.1.2)](https://travis-ci.org/krakenjs/generator-kraken)  
 [![NPM version](https://badge.fury.io/js/generator-kraken.png)](http://badge.fury.io/js/generator-kraken)  
@@ -26,7 +23,7 @@ Already familiar with the generator? [Skip right to the new stuff](#warning-new-
 ```shell
 $ [sudo] npm install -g yo generator-kraken bower
 ```
- 
+
 ### Usage
 
 ```shell
